@@ -1,0 +1,16 @@
+{
+  "name": "todo_gateway",
+  "version": "1.0.0",
+  "description": "Gateway for todo application",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "nodemon src/index.js"
+  },
+  "author": "rishianand39",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.5.2",
+    "nodemon": "^3.0.1"
+  }
+}
