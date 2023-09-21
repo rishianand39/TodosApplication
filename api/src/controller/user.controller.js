@@ -30,7 +30,7 @@ router.post("/signin", async (req, res) => {
       return res.status(401).json("Wrong credentail");
     }
 
-    const token = jwt?.sign({ userId: user._id }, process.env.JSON_SECRET_KEY); 
+    const token = jwt?.sign({ userId: user._id }, process.env.JSON_SECRET_KEY , { expiresIn: process.env.TOKEN_EXPIRE_TIME }); 
     return res.status(200).json({
         token: token,
         message : "Logged In successfully"
@@ -41,3 +41,10 @@ router.post("/signin", async (req, res) => {
 });
 
 module.exports = router;
+
+
+// // app.get('/protected-resource', authenticateToken, (req, res) => {
+//   // The authenticated user's information is available in req.user
+//   const userId = req.user.userId;
+//   res.json({ message: `Protected resource accessed by user ${userId}` });
+// });
