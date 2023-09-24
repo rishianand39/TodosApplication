@@ -38,7 +38,7 @@ router.post("/signin", async (req, res) => {
       return res.status(401).json("Wrong credentail");
     }
 
-    const token = jwt?.sign({ userId: user._id }, process.env.JSON_SECRET_KEY, {
+    const token = jwt?.sign({ user: user}, process.env.JSON_SECRET_KEY, {
       expiresIn: process.env.TOKEN_EXPIRE_TIME,
     });
     return res.status(200).json({

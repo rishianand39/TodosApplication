@@ -6,6 +6,7 @@ const app = express();
 require("dotenv").config();
 
 const userController = require("./controller/user.controller")
+const taskController = require("./controller/task.controller")
 
 
 
@@ -17,7 +18,8 @@ app.get("/", (req, res) => {
   res.json("Welcome to API Gateway");
 });
 
-app.use("/", userController)
+app.use("/", userController, taskController)
+// app.use('/', taskController)
 
 app.listen(process.env.PORT, async () => {
   try {
