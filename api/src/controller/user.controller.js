@@ -115,18 +115,23 @@ router.post("/logout", authenticateToken, (req, res) => {
 });
 
 // --------------FIND USERS--------------//
+let call;
 router.get("/search", authenticateToken, async (req, res) => {
   try {
-    let users = await User.find(req.query?.email)
-    if(!users){
-      return res.status(400).json("User with this email id doesn't exist in our database")
-    }
-    return res.status(200).json(users)
+    clearTimeout(call);
+
+    call = setTimeout(async () => {
+      let users = await User.find(req.query?.email);
+      if (!users) {
+        return res
+          .status(400)
+          .json("User with this email id doesn't exist in our database");
+      }
+      return res.status(200).json(users);
+    }, 300);
   } catch (error) {
     return res.status(200).json(error);
   }
 });
-
-
 
 module.exports = router;
