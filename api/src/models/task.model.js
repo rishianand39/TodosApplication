@@ -14,7 +14,7 @@ const commentSchema = mongoose.Schema(
 const taskSchema = mongoose.Schema(
   {
     title: { type: String, required: true },
-    createdBy : {type : mongoose.Schema.Types.ObjectId, required : true},
+    createdBy: { type: mongoose.Schema.Types.ObjectId, required: true },
     description: { type: String, required: false },
     dueDate: { type: Date, required: false },
     completed: { type: Boolean, default: false, required: false },
@@ -22,7 +22,7 @@ const taskSchema = mongoose.Schema(
       type: String,
       enum: ["low", "medium", "high"],
       default: "low",
-    required: true,
+      required: true,
     },
     people: [
       {
