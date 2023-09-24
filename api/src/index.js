@@ -18,8 +18,8 @@ app.get("/", (req, res) => {
   res.json("Welcome to API Gateway");
 });
 
-app.use("/", userController, taskController)
-// app.use('/', taskController)
+app.use("/user", userController)
+app.use('/task', taskController)
 
 app.listen(process.env.PORT, async () => {
   try {

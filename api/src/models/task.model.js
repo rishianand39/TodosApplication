@@ -22,7 +22,7 @@ const taskSchema = mongoose.Schema(
       type: String,
       enum: ["low", "medium", "high"],
       default: "low",
-      required: true,
+    required: true,
     },
     people: [
       {
