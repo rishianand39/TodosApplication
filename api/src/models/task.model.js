@@ -1,20 +1,9 @@
 const mongoose = require("mongoose");
 
-const taskSchema = mongoose.Schema(
+const commentSchema = mongoose.Schema(
   {
-    title: { type: String, required: true },
-    description: { type: String, required: false },
-    due_date: { type: Date, required: true },
-    completed: { type: Boolean, default: false, required: false },
-    priority: { type: String, enum : ["low", "medium", "high"], default : "low", required : true, },
-    assigned_to: { type: String,  required : false, },
-    task_type: { type: String,  required : true, },
-    comments : [
-        {
-          comment : {type: String, required : true},
-        }
-    ]
-
+    userId: { type: mongoose.Schema.Types.ObjectId, required: true },
+    comment: { type: String, required: true },
   },
   {
     timestamps: true,
@@ -22,5 +11,39 @@ const taskSchema = mongoose.Schema(
   }
 );
 
-const TaskModel = mongoose.model('task', taskSchema)
-module.exports = TaskModel
+const taskSchema = mongoose.Schema(
+  {
+    title: { type: String, required: true },
+    createdBy : {type : mongoose.Schema.Types.ObjectId, required : true},
+    description: { type: String, required: false },
+    dueDate: { type: Date, required: false },
+    completed: { type: Boolean, default: false, required: false },
+    priority: {
+      type: String,
+      enum: ["low", "medium", "high"],
+      default: "low",
+      required: true,
+    },
+    people: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+      },
+    ],
+    assignedTo: { type: mongoose.Schema.Types.ObjectId, required: false },
+    taskType: { type: String, required: false },
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment",
+        required: false,
+      },
+    ],
+  },
+  {
+    timestamps: true,
+    versionKey: false,
+  }
+);
+const CommentModel = mongoose.model("Comment", commentSchema);
+const Task = mongoose.model("task", taskSchema);
+module.exports = Task;

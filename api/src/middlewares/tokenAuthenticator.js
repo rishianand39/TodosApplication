@@ -2,14 +2,15 @@ const jwt = require('jsonwebtoken');
 
 function authenticateToken(req, res, next) {
   // Get the token from the request headers, query string, or cookies
-  const token = req.headers.authorization || req.query.token || req.cookies.token;
-
+  let token = req.headers.authorization || req.query.token || req.cookies.token;
   if (!token) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
+  token = token.split(" ")[1]
+ 
 
   // Verify and decode the token
-  jwt.verify(token, 'your-secret-key', (err, decoded) => {
+  jwt.verify(token, process.env.JSON_SECRET_KEY, (err, decoded) => {
     if (err) {
       return res.status(401).json({ error: 'Invalid token' });
     }
