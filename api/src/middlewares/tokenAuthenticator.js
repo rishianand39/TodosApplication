@@ -8,8 +8,6 @@ function authenticateToken(req, res, next) {
   }
   token = token.split(" ")[1]
  
-
-  // Verify and decode the token
   jwt.verify(token, process.env.JSON_SECRET_KEY, (err, decoded) => {
     if (err) {
       return res.status(401).json({ error: 'Invalid token' });
