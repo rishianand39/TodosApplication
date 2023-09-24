@@ -1,0 +1,32 @@
+/signin  
+body : {
+   name : "",
+   email : "",
+   password : "" 
+}
+
+/signin -- post
+body : {
+    email : "",
+    password : ""
+}
+
+/resetpassword - patch
+body : {
+    email : "",
+    password : ""  this would the new password
+}
+
+/delete
+body : {
+    email : ""
+}
+
+/update/:id
+send those fields that you want to update
+body : {
+    
+}
+
+send token through the request headers, query string, or cookies
+/logout
