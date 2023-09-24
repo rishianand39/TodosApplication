@@ -1,5 +1,5 @@
 const User = require("../models/user.model");
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 const router = require("express").Router();
 const jwt = require("jsonwebtoken");
 const authenticateToken = require("../middlewares/tokenAuthenticator");
@@ -38,11 +38,11 @@ router.post("/signin", async (req, res) => {
       return res.status(401).json("Wrong credentail");
     }
 
-    const token = jwt?.sign({ user: user}, process.env.JSON_SECRET_KEY, {
+    const token = jwt?.sign({ user: user }, process.env.JSON_SECRET_KEY, {
       expiresIn: process.env.TOKEN_EXPIRE_TIME,
     });
     return res.status(200).json({
-      user,  
+      user,
       token: token,
       message: "Logged In successfully",
     });
@@ -72,8 +72,8 @@ router.patch("/resetpassword", async (req, res) => {
 router.patch("/update/:userid", async (req, res) => {
   try {
     if (!mongoose.Types.ObjectId.isValid(req.params.userid)) {
-        return res.status(400).json("Invalid user ID");
-      }
+      return res.status(400).json("Invalid user ID");
+    }
     const existingUser = await User.findById(req.params.userid);
     if (!existingUser) {
       return res.status(404).json("User not found");
@@ -81,21 +81,23 @@ router.patch("/update/:userid", async (req, res) => {
 
     const result = await User.updateOne({ _id: req.params.userid }, req.body);
 
-    if(result.modifiedCount === 1){
-        return res.status(200).json("User updated successfully")
-    }else{
-        return res.status(400).json('User update failed')
+    if (result.modifiedCount === 1) {
+      return res.status(200).json("User updated successfully");
+    } else {
+      return res.status(400).json("User update failed");
     }
-
   } catch (error) {
     res.status(400).json(error);
   }
 });
 
 // -------------- DELETE ACCOUNT--------------//
-router.delete("/delete", async (req, res) => {
+router.delete("/delete/:userId", async (req, res) => {
   try {
-    const result = await User.deleteOne({ email: req.body.email });
+    if (!mongoose.Types.ObjectId.isValid(req.params.userId)) {
+      return res.status(400).json("Invalid user ID");
+    }
+    const result = await User.findOneAndDelete(req.params.userId);
 
     if (result.deletedCount === 1) {
       return res.status(200).json("Account Deletion successful");
@@ -108,17 +110,23 @@ router.delete("/delete", async (req, res) => {
 });
 
 // --------------LOGOUT--------------//
-
 router.post("/logout", authenticateToken, (req, res) => {
+  return res.status(200).json("Logged out successfully");
+});
 
-    return res.status(200).json('Logged out successfully');
-  });
+// --------------FIND USERS--------------//
+router.get("/search", authenticateToken, async (req, res) => {
+  try {
+    let users = await User.find(req.query?.email)
+    if(!users){
+      return res.status(400).json("User with this email id doesn't exist in our database")
+    }
+    return res.status(200).json(users)
+  } catch (error) {
+    return res.status(200).json(error);
+  }
+});
 
-  // // app.get('/protected-resource', authenticateToken, (req, res) => {
-  //   // The authenticated user's information is available in req.user
-  //   const userId = req.user.userId;
-  //   res.json({ message: `Protected resource accessed by user ${userId}` });
-  // });
-  
+
+
 module.exports = router;
-

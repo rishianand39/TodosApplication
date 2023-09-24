@@ -1,32 +1,50 @@
-/signin  
+user/signin  
 body : {
    name : "",
    email : "",
    password : "" 
 }
 
-/signin -- post
+user/signin -- post
 body : {
     email : "",
     password : ""
 }
 
-/resetpassword - patch
+user/resetpassword - patch
 body : {
     email : "",
     password : ""  this would the new password
 }
 
-/delete
+user/delete
 body : {
     email : ""
 }
 
-/update/:id
+user/update/:id
 send those fields that you want to update
 body : {
     
 }
 
 send token through the request headers, query string, or cookies
-/logout
+user/logout
+
+
+user/search?email="" --get
+
+
+task/create  --post
+body{
+
+}
+
+/task/delete/:taskId  --delete
+
+/task/update/:taskId  --update
+send those fields that you want to modify
+body:{
+
+}
+
