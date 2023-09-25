@@ -44,6 +44,6 @@ const taskSchema = mongoose.Schema(
     versionKey: false,
   }
 );
-const CommentModel = mongoose.model("Comment", commentSchema);
+const Comment = mongoose.model("Comment", commentSchema);
 const Task = mongoose.model("task", taskSchema);
-module.exports = Task;
+module.exports = {Task, Comment};

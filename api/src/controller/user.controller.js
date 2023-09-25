@@ -30,7 +30,7 @@ router.post("/signup", async (req, res) => {
 });
 
 // ----------SIGNIN USER--------------//
-router.post("/signin", async (req, res) => {
+router.post("/                              ", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
@@ -117,24 +117,36 @@ router.post("/logout", authenticateToken, (req, res) => {
 });
 
 // --------------FIND USERS--------------//
-let call;
+const call = {};
+
 router.get("/search", authenticateToken, async (req, res) => {
   try {
-    clearTimeout(call);
+    clearTimeout(call.timeout);
 
-    call = setTimeout(async () => {
-      let users = await User.find(req.query?.email);
-      if (!users) {
-        return res
-          .status(400)
-          .json("User with this email id doesn't exist in our database");
+    call.timeout = setTimeout(async () => {
+      const keyword = req.query?.name; 
+
+      if (!keyword) {
+        return res.status(400).json("Keyword is required");
       }
+
+      const regexPattern = new RegExp(keyword, "i");
+
+      const users = await User.find({ name: { $regex: regexPattern } });
+
+      if (!users || users.length === 0) {
+        return res
+          .status(404)
+          .json("No users found with matching name");
+      }
+
       return res.status(200).json(users);
     }, 300);
   } catch (error) {
-    return res.status(200).json(error);
+    return res.status(500).json(error.message);
   }
 });
+
 
 
 
