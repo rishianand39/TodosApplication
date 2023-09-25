@@ -97,4 +97,16 @@ router.patch("/invite/:taskId", authenticateToken, async(req,res)=>{
   }
 })
 
+// -------------ADD COMMENT IN TASK---------//
+router.patch("/comment/:taskId", authenticateToken, async(req,res)=>{
+  try {
+    if(!mongoose.Schema.Types.ObjectId.isValid(req.params.taskId)){
+      return res.status(400).json('userId is not present in our database')
+    }
+
+  } catch (error) {
+    return res.status(500).json(error.message)
+  }
+})
+
 module.exports = router;
