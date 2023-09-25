@@ -1,5 +1,5 @@
 const authenticateToken = require("../middlewares/tokenAuthenticator");
-const Task = require("../models/task.model");
+const {Task, Comment} = require("../models/task.model");
 const mongoose = require("mongoose")
 
 const router = require("express").Router();
@@ -98,14 +98,59 @@ router.patch("/invite/:taskId", authenticateToken, async(req,res)=>{
 })
 
 // -------------ADD COMMENT IN TASK---------//
-router.patch("/comment/:taskId", authenticateToken, async(req,res)=>{
+router.post("/:taskId/comment", authenticateToken, async(req,res)=>{
+
   try {
-    if(!mongoose.Schema.Types.ObjectId.isValid(req.params.taskId)){
+    
+    if(!mongoose.Types.ObjectId.isValid(req.params.taskId)){
+      return res.status(400).json('taskId is not present in our database')
+    }
+
+    let task = await Task.findById(req.params.taskId)
+    if(!task){
+      return res.status(404).json('Invalid task Id')
+    }
+
+   
+    
+    if(!mongoose.Types.ObjectId.isValid(req.user.user._id)){
       return res.status(400).json('userId is not present in our database')
     }
 
+    const newComment = new Comment({
+      userId : req.user.user._id,
+      comment : req.body.comment
+    })
+
+    await newComment.save()
+    task.comments.push(newComment._id)
+
+    await task.save()
+
+    return res.status(201).json(newComment)
+
   } catch (error) {
-    return res.status(500).json(error.message)
+    return res.status(500).json({error : "Server error"})
+  }
+})
+
+router.get("/:taskId/comments", authenticateToken, async(req,res)=>{
+  try {
+    if(!mongoose.Types.ObjectId.isValid(req.params.taskId)){
+      return res.status(400).json('taskId is not present in our database')
+    }
+
+    let task = await Task.findById(req.params.taskId)
+    if(!task){
+      return res.status(404).json('Invalid task Id')
+    }
+    let query = { _id : {$in : task.comments}}
+
+    const result = await Comment.find(query)
+
+    return res.status(200).json(result)
+  } catch (error) {
+    return res.status(500).json({error : "Server error"})
   }
 })
 

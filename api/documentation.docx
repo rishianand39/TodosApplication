@@ -34,7 +34,7 @@ send token through the request headers, query string, or cookies
 user/logout
 
 
-user/search?email="" --get
+user/search?name="" --get
 
 
 task/create  --post
@@ -50,3 +50,9 @@ body:{
 
 }
 
+
+/task/comment/:taskId
+body{
+    userId : _id,
+    comment : commenttext
+}
