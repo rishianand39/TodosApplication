@@ -1,0 +1,16 @@
+.active{
+    border-bottom: 3px solid #817cdf !important;
+    font-weight: bolder;
+    transition: 300ms;
+    transform: scale(1.1);
+    color: black !important;
+}
+.tabs{
+
+    .tab{
+        padding-bottom: 5px;
+        cursor: pointer;
+        color: #464e5a;
+        border: 3px solid white;
+    }
+}

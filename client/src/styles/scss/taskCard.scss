@@ -1,0 +1,42 @@
+.taskCard {
+  height: 12vh;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  gap: 20px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  border-radius: 5px;
+  .iconShade {
+    background-color: #d1f4ed;
+    padding: 10px;
+    border-radius: 5px;
+    color: #07c9a6;
+  }
+  .description {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    p,
+    h3 {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    p {
+      color: #464e5a;
+      font-size: 0.9rem;
+    }
+  }
+  .members {
+  }
+  .progress {
+    progress {
+      background-color: red;
+      height: 6px;
+    }
+  }
+  .progress > div:nth-child(1) {
+    display: flex;
+    justify-content: space-between;
+  }
+}

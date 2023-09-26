@@ -1,0 +1,35 @@
+.main {
+    display: flex;
+  .left {
+    .cardContainer {
+      display: flex;
+      gap: 20px;
+    }
+    .tasks {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 30px 0;
+      .title {
+        font-weight: 600;
+      }
+      button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #817cdf;
+        border: none;
+        color: #fff;
+        border-radius: 18px;
+        padding: 6px 12px;
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
+    }
+    .taskCards{
+      padding: 2% 0;
+    }
+  }
+  .right {
+  }
+}
