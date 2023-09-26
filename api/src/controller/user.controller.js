@@ -30,7 +30,7 @@ router.post("/signup", async (req, res) => {
 });
 
 // ----------SIGNIN USER--------------//
-router.post("/                              ", async (req, res) => {
+router.post("/signin", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
