@@ -9,7 +9,7 @@ import Signup from "./signup";
 const Main = () => {
   return (
     <div className="main">
-      {/* <div className="left">
+      <div className="left">
         <div className="cardContainer">
           <Card title="Task In Progress" bg={"#f48942"} />
           <Card title="New Assigned" bg={"#817cdf"} />
@@ -31,8 +31,8 @@ const Main = () => {
       </div>
       <div className="right">
 
-      </div> */}
-      <Signup/>
+      </div>
+      {/* <Signup/> */}
     </div>
   );
 };

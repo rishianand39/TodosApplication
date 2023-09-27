@@ -20,7 +20,7 @@ const TaskCard = () => {
             <span>Progress</span>
             <span>70%</span>
         </div>
-      <progress value="32" max="100"></progress>
+      <progress value="100" max="100"></progress>
       </div>
     </div>
   )
