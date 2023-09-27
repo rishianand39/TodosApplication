@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "Gateway for todo application",
   "main": "src/index.js",
+  "engines" : {
+    "node" : "14.x"
+  },
   "scripts": {
-    "start": "nodemon src/index.js"
+    "start": "node src/index.js"
   },
   "author": "rishianand39",
   "license": "ISC",
