@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser")
 const { ConnectWithDataBase } = require("./database/dbConnect");
 const app = express();
-
+ConnectWithDataBase()
 require("dotenv").config();
 
 const userController = require("./controller/user.controller")
@@ -22,14 +22,9 @@ app.get("/", (req, res) => {
 app.use("/user", userController)
 app.use('/task', taskController)
 
-app.listen(process.env.PORT, async () => {
-  try {
-    await ConnectWithDataBase();
-    console.log(`Listening on port 8080`);
-  } catch (error) {
-    console.log("Database connection failed");
-    console.log(error.message);
-  }
+app.listen(process.env.PORT, () => {
+  console.log(`Listening on port 8080`);
+  
 });
 
 module.exports = app
