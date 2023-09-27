@@ -1,3 +1,50 @@
-.navbar{
-    height: 12vh;
+.navbar {
+  height: 12vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    span {
+      font-size: 1.3rem;
+      font-weight: bold;
+      font-family: "Courier New", Courier, monospace;
+    }
+  }
+  .search {
+    display: flex;
+    align-items: center;
+    width: 60%;
+    height: 45%;
+    padding: 0 10px;
+    border-radius: 5px;
+    background-color: #d4d6d8;
+
+    input {
+      width: 95%;
+      height: 100%;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+      background-color: #d4d6d8;
+    }
+  }
+  .auth {
+    button {
+      cursor: pointer;
+      padding: 8px 25px;
+      font-size: 1.2rem;
+      border: none;
+      background-color: #807cdf;
+      color: #fff;
+      border-radius: 20px;
+    }
+    button:hover {
+      background-color: #f48942;
+      transition: 300ms;
+    }
+  }
 }

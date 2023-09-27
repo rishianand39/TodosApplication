@@ -1,5 +1,7 @@
 .main {
     display: flex;
+    border: 1px solid red;
+    height: 83vh;
   .left {
     .cardContainer {
       display: flex;
@@ -24,10 +26,19 @@
         padding: 6px 12px;
         font-size: 0.8rem;
         font-weight: 600;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #f48942;
+        transition: 300ms;
       }
     }
     .taskCards{
       padding: 2% 0;
+      gap: 10px;
+      display: flex;
+      flex-direction: column;
+
     }
   }
   .right {
