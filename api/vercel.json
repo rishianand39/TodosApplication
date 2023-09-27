@@ -1,11 +1,6 @@
 {
     "version": 2,
-    "name": "DemBack",
+    "name": "taskManager",
     "builds": [{ "src": "src/index.js", "use": "@vercel/node" }],
-    "routes": [{ "src": "/(.*)", "dest": "src/index.js" }],
-    "functions": {
-      "yourFunctionName": {
-        "timeout": 10 
-      }
-    }
+    "routes": [{ "src": "/(.*)", "dest": "src/index.js" }]
   }
