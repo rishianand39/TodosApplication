@@ -4,11 +4,12 @@ import "../styles/scss/main.scss";
 import AddIcon from "@mui/icons-material/Add";
 import Tabs from "./tabs";
 import TaskCard from "./taskCard";
+import Signup from "./signup";
 
 const Main = () => {
   return (
     <div className="main">
-      <div className="left">
+      {/* <div className="left">
         <div className="cardContainer">
           <Card title="Task In Progress" bg={"#f48942"} />
           <Card title="New Assigned" bg={"#817cdf"} />
@@ -24,9 +25,14 @@ const Main = () => {
         <Tabs />
         <div className="taskCards">
           <TaskCard />
+          <TaskCard />
+          <TaskCard />
         </div>
       </div>
-      <div className="right"></div>
+      <div className="right">
+
+      </div> */}
+      <Signup/>
     </div>
   );
 };
