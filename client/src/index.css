@@ -10,14 +10,11 @@ body {
   margin-left: auto;
   margin-right: auto;
   background-color: #fff;
-  min-height: 100vh;
+  height: 100vh;
   padding: 0 5%;
 }
 *{
   box-sizing: border-box;
-}
-.right{
-  width: 80vw;
 }
 
 code {

@@ -4,7 +4,7 @@ import "../styles/scss/main.scss";
 import AddIcon from "@mui/icons-material/Add";
 import Tabs from "./tabs";
 import TaskCard from "./taskCard";
-import Signup from "./signup";
+
 
 const Main = () => {
   return (
@@ -32,7 +32,6 @@ const Main = () => {
       <div className="right">
 
       </div>
-      {/* <Signup/> */}
     </div>
   );
 };
