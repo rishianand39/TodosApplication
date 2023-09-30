@@ -30,7 +30,12 @@ const taskSchema = mongoose.Schema(
       },
     ],
     assignedTo: { type: mongoose.Schema.Types.ObjectId, required: false },
-    taskType: { type: String, required: false },
+    tags: [
+      {
+        type: String,
+        required: false,
+      },
+    ],
     comments: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -46,4 +51,4 @@ const taskSchema = mongoose.Schema(
 );
 const Comment = mongoose.model("Comment", commentSchema);
 const Task = mongoose.model("task", taskSchema);
-module.exports = {Task, Comment};
+module.exports = { Task, Comment };
