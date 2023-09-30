@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import "../styles/scss/navbar.scss";
 import SearchIcon from '@mui/icons-material/Search';
+import { NavLink } from "react-router-dom";
+
 
 const Navbar = () => {
+  // const navigate 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
     <div className="navbar">
@@ -17,7 +20,10 @@ const Navbar = () => {
         <div className="profile"></div>
       ) : (
         <div className="auth">
-          <button>Login</button>
+          <NavLink to="/auth">
+
+           <button>Login</button>
+          </NavLink>
         </div>
       )}
     </div>

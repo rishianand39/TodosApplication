@@ -8,7 +8,7 @@ import AddTaskModal from "./addTaskModal";
 
 
 const Main = () => {
-  const [openTaskModal, setOpenTaskModal] = useState(true)
+  const [openTaskModal, setOpenTaskModal] = useState(false)
   return (
     <div className="main">
       <div className="left">
