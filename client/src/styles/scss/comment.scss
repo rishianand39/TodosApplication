@@ -1,0 +1,37 @@
+.previousComment {
+  display: flex;
+  width: 50%;
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    .top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      .name {
+        font-size: 0.9rem;
+        font-weight: bold;
+        color: #42526e;
+      }
+      .dateAndTime{
+        font-size: 0.7rem;
+      }
+    }
+    .middle {
+        
+    }
+    .bottom {
+        display: flex;
+        gap: 5px;
+      button {
+        background-color: white;
+        border: none;
+        cursor: pointer;
+      }
+       
+    }
+  }
+}

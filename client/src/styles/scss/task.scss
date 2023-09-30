@@ -1,0 +1,25 @@
+.taskContainer{
+    display: flex;
+    .left{
+        flex: 8;
+
+        .addComment{
+            display: flex;
+            margin-bottom: 30px;
+            .btnHolder{
+                display: flex;
+                gap: 8px;
+                margin-top: 10px;
+            }
+
+        }
+        .comments{
+            display: flex;
+            gap: 2rem;
+            flex-direction: column;
+        }
+    }
+    .right{
+        flex: 2;
+    }
+}
