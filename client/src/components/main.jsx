@@ -5,10 +5,10 @@ import AddIcon from "@mui/icons-material/Add";
 import Tabs from "./tabs";
 import TaskCard from "./taskCard";
 import AddTaskModal from "./addTaskModal";
-
+import { NavLink } from "react-router-dom";
 
 const Main = () => {
-  const [openTaskModal, setOpenTaskModal] = useState(false)
+  const [openTaskModal, setOpenTaskModal] = useState(false);
   return (
     <div className="main">
       <div className="left">
@@ -19,24 +19,30 @@ const Main = () => {
         </div>
         <div className="tasks">
           <div className="title">My Tasks</div>
-          <button onClick={()=>{
-            setOpenTaskModal(true)
-          }}>
+          <button
+            onClick={() => {
+              setOpenTaskModal(true);
+            }}
+          >
             <AddIcon />
             Add Task
           </button>
         </div>
         <Tabs />
         <div className="taskCards">
-          <TaskCard />
-          <TaskCard />
-          <TaskCard />
+          <NavLink to="task/1" className="link">
+            <TaskCard />
+          </NavLink>
+          <NavLink to="task/2" className="link">
+            <TaskCard />
+          </NavLink>
+          <NavLink to="task/3" className="link">
+            <TaskCard />
+          </NavLink>
         </div>
       </div>
-      <div className="right">
-
-      </div>
-      <AddTaskModal isOpen={openTaskModal} closeModal={setOpenTaskModal}/>
+      <div className="right"></div>
+      <AddTaskModal isOpen={openTaskModal} closeModal={setOpenTaskModal} />
     </div>
   );
 };

@@ -20,7 +20,7 @@ const Navbar = () => {
         <div className="profile"></div>
       ) : (
         <div className="auth">
-          <NavLink to="/auth">
+          <NavLink to="/auth" className="link">
 
            <button>Login</button>
           </NavLink>
