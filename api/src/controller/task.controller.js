@@ -15,7 +15,7 @@ router.post("/create", authenticateToken, async (req, res) => {
       completed: req.body.completed,
       priority: req.body.priority,
       people: [],
-      taskType: req.body.taskType,
+      tags: req.body.tags,
       comments: [],
     });
     let createdTask = await task.save();
