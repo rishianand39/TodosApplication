@@ -10,6 +10,26 @@
       display: flex;
       align-items: center;
       height: 5rem;
+      position: relative;
+      .results {
+        box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+        position: absolute;
+        top: 60px;
+        background-color: white;
+        width: 50%;
+        z-index: 1;
+        border-radius: 3px;
+        .result {
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          gap: 20px;
+          padding: 8px;
+        }
+        .result:hover{
+          background-color: #eee;
+        }
+      }
     }
     .changeUser {
       display: flex;
@@ -27,10 +47,30 @@
         font-weight: 500;
       }
       .worker {
+        position: relative;
+        .holder {
+          cursor: pointer;
+          font-size: 0.8rem;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+      }
+      .members {
+        width: 10rem;
+        position: absolute;
+        top: 40px;
+        left: -8px;
+        background-color: white;
+        z-index: 1;
+        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+          rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
         display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 0.8rem;
+        flex-direction: column;
+        .member:hover {
+          background-color: #eee;
+          cursor: pointer;
+        }
       }
     }
     .timeEstimate {

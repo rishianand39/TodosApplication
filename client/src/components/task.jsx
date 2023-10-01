@@ -8,10 +8,15 @@ import CancelBtn from "../building-block/cancelBtn";
 import TextArea from "../building-block/textArea";
 import Search from "../building-block/search";
 import Avatars from "../building-block/avatars";
+import DropDownOption from "../building-block/dropdownOption";
+import { AvatarIcon } from "../styles/styled-components/container";
 
 const Task = () => {
   const { id } = useParams();
   const [addCommentActive, setAddCommentActive] = useState(false);
+  const [changeReporter, setChangeReporter] = useState(false);
+  const [changeAssignee, setChangeAssignee] = useState(false);
+  const [results, setResults] = useState(false);
 
   return (
     <div className="taskContainer">
@@ -20,20 +25,66 @@ const Task = () => {
         <p>create a navbar with 10 placeholders</p>
         <div className="addMember">
           <Search placeholder="Search and add member.." />
+          {results &&
+           <div className="results">
+           <div className="result">
+             <Avatar size="30px" />
+             <span>Rishi Anand</span>
+           </div>
+           <div className="result">
+             <Avatar size="30px" />
+             <span>Rishi Anand</span>
+           </div>
+           <div className="result">
+             <Avatar size="30px" />
+             <span>Rishi Anand</span>
+           </div>
+           <div className="result">
+             <Avatar size="30px" />
+             <span>Rishi Anand</span>
+           </div>
+         </div>
+          }
           <Avatars />
         </div>
         <div className="changeUser">
           <div className="mainPerson">Reporter</div>
           <div className="worker">
-            <Avatar size="30px" />
-            <span>PushpRaj Patel</span>
+            <div
+              className="holder"
+              onClick={() => setChangeReporter((pre) => !pre)}
+            >
+              <Avatar size="30px" />
+              <span>PushpRaj Patel</span>
+            </div>
+            {changeReporter && (
+              <div className="members">
+                <DropDownOption />
+                <DropDownOption />
+                <DropDownOption />
+                <DropDownOption />
+              </div>
+            )}
           </div>
         </div>
         <div className="changeUser">
           <div className="mainPerson">Assignee</div>
           <div className="worker">
-            <Avatar size="30px" />
-            <span>PushpRaj Patel</span>
+            <div
+              className="holder"
+              onClick={() => setChangeAssignee((pre) => !pre)}
+            >
+              <Avatar size="30px" />
+              <span>PushpRaj Patel</span>
+            </div>
+            {changeAssignee && (
+              <div className="members">
+                <DropDownOption />
+                <DropDownOption />
+                <DropDownOption />
+                <DropDownOption />
+              </div>
+            )}
           </div>
         </div>
         <div className="timeEstimate">
