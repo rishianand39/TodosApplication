@@ -1,12 +1,12 @@
 .previousComment {
   display: flex;
-  width: 50%;
+  gap: 10px;
 
   .info {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    width: 100%;
+    width: 80%;
     .top {
       display: flex;
       align-items: center;

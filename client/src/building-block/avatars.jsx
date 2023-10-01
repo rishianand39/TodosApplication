@@ -1,10 +1,11 @@
 import React from 'react'
 import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
-import "../styles/scss/avatars.scss"
+import "../styles/scss/avatars.scss";
+
 const Avatars = () => {
   return (
-    <div className='avatar'>
+    <div className='avatars'>
        <AvatarGroup max={4}>
        <Avatar alt="Remy Sharp" src="" />
       <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
