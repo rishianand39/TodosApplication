@@ -1,21 +1,18 @@
 import React, { useState } from "react";
 import "../styles/scss/navbar.scss";
-import SearchIcon from '@mui/icons-material/Search';
 import { NavLink } from "react-router-dom";
+import Search from "../building-block/search";
 
 
 const Navbar = () => {
-  // const navigate 
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
     <div className="navbar">
       <div className="logo">
         <span>Task Manager</span>
       </div>
-      <div className="search">
-      <SearchIcon />
-        <input type="search" placeholder="search task..."/>
-      </div>
+      <Search placeholder="Search task..."/>
       {isLoggedIn ? (
         <div className="profile"></div>
       ) : (

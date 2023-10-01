@@ -18,24 +18,6 @@
       font-family: "Courier New", Courier, monospace;
     }
   }
-  .search {
-    display: flex;
-    align-items: center;
-    width: 60%;
-    height: 45%;
-    padding: 0 10px;
-    border-radius: 5px;
-    background-color: #d4d6d8;
-
-    input {
-      width: 95%;
-      height: 100%;
-      border: none;
-      outline: none;
-      font-size: 1rem;
-      background-color: #d4d6d8;
-    }
-  }
   .auth {
     button {
       cursor: pointer;

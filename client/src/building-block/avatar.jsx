@@ -1,10 +1,12 @@
-import React from 'react'
-import "../styles/scss/avatar.scss"
+import React from "react";
+import { AvatarIcon } from "../styles/styled-components/container";
 
-const Avatar = () => {
+const Avatar = ({ size }) => {
   return (
-      <div className="avatar">PP</div>
-  )
-}
+    <AvatarIcon size={size} >
+      PP
+    </AvatarIcon>
+  );
+};
 
-export default Avatar
+export default Avatar;
