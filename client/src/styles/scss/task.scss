@@ -1,25 +1,32 @@
-.taskContainer{
-    display: flex;
-    .left{
-        flex: 8;
-
-        .addComment{
-            display: flex;
-            margin-bottom: 30px;
-            .btnHolder{
-                display: flex;
-                gap: 8px;
-                margin-top: 10px;
-            }
-
-        }
-        .comments{
-            display: flex;
-            gap: 2rem;
-            flex-direction: column;
-        }
+.taskContainer {
+  display: flex;
+  .left {
+    flex: 7;
+  }
+  .right {
+    flex: 3;
+    h3{
+        margin-left: 15px;
     }
-    .right{
-        flex: 2;
+    .addComment {
+      display: flex;
+      margin-bottom: 30px;
+      input {
+        width: 18rem;
+        height: 2rem;
+        padding: 5px;
+
+      }
+      .btnHolder {
+        display: flex;
+        gap: 8px;
+        margin-top: 10px;
+      }
     }
+    .comments {
+      display: flex;
+      gap: 2rem;
+      flex-direction: column;
+    }
+  }
 }

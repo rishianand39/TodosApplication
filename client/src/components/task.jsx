@@ -13,19 +13,29 @@ const Task = () => {
 
   return (
     <div className="taskContainer">
-      <div className="left">
+      <div className="left"></div>
+      <div className="right">
+        <h3>Activity</h3>
         <div className="addComment">
           <Avatar />
-          <div>
 
-          {addCommentActive ? <TextArea value="" placeholder="Add a comment"/> : <input type="text" onFocus={()=>setAddCommentActive(true)} placeholder="Add a comment"/>}
-          
-          {addCommentActive && (
-            <div className="btnHolder">
-              <SaveBtn />
-              <CancelBtn cancel={setAddCommentActive} />
-            </div>
-          )}
+          <div>
+            {addCommentActive ? (
+              <TextArea value="" placeholder="Add a comment" />
+            ) : (
+              <input
+                type="text"
+                onFocus={() => setAddCommentActive(true)}
+                placeholder="Add a comment"
+              />
+            )}
+
+            {addCommentActive && (
+              <div className="btnHolder">
+                <SaveBtn />
+                <CancelBtn cancel={setAddCommentActive} />
+              </div>
+            )}
           </div>
         </div>
         <div className="comments">
@@ -34,7 +44,6 @@ const Task = () => {
           <Comment comment="Header controller first layer functionality implemented " />
         </div>
       </div>
-      <div className="right"></div>
     </div>
   );
 };
