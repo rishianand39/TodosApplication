@@ -9,12 +9,12 @@ export default function Tabs() {
     if(currentActiveTab){
         currentActiveTab?.classList?.remove("active")
     }
-    e?.target?.classList?.add("active")
+    e?.target?.classList?.add("activeTab")
 
  }
   return (
    <TabsContainer className='tabs'>
-    <div className='tab active' onClick={(e)=>tabChange(e)}>In Progress</div>
+    <div className='tab activeTab' onClick={(e)=>tabChange(e)}>In Progress</div>
     <div className='tab' onClick={(e)=>tabChange(e)}>New Assigned</div>
     <div className='tab' onClick={(e)=>tabChange(e)}>Completed</div>
     <div className='tab' onClick={(e)=>tabChange(e)}>On Hold</div>

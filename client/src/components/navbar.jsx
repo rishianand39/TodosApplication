@@ -10,7 +10,9 @@ const Navbar = () => {
   return (
     <div className="navbar">
       <div className="logo">
+        <NavLink to="/" className="link">
         <span>Task Manager</span>
+        </NavLink>
       </div>
       <Search placeholder="Search task..."/>
       {isLoggedIn ? (

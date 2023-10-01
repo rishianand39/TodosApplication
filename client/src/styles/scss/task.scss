@@ -77,6 +77,26 @@
       display: flex;
       justify-content: space-between;
       width: 40%;
+      margin: 10px 0;
+      .title{
+        font-size: 0.8rem;
+      }
+      .time{
+        padding: 5px 8px;
+      }
+    }
+    .priority{
+      display: flex;
+      justify-content: space-between;
+      width: 45%;
+      margin: 10px 0;
+      .title{
+        font-size: 0.8rem;
+      }
+      select{
+        padding: 3px 5px;
+        width: 6rem;
+      }
     }
   }
   .right {
