@@ -88,8 +88,24 @@ const Task = () => {
           </div>
         </div>
         <div className="timeEstimate">
-          <span>Original estimate</span>
-          <span>2h</span>
+          <span className="title">Original estimate</span>
+          <span className="time">2h</span>
+        </div>
+        <div className="priority">
+          <span className="title">Priority</span>
+          <select >
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
+          </select>
+        </div>
+        <div className="priority">
+          <span className="title">Work</span>
+          <select >
+            <option value="hold">On Hold</option>
+            <option value="completed">Completed</option>
+            <option value="progress">In Progress</option>
+          </select>
         </div>
       </div>
       <div className="right">
