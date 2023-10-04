@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "../styles/scss/task.scss";
 import { useParams } from "react-router-dom";
 import Comment from "./comment";
@@ -10,6 +10,7 @@ import Search from "../building-block/search";
 import Avatars from "../building-block/avatars";
 import DropDownOption from "../building-block/dropdownOption";
 import { AvatarIcon } from "../styles/styled-components/container";
+import axios from "axios";
 
 const Task = () => {
   const { id } = useParams();
@@ -17,6 +18,32 @@ const Task = () => {
   const [changeReporter, setChangeReporter] = useState(false);
   const [changeAssignee, setChangeAssignee] = useState(false);
   const [results, setResults] = useState(false);
+  const commentRef = useRef();
+
+  const saveComment = async () => {
+    console.log(commentRef)
+    try {
+      console.log("commenting");
+      const token =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY1MGZlOGM5NzNjZmZiZjcxMmYzYzU4NiIsIm5hbWUiOiJSaXNoaSBBbmFuZCIsImVtYWlsIjoicmlzaGkucm44MThAZ21haWwuY29tIiwicGFzc3dvcmQiOiIxMjM0NTYiLCJjcmVhdGVkQXQiOiIyMDIzLTA5LTI0VDA3OjQ0OjA5LjQ3OVoiLCJ1cGRhdGVkQXQiOiIyMDIzLTA5LTI0VDA4OjUwOjQ3Ljk0N1oifSwiaWF0IjoxNjk2NDE1NTU2LCJleHAiOjE2OTY2NzQ3NTZ9.azvkknwfPMoGxESNSYTBGu4LU8CZJ0fCjbfSC-mWNjE";
+
+      const response = await axios.post(
+        "https://apigw-task-manager.vercel.app/task/651079ae720b2470baafa7d7/comments",
+        {
+          comment: commentRef.current.value,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+    } catch (error) {
+      console.error(error, "error");
+    }
+    setAddCommentActive(false);
+  };
 
   return (
     <div className="taskContainer">
@@ -25,26 +52,26 @@ const Task = () => {
         <p>create a navbar with 10 placeholders</p>
         <div className="addMember">
           <Search placeholder="Search and add member.." />
-          {results &&
-           <div className="results">
-           <div className="result">
-             <Avatar size="30px" />
-             <span>Rishi Anand</span>
-           </div>
-           <div className="result">
-             <Avatar size="30px" />
-             <span>Rishi Anand</span>
-           </div>
-           <div className="result">
-             <Avatar size="30px" />
-             <span>Rishi Anand</span>
-           </div>
-           <div className="result">
-             <Avatar size="30px" />
-             <span>Rishi Anand</span>
-           </div>
-         </div>
-          }
+          {results && (
+            <div className="results">
+              <div className="result">
+                <Avatar size="30px" />
+                <span>Rishi Anand</span>
+              </div>
+              <div className="result">
+                <Avatar size="30px" />
+                <span>Rishi Anand</span>
+              </div>
+              <div className="result">
+                <Avatar size="30px" />
+                <span>Rishi Anand</span>
+              </div>
+              <div className="result">
+                <Avatar size="30px" />
+                <span>Rishi Anand</span>
+              </div>
+            </div>
+          )}
           <Avatars />
         </div>
         <div className="changeUser">
@@ -93,7 +120,7 @@ const Task = () => {
         </div>
         <div className="priority">
           <span className="title">Priority</span>
-          <select >
+          <select>
             <option value="high">High</option>
             <option value="medium">Medium</option>
             <option value="low">Low</option>
@@ -101,7 +128,7 @@ const Task = () => {
         </div>
         <div className="priority">
           <span className="title">Work</span>
-          <select >
+          <select>
             <option value="hold">On Hold</option>
             <option value="completed">Completed</option>
             <option value="progress">In Progress</option>
@@ -114,7 +141,7 @@ const Task = () => {
           <Avatar />
           <div>
             {addCommentActive ? (
-              <TextArea value="" placeholder="Add a comment" />
+              <TextArea placeholder="Add a comment" commentRef={commentRef} />
             ) : (
               <input
                 type="text"
@@ -125,7 +152,7 @@ const Task = () => {
 
             {addCommentActive && (
               <div className="btnHolder">
-                <SaveBtn />
+                <SaveBtn saveComment={saveComment} />
                 <CancelBtn cancel={setAddCommentActive} />
               </div>
             )}
