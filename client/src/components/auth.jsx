@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import "../styles/scss/auth.scss";
 import { Link } from "react-router-dom";
 
 const Auth = () => {
+  const [signInInfo, setSignInInfo] = useState({
+    email : "",
+    password : ""
+  })
+  const [signUpInfo, setSignUpInfo] = useState({
+    name : "",
+    email : "",
+    password : "",
+  })
 
   const btnclick = () => {
     const container = document?.getElementById("container");
@@ -14,6 +23,13 @@ const Auth = () => {
       container.classList.add("right-panel-active");
     }
   };
+  const handleLogin = async()=>{
+    try {
+      
+    } catch (error) {
+      
+    }
+  }
 
   return (
     <div className="authContainer" id="container">
