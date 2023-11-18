@@ -23,7 +23,7 @@ export const handleSignIn = async (userInfo) => {
 };
 export const handleSignUp = async (userInfo) => {
   try {
-    const response = await fetch(`${API_GATEWAY_BASE_URL}/user/signun`, {
+    const response = await fetch(`${API_GATEWAY_BASE_URL}/user/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

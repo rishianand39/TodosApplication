@@ -11,8 +11,6 @@ const Auth = () => {
   const state = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
-
-
   const [signInInfo, setSignInInfo] = useState({
     email : "",
     password : ""
@@ -22,6 +20,12 @@ const Auth = () => {
     email : "",
     password : "",
   })
+  const handleSignUpState = (event)=>{
+    setSignUpInfo({...signUpInfo,[event.target.id]: event.target.value})
+  }
+  const handleSignInState = (event)=>{
+    signInInfo({...signInInfo,[event.target.id]: event.target.value})
+  }
 
   const btnclick = () => {
     const container = document?.getElementById("container");
@@ -33,7 +37,9 @@ const Auth = () => {
       container.classList.add("right-panel-active");
     }
   };
-  const handleSignInLogic = async()=>{
+  const handleSignInLogic = async(event)=>{
+    console.log("functioncallingin")
+    event.preventDefault()
     dispatch(setLoginLoading());
     try {
      let userData = await handleSignIn(signInInfo)
@@ -44,44 +50,45 @@ const Auth = () => {
     }
   }
 
-  const handleSignUpLogic = async()=>{
+  const handleSignUpLogic = async(event)=>{
+    console.log("functioncallingup")
+    event.preventDefault()
     dispatch(setLoginLoading());
     try {
      let userData = await handleSignUp(signUpInfo)
-     
     } catch (error) {
       dispatch(setLoginError(error.message))
     }
   }
 
-  useEffect(() => {
-    if (state.redirectPath === "loginForm") {
-      const container = document?.getElementById("container");
-      container.classList.remove("right-panel-active");
-      dispatch(setRedirect(null));
-    }
-  }, [state.redirectPath, dispatch]);
+  // useEffect(() => {
+  //   if (state.redirectPath === "loginForm") {
+  //     const container = document?.getElementById("container");
+  //     container.classList.remove("right-panel-active");
+  //     dispatch(setRedirect(null));
+  //   }
+  // }, [state.redirectPath]);
 
   return (
     <div className="authContainer" id="container">
       <div className="form-container sign-up-container">
-        <form>
+        <form onSubmit={handleSignUpLogic}>
           <h1>Create Account</h1>
-          <input type="text" placeholder="Name" />
-          <input type="email" placeholder="Email" />
-          <input type="password" placeholder="Password" />
-          <button onClick={handleSignUpLogic}>Sign Up</button>
+          <input id="name" type="text" placeholder="Name" onChange={handleSignUpState}/>
+          <input id= "email" type="email" placeholder="Email" onChange={handleSignUpState}/>
+          <input id="password" type="password" placeholder="Password" onChange={handleSignUpState}/>
+          <button>Sign Up</button>
         </form>
       </div>
       <div className="form-container sign-in-container">
-        <form>
+        <form onSubmit={handleSignInLogic}>
           <h1>Sign in</h1>
-          <input type="email" placeholder="Email" />
-          <input type="password" placeholder="Password" />
+          <input id="email" type="email" placeholder="Email" onChange={handleSignInState}/>
+          <input id="password" type="password" placeholder="Password" onChange={handleSignInState}/>
           <Link className="link" to="/resetpassword">
             Forgot your password?
           </Link>
-          <button onClick={handleSignInLogic}>Sign In</button>
+          <button type="submit">Sign In</button>
         </form>
       </div>
       <div className="overlay-container">
