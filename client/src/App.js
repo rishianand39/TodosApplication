@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import Navbar from "./components/navbar";
 import Auth from "./components/auth";
-
+import Task from "./components/task"
 function App() {
   const Layout = () => {
     return (
@@ -29,10 +29,13 @@ function App() {
           path: "/auth",
           element: <Auth />,
         },
+        {
+          path: "/task/:id",
+          element : <Task />
+        }
       ],
     },
   ]);
-  //       <RouterProvider router={router} />
   return (
     <div className="container">
        <RouterProvider router={router} />

@@ -1,0 +1,128 @@
+.taskContainer {
+  display: flex;
+  .left {
+    flex: 7;
+    h2 {
+    }
+    h4 {
+    }
+    .addMember {
+      display: flex;
+      align-items: center;
+      height: 5rem;
+      position: relative;
+      .results {
+        box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+        position: absolute;
+        top: 60px;
+        background-color: white;
+        width: 50%;
+        z-index: 1;
+        border-radius: 3px;
+        .result {
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          gap: 20px;
+          padding: 8px;
+        }
+        .result:hover{
+          background-color: #eee;
+        }
+      }
+    }
+    .changeUser {
+      display: flex;
+      width: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 15px;
+      margin: 15px 0;
+      border-radius: 2px;
+      box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+        rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+      .mainPerson {
+        font-size: 1.1rem;
+        font-weight: 500;
+      }
+      .worker {
+        position: relative;
+        .holder {
+          cursor: pointer;
+          font-size: 0.8rem;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+      }
+      .members {
+        width: 10rem;
+        position: absolute;
+        top: 40px;
+        left: -8px;
+        background-color: white;
+        z-index: 1;
+        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+          rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+        display: flex;
+        flex-direction: column;
+        .member:hover {
+          background-color: #eee;
+          cursor: pointer;
+        }
+      }
+    }
+    .timeEstimate {
+      display: flex;
+      justify-content: space-between;
+      width: 40%;
+      margin: 10px 0;
+      .title{
+        font-size: 0.8rem;
+      }
+      .time{
+        padding: 5px 8px;
+      }
+    }
+    .priority{
+      display: flex;
+      justify-content: space-between;
+      width: 45%;
+      margin: 10px 0;
+      .title{
+        font-size: 0.8rem;
+      }
+      select{
+        padding: 3px 5px;
+        width: 6rem;
+      }
+    }
+  }
+  .right {
+    flex: 3;
+    h3 {
+      margin-left: 15px;
+    }
+    .addComment {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+      input {
+        width: 18rem;
+        height: 2rem;
+        padding: 5px;
+      }
+      .btnHolder {
+        display: flex;
+        gap: 8px;
+        margin-top: 10px;
+      }
+    }
+    .comments {
+      display: flex;
+      gap: 2rem;
+      flex-direction: column;
+    }
+  }
+}

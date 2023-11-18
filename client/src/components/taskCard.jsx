@@ -1,7 +1,7 @@
 import React from 'react'
 import "../styles/scss/taskCard.scss"
 import HubIcon from '@mui/icons-material/Hub';
-import Avatars from '../building-block/avatar';
+import Avatars from '../building-block/avatars';
 const TaskCard = () => {
   return (
     <div className='taskCard'>
