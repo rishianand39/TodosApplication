@@ -22,7 +22,7 @@ router.post("/signup", async (req, res) => {
     if (userExistWithComingEmail) {
       return res.status(400).json("User Already exist with this email Id");
     }
-    const savedUser = await newUser.save();
+    await newUser.save();
     res.status(200).json("Account created successfully");
   } catch (error) {
     res.status(500).json(error);
