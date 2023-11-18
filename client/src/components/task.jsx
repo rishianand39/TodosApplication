@@ -9,11 +9,9 @@ import TextArea from "../building-block/textArea";
 import Search from "../building-block/search";
 import Avatars from "../building-block/avatars";
 import DropDownOption from "../building-block/dropdownOption";
-import { AvatarIcon } from "../styles/styled-components/container";
 import axios from "axios";
 
 const Task = () => {
-  const { id } = useParams();
   const [addCommentActive, setAddCommentActive] = useState(false);
   const [changeReporter, setChangeReporter] = useState(false);
   const [changeAssignee, setChangeAssignee] = useState(false);
@@ -27,7 +25,7 @@ const Task = () => {
       const token =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY1MGZlOGM5NzNjZmZiZjcxMmYzYzU4NiIsIm5hbWUiOiJSaXNoaSBBbmFuZCIsImVtYWlsIjoicmlzaGkucm44MThAZ21haWwuY29tIiwicGFzc3dvcmQiOiIxMjM0NTYiLCJjcmVhdGVkQXQiOiIyMDIzLTA5LTI0VDA3OjQ0OjA5LjQ3OVoiLCJ1cGRhdGVkQXQiOiIyMDIzLTA5LTI0VDA4OjUwOjQ3Ljk0N1oifSwiaWF0IjoxNjk2NDE1NTU2LCJleHAiOjE2OTY2NzQ3NTZ9.azvkknwfPMoGxESNSYTBGu4LU8CZJ0fCjbfSC-mWNjE";
 
-      const response = await axios.post(
+      await axios.post(
         "https://apigw-task-manager.vercel.app/task/651079ae720b2470baafa7d7/comments",
         {
           comment: commentRef.current.value,
@@ -82,7 +80,7 @@ const Task = () => {
               onClick={() => setChangeReporter((pre) => !pre)}
             >
               <Avatar size="30px" />
-              <span>PushpRaj Patel</span>
+            <span>PushpRaj Patel</span>
             </div>
             {changeReporter && (
               <div className="members">

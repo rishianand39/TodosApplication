@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "../styles/scss/auth.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { handleSignIn, handleSignUp } from "../api/services/userServices";
 import { useSelector, useDispatch } from 'react-redux';
 import { setLoginError, setLoginLoading, setRedirect, setUser } from "../redux/userSlice";
 
-
 const Auth = () => {
 
   const state = useSelector((state) => state.user);
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const [signInInfo, setSignInInfo] = useState({
@@ -24,7 +24,7 @@ const Auth = () => {
     setSignUpInfo({...signUpInfo,[event.target.id]: event.target.value})
   }
   const handleSignInState = (event)=>{
-    signInInfo({...signInInfo,[event.target.id]: event.target.value})
+    setSignInInfo({...signInInfo,[event.target.id]: event.target.value})
   }
 
   const btnclick = () => {
@@ -38,36 +38,42 @@ const Auth = () => {
     }
   };
   const handleSignInLogic = async(event)=>{
-    console.log("functioncallingin")
     event.preventDefault()
     dispatch(setLoginLoading());
     try {
-     let userData = await handleSignIn(signInInfo)
+      let userData = await handleSignIn(signInInfo)
+      console.log(userData, "userData")
       dispatch(setUser(userData))
-      dispatch(setRedirect("loginForm"))
+      userData && dispatch(setRedirect("/"))
     } catch (error) {
       dispatch(setLoginError(error.message))
     }
   }
 
   const handleSignUpLogic = async(event)=>{
-    console.log("functioncallingup")
     event.preventDefault()
     dispatch(setLoginLoading());
     try {
      let userData = await handleSignUp(signUpInfo)
+     dispatch(setRedirect("loginForm"))
     } catch (error) {
       dispatch(setLoginError(error.message))
     }
   }
 
-  // useEffect(() => {
-  //   if (state.redirectPath === "loginForm") {
-  //     const container = document?.getElementById("container");
-  //     container.classList.remove("right-panel-active");
-  //     dispatch(setRedirect(null));
-  //   }
-  // }, [state.redirectPath]);
+  useEffect(() => {
+    if (state.redirectPath === "loginForm") {
+      const container = document?.getElementById("container");
+      container.classList.remove("right-panel-active");
+      dispatch(setRedirect(null));
+    }
+  }, [state.redirectPath]);
+  useEffect(()=>{
+    if(state?.redirectPath === "/"){
+      navigate("/")
+      dispatch(setRedirect(null))
+    }
+  },[state?.redirectPath])
 
   return (
     <div className="authContainer" id="container">
@@ -77,7 +83,7 @@ const Auth = () => {
           <input id="name" type="text" placeholder="Name" onChange={handleSignUpState}/>
           <input id= "email" type="email" placeholder="Email" onChange={handleSignUpState}/>
           <input id="password" type="password" placeholder="Password" onChange={handleSignUpState}/>
-          <button>Sign Up</button>
+          <button>{state?.loading ? "Please Wait..." : "Sign Up"}</button>
         </form>
       </div>
       <div className="form-container sign-in-container">
@@ -88,7 +94,7 @@ const Auth = () => {
           <Link className="link" to="/resetpassword">
             Forgot your password?
           </Link>
-          <button type="submit">Sign In</button>
+          <button type="submit">{state?.loading ? "Please Wait..." : "Sign In"}</button>
         </form>
       </div>
       <div className="overlay-container">

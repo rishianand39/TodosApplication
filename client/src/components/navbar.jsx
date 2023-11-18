@@ -5,7 +5,7 @@ import Search from "../building-block/search";
 
 
 const Navbar = () => {
-
+// eslint-disable-next-line
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
     <div className="navbar">
