@@ -10,13 +10,12 @@ export const handleSignIn = async (userInfo) => {
       body: JSON.stringify({
         email: userInfo.email,
         password: userInfo.password,
-      }),
+    }),
     });
 
     if (!response.ok) {
       const errorData = await response.json();
-      console.log(errorData, "dfaf")
-      throw new Error(errorData);
+      return errorData
     }
     const userData = await response.json();
     return userData;
@@ -38,7 +37,7 @@ export const handleSignUp = async (userInfo) => {
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message);
+      return errorData
     }
     const userData = await response.json();
     return userData;
