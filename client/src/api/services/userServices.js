@@ -14,8 +14,8 @@ export const handleSignIn = async (userInfo) => {
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message);
+      console.log(response, "dfaf")
+      throw new Error(response);
     }
     const userData = await response.json();
     return userData;
