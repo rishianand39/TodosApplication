@@ -20,10 +20,18 @@ router.post("/signup", async (req, res) => {
       email: req.body.email,
     });
     if (userExistWithComingEmail) {
-      return res.status(400).json("User Already exist with this email Id");
+      return res.status(400).json({
+        ok: false,
+        status : 400,
+        message : "User Already exist with this email Id"
+      });
     }
     await newUser.save();
-    res.status(200).json("Account created successfully");
+    res.status(200).json({
+      ok : true,
+      status : 200,
+      message : "Account created successfully"
+    });
   } catch (error) {
     res.status(500).json(error);
   }
@@ -34,10 +42,18 @@ router.post("/signin", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
-      return res.status(401).json("Wrong credential");
+      return res.status(401).json({
+        status : 401,
+        ok: false,
+        message : "Wrong credential"
+      });
     }
     if (req.body.password !== user.password) {
-      return res.status(401).json("Wrong credentail");
+      return res.status(401).json({
+        status : 401,
+        ok: false,
+        message : "Wrong credential"
+      });
     }
 
     const token = jwt?.sign({ user: user }, process.env.JSON_SECRET_KEY, {
@@ -46,6 +62,8 @@ router.post("/signin", async (req, res) => {
     return res.status(200).json({
       user,
       token: token,
+      status:200,
+      ok : true,
       message: "Logged In successfully",
     });
   } catch (error) {
@@ -61,10 +79,18 @@ router.patch("/resetpassword", async (req, res) => {
       { $set: { password: req.body.password } }
     );
     if (user.modifiedCount === 0) {
-      return res.status(401).json("Email doesn't exist in our database");
+      return res.status(401).json({
+        status: 401,
+        ok : false,
+        message : "Email doesn't exist in our database"
+      });
     }
 
-    return res.status(200).json("Password reset successful");
+    return res.status(200).json({
+      status : 200,
+      ok : true,
+      message : "Password reset successful"
+    });
   } catch (error) {
     res.status(400).json(error);
   }
@@ -74,19 +100,35 @@ router.patch("/resetpassword", async (req, res) => {
 router.patch("/update/:userid", async (req, res) => {
   try {
     if (!mongoose.Types.ObjectId.isValid(req.params.userid)) {
-      return res.status(400).json("Invalid user ID");
+      return res.status(400).json({
+        ok : false, 
+        status : 404,
+        message : "Invalid User Id"
+      });
     }
     const existingUser = await User.findById(req.params.userid);
     if (!existingUser) {
-      return res.status(404).json("User not found");
+      return res.status(404).json({
+        ok : false, 
+        status : 404,
+        message : "User not found"
+      });
     }
 
     const result = await User.updateOne({ _id: req.params.userid }, req.body);
 
     if (result.modifiedCount === 1) {
-      return res.status(200).json("User updated successfully");
+      return res.status(200).json({
+        ok : true,
+        status: 200,
+        message : "User updated successfully"
+      });
     } else {
-      return res.status(400).json("User update failed");
+      return res.status(400).json({
+        ok : false,
+        status : 400,
+        message : "User update failed"
+      });
     }
   } catch (error) {
     res.status(400).json(error);
@@ -97,14 +139,26 @@ router.patch("/update/:userid", async (req, res) => {
 router.delete("/delete/:userId", async (req, res) => {
   try {
     if (!mongoose.Types.ObjectId.isValid(req.params.userId)) {
-      return res.status(400).json("Invalid user ID");
+      return res.status(400).json({
+        ok : false,
+        status: 400,
+        message : "Invalid user ID"
+      });
     }
     const result = await User.findOneAndDelete(req.params.userId);
 
     if (result.deletedCount === 1) {
-      return res.status(200).json("Account Deletion successful");
+      return res.status(200).json({
+        status: 200,
+        ok : true,
+        message : "Account Deletion successful"
+      });
     } else {
-      return res.status(400).json("Email doesn't exist");
+      return res.status(400).json({
+        status : 400,
+        ok : false,
+        message : "Email doesn't exist"
+      });
     }
   } catch (error) {
     return res.status(400).json(error.message);
@@ -113,7 +167,11 @@ router.delete("/delete/:userId", async (req, res) => {
 
 // --------------LOGOUT--------------//
 router.post("/logout", authenticateToken, (req, res) => {
-  return res.status(200).json("Logged out successfully");
+  return res.status(200).json({
+    ok : true,
+    status : 200,
+    messge : "Logged out successfully"
+  });
 });
 
 // --------------FIND USERS--------------//
@@ -127,7 +185,11 @@ router.get("/search", authenticateToken, async (req, res) => {
       const keyword = req.query?.name; 
 
       if (!keyword) {
-        return res.status(400).json("Keyword is required");
+        return res.status(400).json({
+          status : 400,
+          ok : false,
+          message : "Keyword is required"
+        });
       }
 
       const regexPattern = new RegExp(keyword, "i");
@@ -137,7 +199,11 @@ router.get("/search", authenticateToken, async (req, res) => {
       if (!users || users.length === 0) {
         return res
           .status(404)
-          .json("No users found with matching name");
+          .json({
+            ok : false,
+            status : 404,
+            message : "No users found with matching name"
+          });
       }
 
       return res.status(200).json(users);
