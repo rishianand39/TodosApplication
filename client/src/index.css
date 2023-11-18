@@ -25,3 +25,9 @@ code {
   text-decoration: none;
   color: inherit;
 }
+.errorAlert{
+  position: fixed;
+  bottom: 35px;
+  right : 70px;
+  z-index: 101;
+}
