@@ -21,3 +21,25 @@ export const handleSignIn = async (userInfo) => {
     return userData;
   } catch (error) {}
 };
+export const handleSignUp = async (userInfo) => {
+  try {
+    const response = await fetch(`${API_GATEWAY_BASE_URL}/user/signun`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name : userInfo.name,
+        email: userInfo.email,
+        password: userInfo.password,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message);
+    }
+    const userData = await response.json();
+    return userData;
+  } catch (error) {}
+};
