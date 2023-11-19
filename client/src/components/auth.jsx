@@ -3,17 +3,11 @@ import "../styles/scss/auth.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { handleSignIn, handleSignUp } from "../api/services/userServices";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  setError,
-  setLoading,
-  setMessage,
-  setRedirect,
-  setUser,
-} from "../redux/userSlice";
-import Alert from "@mui/material/Alert";
+import { setError, setLoading, setRedirect, setUser } from "../redux/userSlice";
+import { setMessage } from "../redux/notificationSlice";
 
 const Auth = () => {
-  const state = useSelector((state) => state.user);
+  const userState = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [signInInfo, setSignInInfo] = useState({
@@ -44,88 +38,121 @@ const Auth = () => {
   };
   const handleSignInLogic = async (event) => {
     event.preventDefault();
-    if (!signInInfo?.email) {
-      dispatch(setError("Please add email id"));
-      return;
-    } else if (!signInInfo?.password) {
-      dispatch(setError("Please enter your password"));
-      return;
-    } else if (signInInfo?.password.length < 6) {
-      dispatch(setError("Password must be of length 6"));
+    let message = {
+      email: "Please add your email id",
+      password: "Please enter your password",
+      passwordLength: "Password must be of 6 length",
+    };
+    if (
+      !signInInfo?.email ||
+      !signInInfo?.password ||
+      signInInfo?.password.length < 6
+    ) {
+      dispatch(setError(true));
+      dispatch(
+        setMessage({
+          notificationType: "info",
+          message:
+            (!signInInfo?.email && message?.email) ||
+            (!signInInfo?.password && message?.password) ||
+            (signInInfo?.password.length < 6 && message?.passwordLength),
+        })
+      );
       return;
     }
+
     dispatch(setLoading());
     try {
       let userData = await handleSignIn(signInInfo);
-      userData?.ok && dispatch(setUser(userData));
-      userData?.ok && dispatch(setRedirect("/"));
-      userData?.ok && dispatch(setMessage("Logged in successfully"));
-      if (!userData?.ok) {
-        dispatch(setError(userData?.message));
+      if (userData?.ok) {
+        dispatch(setUser(userData));
+        dispatch(setRedirect("/"));
+        dispatch(
+          setMessage({
+            message: userData?.message,
+            notificationType: "success",
+          })
+        );
+      } else {
+        dispatch(setError(true));
+        dispatch(
+          setMessage({ message: userData?.message, notificationType: "error" })
+        );
       }
     } catch (error) {
-      dispatch(setError(error.message));
+      dispatch(setError(true));
+      dispatch(
+        setMessage({ message: error?.message, notificationType: "error" })
+      );
     }
   };
 
   const handleSignUpLogic = async (event) => {
     event.preventDefault();
-    if (!signUpInfo?.name) {
-      dispatch(setError("Please enter your name"));
-      return;
-    } else if (!signUpInfo?.email) {
-      dispatch(setError("Please add email id"));
-      return;
-    } else if (!signUpInfo?.password) {
-      dispatch(setError("Please enter your password"));
-      return;
-    } else if (signUpInfo?.password.length < 6) {
-      dispatch(setError("Password must be of length 6"));
+    let message = {
+      name: "Please enter your name",
+      email: "Please add your email id",
+      password: "Please enter your password",
+      passwordLength: "Password must be of 6 length",
+    };
+    if (
+      !signUpInfo?.name ||
+      !signUpInfo?.email ||
+      !signUpInfo?.password ||
+      signUpInfo?.password.length < 6
+    ) {
+      dispatch(setError(true));
+      dispatch(
+        setMessage({
+          notificationType: "info",
+          message:
+            (!signUpInfo?.name && message?.name) ||
+            (!signUpInfo?.email && message?.email) ||
+            (!signUpInfo?.password && message?.password) ||
+            (signUpInfo?.password?.length < 6 && message?.passwordLength),
+        })
+      );
       return;
     }
+
     dispatch(setLoading());
     try {
-      let userData = await handleSignUp(signUpInfo);
-      userData?.ok && dispatch(setMessage(userData?.message));
-      userData?.ok && dispatch(setRedirect("loginForm"));
-      if (!userData?.ok) {
-        dispatch(setError(userData?.message));
+      const userData = await handleSignUp(signUpInfo);
+      if (userData?.ok) {
+        dispatch(setRedirect("loginForm"));
+        dispatch(
+          setMessage({
+            message: userData?.message,
+            notificationType: "success",
+          })
+        );
+      } else {
+        dispatch(setError(true));
+        dispatch(
+          setMessage({ message: userData?.message, notificationType: "error" })
+        );
       }
     } catch (error) {
-      dispatch(setError(error.message));
+      dispatch(setError(true));
+      dispatch(
+        setMessage({ message: error?.message, notificationType: "error" })
+      );
     }
   };
 
   useEffect(() => {
-    if (state.redirectPath === "loginForm") {
+    if (userState.redirectPath === "loginForm") {
       const container = document?.getElementById("container");
       container.classList.remove("right-panel-active");
     }
-  }, [state.redirectPath]);
+  }, [userState.redirectPath]);
 
   useEffect(() => {
-    if (state?.redirectPath === "/") {
+    if (userState?.redirectPath === "/") {
       navigate("/");
       dispatch(setRedirect(null));
     }
-  }, [state?.redirectPath]);
-
-  useEffect(() => {
-    let timer;
-    if (state?.error) {
-      timer = setTimeout(() => {
-        dispatch(setError(null));
-        dispatch(setRedirect(null));
-      }, 5000);
-    } else if (state?.message) {
-      timer = setTimeout(() => {
-        dispatch(setMessage(null));
-        dispatch(setRedirect(null));
-      }, 5000);
-    }
-
-    return () => clearTimeout(timer);
-  }, [state.error, state?.message]);
+  }, [userState?.redirectPath]);
 
   return (
     <div className="authContainer" id="container">
@@ -151,7 +178,7 @@ const Auth = () => {
             onChange={handleSignUpState}
           />
           <button className="button">
-            {state?.loading ? "Please Wait..." : "Sign Up"}
+            {userState?.loading ? "Please Wait..." : "Sign Up"}
           </button>
         </form>
       </div>
@@ -174,7 +201,7 @@ const Auth = () => {
             Forgot your password?
           </Link>
           <button className="button" type="submit">
-            {state?.loading ? "Please Wait..." : "Sign In"}
+            {userState?.loading ? "Please Wait..." : "Sign In"}
           </button>
         </form>
       </div>
@@ -206,29 +233,6 @@ const Auth = () => {
           </div>
         </div>
       </div>
-
-      {state?.error && (
-        <Alert
-          severity="error"
-          className="errorAlert"
-          onClose={() => {
-            dispatch(setError(null));
-          }}
-        >
-          {state?.error}!
-        </Alert>
-      )}
-      {(state?.redirectPath === "loginForm" || state?.message) && (
-        <Alert
-          severity="success"
-          className="errorAlert"
-          onClose={() => {
-            dispatch(setMessage(null));
-          }}
-        >
-          {state?.message}!
-        </Alert>
-      )}
     </div>
   );
 };

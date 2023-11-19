@@ -8,7 +8,6 @@ const userSlice = createSlice({
     error: false,
     isLoggedIn: false,
     redirectPath: null,
-    message: null,
   },
   reducers: {
     setUser: (state, action) => {
@@ -35,17 +34,12 @@ const userSlice = createSlice({
       state.redirectPath = action.payload;
       state.loading = false;
       state.error = null
-    },
-    setMessage: (state, action) => {
-      state.message = action.payload;
-      state.loading = false;
     }
   },
 });
 
 export const {
   setUser,
-  setMessage,
   logoutUser,
   setLoading,
   setError,
