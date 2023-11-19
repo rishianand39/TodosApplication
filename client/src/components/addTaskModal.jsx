@@ -1,19 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/scss/addTaskModal.scss";
 import CloseIcon from "@mui/icons-material/Close";
 import MinimizeIcon from "@mui/icons-material/Minimize";
 import Chip from "../building-block/chip";
+import { createTask } from "../api/services/taskServices";
 
 const AddTaskModal = ({ isOpen, closeModal }) => {
   const [tags, setTags] = useState([]);
   const [tagInput, setTagInput] = useState("");
-
+  const [taskInfo, setTaskInfo] = useState({
+    title : "",
+    description : "",
+    dueDate : "",
+    priority : "",
+    tags : tags,
+    taskType : "dfi"
+  })
   const addTags = (tag) => {
     setTags((pre) => {
       return [...pre, tag];
     });
     setTagInput("");
   };
+  const handleInputs =(event)=>{
+    setTaskInfo({...taskInfo, [event?.target?.id] : event?.target?.value})
+  }
 
   const handleInputChange = (e) => {
     setTagInput(e.target.value);
@@ -31,6 +42,16 @@ const AddTaskModal = ({ isOpen, closeModal }) => {
       return allTags
     })
   };
+  useEffect(() => {
+    setTaskInfo((prevTaskInfo) => ({
+      ...prevTaskInfo,
+      tags: tags,
+    }));
+  }, [tags]);
+  const handleSubmit = ()=>{
+    createTask(taskInfo)
+  }
+
   return (
     <div className={`modalWrapper ${isOpen ? "open" : "close"}`}>
       <div className="modalBody">
@@ -40,9 +61,10 @@ const AddTaskModal = ({ isOpen, closeModal }) => {
           <CloseIcon className="icon" onClick={() => closeModal(false)} />
         </div>
         <label htmlFor="title">Title</label>
-        <input id="title" type="text" placeholder="Title" />
+        <input onChange={handleInputs} id="title" type="text" placeholder="Title" />
         <label htmlFor="description">Description</label>
         <textarea
+          onChange={handleInputs}
           name="description"
           placeholder="Description"
           id="description"
@@ -50,9 +72,9 @@ const AddTaskModal = ({ isOpen, closeModal }) => {
           rows="4"
         ></textarea>
         <label htmlFor="due_date">Due Date</label>
-        <input type="date" id="due_date" />
+        <input onChange={handleInputs} type="date" id="dueDate" />
         <label htmlFor="priority">Priority</label>
-        <select name="priority" id="priority">
+        <select id="priority" onChange={handleInputs} name="priority" id="priority">
           <option value="high">High</option>
           <option value="medium">Medium</option>
           <option value="low">Low</option>
@@ -70,7 +92,7 @@ const AddTaskModal = ({ isOpen, closeModal }) => {
             <Chip key={index} tag={tag} index={index} remove={removeChip} />
           ))}
         </div>
-        <button className="create">Create</button>
+        <button onClick={handleSubmit} className="create">Create</button>
       </div>
     </div>
   );

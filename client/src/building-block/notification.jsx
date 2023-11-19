@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Alert from '@mui/material/Alert';
 import { clearMessage } from '../redux/notificationSlice';
+import { AlertTitle } from '@mui/material';
 
 const Notification = () => {
   const state = useSelector((state) => state.notification);
@@ -17,6 +18,7 @@ const Notification = () => {
       onClose={handleClose}
       sx={{ position: 'fixed', right: 40, bottom : 35, zIndex: 9999 }}
     >
+      <AlertTitle>{state?.notificationType}</AlertTitle>
       {state?.message}
     </Alert>
   ): null;

@@ -1,6 +1,5 @@
 import React, { useRef, useState } from "react";
 import "../styles/scss/task.scss";
-import { useParams } from "react-router-dom";
 import Comment from "./comment";
 import Avatar from "../building-block/avatar";
 import SaveBtn from "../building-block/saveBtn";
