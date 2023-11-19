@@ -6,8 +6,6 @@ function authenticateToken(req, res, next) {
   if (!token) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
-  token = token?.split(" ")[1]
-  // console.log(token)
  
   jwt.verify(token, process.env.JSON_SECRET_KEY, (err, decoded) => {
     if (err) {
