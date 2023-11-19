@@ -2,9 +2,9 @@ const jwt = require('jsonwebtoken');
 
 function authenticateToken(req, res, next) {
   // Get the token from the request headers, query string, or cookies
-  let token = req.headers.authorization || req.query.token || req.cookies.token;
+  let token = req?.headers?.authorization || req?.query?.token || req?.cookies?.token;
   if (!token) {
-    return res.status(401).json({ error: 'Unauthorized' });
+    return res.status(401).json({ error: "Unauthorized, didn't fond cookie 😒" });
   }
  
   jwt.verify(token, process.env.JSON_SECRET_KEY, (err, decoded) => {
