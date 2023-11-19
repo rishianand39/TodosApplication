@@ -14,7 +14,7 @@ const AddTaskModal = ({ isOpen, closeModal }) => {
     dueDate : "",
     priority : "",
     tags : tags,
-    taskType : "dfi"
+    taskType : ""
   })
   const addTags = (tag) => {
     setTags((pre) => {
@@ -74,7 +74,7 @@ const AddTaskModal = ({ isOpen, closeModal }) => {
         <label htmlFor="due_date">Due Date</label>
         <input onChange={handleInputs} type="date" id="dueDate" />
         <label htmlFor="priority">Priority</label>
-        <select id="priority" onChange={handleInputs} name="priority" id="priority">
+        <select id="priority" onChange={handleInputs} name="priority">
           <option value="high">High</option>
           <option value="medium">Medium</option>
           <option value="low">Low</option>
