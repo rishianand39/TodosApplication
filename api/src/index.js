@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser")
 const { ConnectWithDataBase } = require("./database/dbConnect");
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const app = express();
 ConnectWithDataBase()
@@ -20,8 +21,10 @@ const allowedOrigins = [
 app.use(cors({
   origin: allowedOrigins,
   optionsSuccessStatus: 200,
+  credentials: true
 }));
-app.use(cors());
+
+app.use(cookieParser('token'));
 app.use(express.json())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }));
