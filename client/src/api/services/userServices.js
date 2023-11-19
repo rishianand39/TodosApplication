@@ -1,5 +1,5 @@
 import { API_GATEWAY_BASE_URL } from "../config/axiosConfig";
-
+import Cookies from 'js-cookie';
 export const handleSignIn = async (userInfo) => {
   try {
     const response = await fetch(`${API_GATEWAY_BASE_URL}/user/signin`, {
@@ -17,8 +17,9 @@ export const handleSignIn = async (userInfo) => {
       const errorData = await response.json();
       return errorData
     }
-    const userData = await response.json();
-    return userData;
+    const {token, ...res} = await response.json();
+    Cookies.set('token',token);
+    return res;
   } catch (error) {}
 };
 export const handleSignUp = async (userInfo) => {

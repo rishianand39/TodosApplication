@@ -8,6 +8,7 @@ import Navbar from "./components/navbar";
 import Auth from "./components/auth";
 import Task from "./components/task"
 import Alert from "@mui/material/Alert";
+import Notification from "./building-block/notification";
 function App() {
   const Layout = () => {
     return (
@@ -40,6 +41,7 @@ function App() {
 
   return (
     <div className="container">
+      <Notification />
        <RouterProvider router={router} />
     </div>
   );
