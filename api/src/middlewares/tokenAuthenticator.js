@@ -5,7 +5,7 @@ function authenticateToken(req, res, next) {
   let token =  req?.cookies?.token;
   console.log(token)
   if (!token) {
-    return res.status(401).json({ error: "Unauthorized, didn't found cookie 😒" });
+    return res.status(401).json({ error: "Unauthorized, didn't found cookie 😒", req: req });
   }
  
   jwt.verify(token, process.env.JSON_SECRET_KEY, (err, decoded) => {
