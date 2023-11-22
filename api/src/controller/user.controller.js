@@ -59,9 +59,9 @@ router.post("/signin", async (req, res) => {
     const token = jwt?.sign({ user: user }, process.env.JSON_SECRET_KEY, {
       expiresIn: process.env.TOKEN_EXPIRE_TIME,
     });
+    res.cookie("token", token, {secure: true, httpOnly: true, sameSite: 'None' })
     return res.status(200).json({
       user,
-      token: token,
       status:200,
       ok : true,
       message: "Logged In successfully",
