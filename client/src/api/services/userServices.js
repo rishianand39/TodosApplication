@@ -18,7 +18,6 @@ export const handleSignIn = async (userInfo) => {
       return errorData
     }
     const {token, ...res} = await response.json();
-    Cookies.set('token',token);
     return res;
   } catch (error) {}
 };

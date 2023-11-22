@@ -8,7 +8,7 @@ export const createTask = async (body) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
-      credentials: "include",
+      credentials: 'include',
     });
 
     if (!response.ok) {

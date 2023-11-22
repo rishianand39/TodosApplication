@@ -24,7 +24,7 @@ app.use(cors({
   credentials: true
 }));
 
-app.use(cookieParser('token'));
+app.use(cookieParser());
 app.use(express.json())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }));
