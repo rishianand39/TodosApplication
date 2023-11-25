@@ -19,9 +19,8 @@ const allowedOrigins = [
 
 //MIDDLEWARES
 app.use(cors({
-  origin: allowedOrigins,
-  optionsSuccessStatus: 200,
-  credentials: true
+  credentials: true,
+  origin: 'http://localhost:3000',
 }));
 
 app.use(cookieParser());

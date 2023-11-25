@@ -59,7 +59,7 @@ router.post("/signin", async (req, res) => {
     const token = jwt?.sign({ user: user }, process.env.JSON_SECRET_KEY, {
       expiresIn: process.env.TOKEN_EXPIRE_TIME,
     });
-    res.cookie("token", token, {secure: true, httpOnly: true, sameSite: 'None' })
+    res.cookie("token", token, {httpOnly: true})
     return res.status(200).json({
       user,
       status:200,
