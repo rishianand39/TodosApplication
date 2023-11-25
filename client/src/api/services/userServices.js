@@ -2,11 +2,13 @@ import { API_GATEWAY_BASE_URL } from "../config/axiosConfig";
 import Cookies from 'js-cookie';
 export const handleSignIn = async (userInfo) => {
   try {
-    const response = await fetch(`${API_GATEWAY_BASE_URL}/user/signin`, {
+    const response = await fetch(`http://localhost:8080/user/signin`, {
       method: "POST",
+      credentials : 'include',
       headers: {
         "Content-Type": "application/json",
       },
+
       body: JSON.stringify({
         email: userInfo.email,
         password: userInfo.password,
