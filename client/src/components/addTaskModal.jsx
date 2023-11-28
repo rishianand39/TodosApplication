@@ -4,8 +4,11 @@ import CloseIcon from "@mui/icons-material/Close";
 import MinimizeIcon from "@mui/icons-material/Minimize";
 import Chip from "../building-block/chip";
 import { createTask } from "../api/services/taskServices";
+import { setMessage } from "../redux/notificationSlice";
+import { useDispatch } from "react-redux";
 
 const AddTaskModal = ({ isOpen, closeModal }) => {
+   const dispatch = useDispatch()
   const [tags, setTags] = useState([]);
   const [tagInput, setTagInput] = useState("");
   const [taskInfo, setTaskInfo] = useState({
@@ -48,8 +51,22 @@ const AddTaskModal = ({ isOpen, closeModal }) => {
       tags: tags,
     }));
   }, [tags]);
-  const handleSubmit = ()=>{
-    createTask(taskInfo)
+  const handleSubmit = async()=>{
+    try {
+     let taskResponse = await createTask(taskInfo);
+     if(taskResponse?.ok){
+      dispatch(setMessage({
+        notificationType : 'success',
+        message : taskResponse?.message
+      }))
+     }
+    } catch (error) {
+      dispatch(setMessage({
+        notificationType : 'error',
+        message : error?.message
+      }))
+    }
+
   }
 
   return (

@@ -56,8 +56,6 @@ router.post("/signin", async (req, res) => {
 
     req.session.user=user;
     req.session.authorized = true;
-    console.clear()
-    console.log(req.session)
     return res.status(200).json({
       user,
       status:200,

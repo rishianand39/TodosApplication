@@ -1,15 +1,17 @@
 const authenticateToken = require("../middlewares/tokenAuthenticator");
+const authenticateSession= require("../middlewares/sessionAuthenticator")
 const {Task, Comment} = require("../models/task.model");
 const mongoose = require("mongoose")
 
 const router = require("express").Router();
 
 // ------------CREATED TASK-------------//
-router.post("/create", authenticateToken, async (req, res) => {
+router.post("/create", authenticateSession, async (req, res) => {
+  console.log(req.session)
   try {
     let task = new Task({
       title: req.body.title,
-      createdBy: req.user.user._id,
+      createdBy: req.session.user._id,
       description: req.body.description,
       dueDate: req.body.dueDate,
       completed: req.body.completed,
@@ -19,7 +21,11 @@ router.post("/create", authenticateToken, async (req, res) => {
       comments: [],
     });
     let createdTask = await task.save();
-    res.status(200).json("task created successfully");
+    res.status(200).json({
+      ok : true,
+      status : 200,
+      message : "Task created successfully"
+    });
   } catch (error) {
     res.status(500).json(error.message);
   }
@@ -29,11 +35,19 @@ router.post("/create", authenticateToken, async (req, res) => {
 router.patch("/update/:taskId", authenticateToken, async (req, res) => {
   try {
     if (!mongoose.Types.ObjectId.isValid(req.params.taskId)) {
-      return res.status(400).json("Invalid task ID");
+      return res.status(400).json({
+        ok : true,
+        status : 400,
+        message : "Invalid task Id"
+      });
     }
     let task = await Task.findById(req.params.taskId);
     if (!task) {
-      return res.status(404).json("Task does'nt exist");
+      return res.status(404).json({
+        ok : true,
+        status : 404,
+        message : "Task doesn't exist in our database"
+      });
     }
 
     const updatedTask = await Task.updateOne(
@@ -41,12 +55,20 @@ router.patch("/update/:taskId", authenticateToken, async (req, res) => {
       req.body
     );
     if (updatedTask.modifiedCount === 1) {
-      return res.status(200).json("Task updated successfully");
+      return res.status(200).json({
+        ok : true,
+        status : 200,
+        message : "Task updated successfully"
+      });
     } else {
-      return res.status(400).json("Task update failed");
+      return res.status(400).json({
+        ok : true,
+        status : 400,
+        message : "Task updation failed"
+      });
     }
   } catch (error) {
-    res.status(500).json(error.message);
+    res.status(500).json(error);
   }
 });
 
@@ -54,17 +76,29 @@ router.patch("/update/:taskId", authenticateToken, async (req, res) => {
 router.delete("/delete/:taskId", authenticateToken, async (req, res) => {
     try {
       if (!mongoose.Types.ObjectId.isValid(req.params.taskId)) {
-        return res.status(400).json("Invalid task ID");
+        return res.status(400).json({
+          ok : true,
+          status : 400,
+          message : "Invalid task Id"
+        });
       }
       let result = await Task.findByIdAndDelete(req.params.taskId);
       if (!result) {
-        return res.status(404).json("Task doesn't exist");
+        return res.status(404).json({
+          ok : true,
+          status : 404,
+          message : "Task doesn't exist in our database"
+        });
       }
       
-      return res.status(200).json('Task deleted successfully')
+      return res.status(404).json({
+        ok : true,
+        status : 404,
+        message : "Task deleted successfully"
+      });
    
     } catch (error) {
-      res.status(500).json(error.message);
+      res.status(500).json(error);
     }
 });
 
