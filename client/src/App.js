@@ -7,9 +7,34 @@ import {
 import Navbar from "./components/navbar";
 import Auth from "./components/auth";
 import Task from "./components/task"
-import Alert from "@mui/material/Alert";
 import Notification from "./building-block/notification";
+import { useEffect } from "react";
 function App() {
+
+  useEffect(() => {
+    const getCookie = (name) => {
+      const cookies = document.cookie.split('; ');
+      for (const cookie of cookies) {
+        const [cookieName, cookieValue] = cookie.split('=');
+        if (cookieName === name) {
+          return cookieValue;
+        }
+      }
+      return null;
+    };
+
+    // Check if the 'yourToken' cookie exists
+    const storedToken = getCookie('yourToken');
+
+    if (storedToken) {
+      // If the token exists, update Redux state with the user information
+      dispatch(setUser({ token: storedToken }));
+    } else {
+      // If the token doesn't exist, you may choose to log the user out or take other actions
+      // dispatch(logout());
+    }
+  }, []);
+
   const Layout = () => {
     return (
       <>
