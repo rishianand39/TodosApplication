@@ -1,9 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser")
 const { ConnectWithDataBase } = require("./database/dbConnect");
-const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const app = express();
+const session = require("express-session")
 ConnectWithDataBase()
 require("dotenv").config();
 
@@ -22,8 +22,15 @@ app.use(cors({
   credentials: true,
   origin: 'http://localhost:3000',
 }));
+app.use(session({
+  secret : process.env.SESSION_SECRET,
+  resave : false,
+  saveUninitialized : true,
+  cookie : {
+    maxAge : 1000*60*60*24
+    }
+}))
 
-app.use(cookieParser());
 app.use(express.json())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }));

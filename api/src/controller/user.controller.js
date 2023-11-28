@@ -3,8 +3,6 @@ const mongoose = require("mongoose");
 const router = require("express").Router();
 const jwt = require("jsonwebtoken");
 const authenticateToken = require("../middlewares/tokenAuthenticator");
-const Task = require("../models/task.model");
-
 
 require("dotenv").config();
 
@@ -56,10 +54,10 @@ router.post("/signin", async (req, res) => {
       });
     }
 
-    const token = jwt?.sign({ user: user }, process.env.JSON_SECRET_KEY, {
-      expiresIn: process.env.TOKEN_EXPIRE_TIME,
-    });
-    res.cookie("token", token, {httpOnly: true, sameSite : 'None', secure: true,})
+    req.session.user=user;
+    req.session.authorized = true;
+    console.clear()
+    console.log(req.session)
     return res.status(200).json({
       user,
       status:200,
@@ -167,6 +165,9 @@ router.delete("/delete/:userId", async (req, res) => {
 
 // --------------LOGOUT--------------//
 router.post("/logout", authenticateToken, (req, res) => {
+  if(req.session.authorized){
+    req.session.destroy()
+  }
   return res.status(200).json({
     ok : true,
     status : 200,
