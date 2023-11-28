@@ -66,6 +66,7 @@ const AddTaskModal = ({ isOpen, closeModal }) => {
         message : error?.message
       }))
     }
+    closeModal(false)
 
   }
 
