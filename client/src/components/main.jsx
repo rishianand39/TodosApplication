@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "./card";
 import "../styles/scss/main.scss";
 import AddIcon from "@mui/icons-material/Add";
@@ -6,9 +6,32 @@ import Tabs from "./tabs";
 import TaskCard from "./taskCard";
 import AddTaskModal from "./addTaskModal";
 import { NavLink } from "react-router-dom";
+import { fetchTasks } from "../api/services/taskServices";
+import { useDispatch } from "react-redux";
+import { setMessage } from "../redux/notificationSlice";
 
 const Main = () => {
   const [openTaskModal, setOpenTaskModal] = useState(false);
+  const [tasks, setTasks] = useState([]);
+  const dispatch = useDispatch()
+  useEffect(async()=>{
+    try {
+     let tasks = await fetchTasks()
+     if(tasks?.ok){
+       setTasks(tasks)
+     }else{
+      dispatch(setMessage({
+        notificationType : 'error',
+        message : tasks?.message
+      }))
+     }
+    } catch (error) {
+      dispatch(setMessage({
+        notificationType : 'error',
+        message : error?.message
+      }))
+    }
+  },[])
   return (
     <div className="main">
       <div className="left">
@@ -30,15 +53,13 @@ const Main = () => {
         </div>
         <Tabs />
         <div className="taskCards">
-          <NavLink to="task/1" className="link">
-            <TaskCard />
-          </NavLink>
-          <NavLink to="task/2" className="link">
-            <TaskCard />
-          </NavLink>
-          <NavLink to="task/3" className="link">
-            <TaskCard />
-          </NavLink>
+          {tasks?.map((task, index) => {
+            return (
+              <NavLink key={index} to={`task/${task?._id}`} className="link">
+                <TaskCard task={task}/>
+              </NavLink>
+            );
+          })}
         </div>
       </div>
       <div className="right"></div>

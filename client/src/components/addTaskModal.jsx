@@ -59,7 +59,13 @@ const AddTaskModal = ({ isOpen, closeModal }) => {
         notificationType : 'success',
         message : taskResponse?.message
       }))
+     }else{
+      dispatch(setMessage({
+        notificationType : 'error',
+        message : taskResponse?.message
+      }))
      }
+    
     } catch (error) {
       dispatch(setMessage({
         notificationType : 'error',
@@ -67,7 +73,14 @@ const AddTaskModal = ({ isOpen, closeModal }) => {
       }))
     }
     closeModal(false)
-
+    setTaskInfo({
+      title : "",
+      description : "",
+      dueDate : "",
+      priority : "",
+      tags : tags,
+      taskType : ""
+    })
   }
 
   return (

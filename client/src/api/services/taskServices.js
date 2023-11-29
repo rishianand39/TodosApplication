@@ -19,3 +19,23 @@ export const createTask = async (body) => {
     return task;
   } catch (error) {}
 };
+
+export const fetchTasks = async (body) => {
+  try {
+    const response = await fetch(`${API_GATEWAY_BASE_URL}/task`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      return errorData;
+    }
+    const tasks = await response.json();
+    return tasks;
+  } catch (error) {}
+};
