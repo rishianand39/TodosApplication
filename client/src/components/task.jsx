@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../styles/scss/task.scss";
 import Comment from "./comment";
 import Avatar from "../building-block/avatar";
@@ -9,16 +9,23 @@ import Search from "../building-block/search";
 import Avatars from "../building-block/avatars";
 import DropDownOption from "../building-block/dropdownOption";
 import axios from "axios";
+import {useParams } from "react-router-dom";
+import { setMessage } from "../redux/notificationSlice";
+import { useDispatch } from "react-redux";
+import { fetchTaskById } from "../api/services/taskServices";
+import { findMember } from "../api/services/userServices";
 
 const Task = () => {
+  const { id } = useParams();
+  const [task, setTask] = useState(null);
   const [addCommentActive, setAddCommentActive] = useState(false);
   const [changeReporter, setChangeReporter] = useState(false);
   const [changeAssignee, setChangeAssignee] = useState(false);
-  const [results, setResults] = useState(false);
+  const [foundUsers, setFoundUsers] = useState(false);
   const commentRef = useRef();
-
+  const dispatch = useDispatch();
   const saveComment = async () => {
-    console.log(commentRef)
+    console.log(commentRef);
     try {
       console.log("commenting");
       const token =
@@ -35,38 +42,65 @@ const Task = () => {
           },
         }
       );
-
     } catch (error) {
       console.error(error, "error");
     }
     setAddCommentActive(false);
   };
 
+  const handleFindMember = async (searchText) => {
+    let users = await findMember(searchText);
+    setFoundUsers(users.data);
+  };
+  const handleAddMember = async (user) => {
+   
+  };
+
+  useEffect(() => {
+    (async function () {
+      try {
+        let task = await fetchTaskById(id);
+        if (task?.ok) {
+          setTask(task?.data);
+        } else {
+          dispatch(
+            setMessage({
+              notificationType: "error",
+              message: task?.message,
+            })
+          );
+        }
+      } catch (error) {
+        dispatch(
+          setMessage({
+            notificationType: "error",
+            message: error?.message,
+          })
+        );
+      }
+    })();
+  }, []);
+
   return (
     <div className="taskContainer">
       <div className="left">
-        <h2>Project Meelo</h2>
-        <p>create a navbar with 10 placeholders</p>
+        <h2 contentEditable={true}>{task?.title}</h2>
+        <p contentEditable={true}>{task?.description}</p>
         <div className="addMember">
-          <Search placeholder="Search and add member.." />
-          {results && (
+          <Search
+            placeholder="Search and add member.."
+            handleFindMember={handleFindMember}
+          />
+          {foundUsers && (
             <div className="results">
-              <div className="result">
-                <Avatar size="30px" />
-                <span>Rishi Anand</span>
-              </div>
-              <div className="result">
-                <Avatar size="30px" />
-                <span>Rishi Anand</span>
-              </div>
-              <div className="result">
-                <Avatar size="30px" />
-                <span>Rishi Anand</span>
-              </div>
-              <div className="result">
-                <Avatar size="30px" />
-                <span>Rishi Anand</span>
-              </div>
+              {foundUsers?.map((user) => {
+                return (
+                  <div className="result" onClick={handleAddMember}>
+                    <Avatar name={user?.name} size="30px" />
+                    <span>{user?.name}</span>
+                  </div>
+                );
+              })}
             </div>
           )}
           <Avatars />
@@ -79,7 +113,7 @@ const Task = () => {
               onClick={() => setChangeReporter((pre) => !pre)}
             >
               <Avatar size="30px" />
-            <span>PushpRaj Patel</span>
+              <span>PushpRaj Patel</span>
             </div>
             {changeReporter && (
               <div className="members">

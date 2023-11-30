@@ -33,6 +33,41 @@ router.get("/", authenticateSession, async (req, res) => {
   }
 });
 
+// ------------FETCH TASK BY ID-------------//
+router.get("/:taskId", authenticateSession, async (req, res) => {
+
+  try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.taskId)) {
+      return res.status(400).json({
+        ok : true,
+        status : 400,
+        message : "Invalid task Id"
+      });
+    }
+    let task = await Task.findById(req.params.taskId);
+    if (!task) {
+      return res.status(404).json({
+        ok : true,
+        status : 404,
+        message : "Task doesn't exist in our database"
+      });
+    }
+
+    return res.status(200).json({
+      ok : true,
+      status : 200,
+      data : task,
+      message : "Task fetch successfully"
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      ok : false,
+      status : 500,
+      message : error
+    });
+  }
+});
 // ------------CREATED TASK-------------//
 router.post("/create", authenticateSession, async (req, res) => {
   try {
@@ -63,7 +98,7 @@ router.post("/create", authenticateSession, async (req, res) => {
 });
 
 // ------------UPDATE TASK-------------//
-router.patch("/update/:taskId", authenticateToken, async (req, res) => {
+router.patch("/update/:taskId", authenticateSession, async (req, res) => {
   try {
     if (!mongoose.Types.ObjectId.isValid(req.params.taskId)) {
       return res.status(400).json({
@@ -107,8 +142,10 @@ router.patch("/update/:taskId", authenticateToken, async (req, res) => {
   }
 });
 
+
+
 // ------------DELETE TASK-------------//
-router.delete("/delete/:taskId", authenticateToken, async (req, res) => {
+router.delete("/delete/:taskId", authenticateSession, async (req, res) => {
     try {
       if (!mongoose.Types.ObjectId.isValid(req.params.taskId)) {
         return res.status(400).json({
@@ -143,7 +180,7 @@ router.delete("/delete/:taskId", authenticateToken, async (req, res) => {
 
 
 // --------------ADD PEOPLE------------//
-router.patch("/invite/:taskId", authenticateToken, async(req,res)=>{
+router.patch("/invite/:taskId", authenticateSession, async(req,res)=>{
   try {
     if(!mongoose.Schema.Types.ObjectId.isValid(req.params.taskId)){
       return res.status(400).json('userId is not present in our database')
@@ -171,7 +208,7 @@ router.patch("/invite/:taskId", authenticateToken, async(req,res)=>{
 })
 
 // -------------ADD COMMENT IN TASK---------//
-router.post("/:taskId/comment", authenticateToken, async(req,res)=>{
+router.post("/:taskId/comment", authenticateSession, async(req,res)=>{
 
   try {
     
@@ -207,7 +244,7 @@ router.post("/:taskId/comment", authenticateToken, async(req,res)=>{
   }
 })
 
-router.get("/:taskId/comments", authenticateToken, async(req,res)=>{
+router.get("/:taskId/comments", authenticateSession, async(req,res)=>{
   try {
     if(!mongoose.Types.ObjectId.isValid(req.params.taskId)){
       return res.status(400).json('taskId is not present in our database')

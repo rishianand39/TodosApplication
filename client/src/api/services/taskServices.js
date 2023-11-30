@@ -20,9 +20,30 @@ export const createTask = async (body) => {
   } catch (error) {}
 };
 
+
 export const fetchTasks = async (search) => {
   try {
     const response = await fetch(`${API_GATEWAY_BASE_URL}/task${search}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      return errorData;
+    }
+    const tasks = await response.json();
+    return tasks;
+  } catch (error) {}
+};
+
+
+export const fetchTaskById = async (taskId) => {
+  try {
+    const response = await fetch(`${API_GATEWAY_BASE_URL}/task/${taskId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
