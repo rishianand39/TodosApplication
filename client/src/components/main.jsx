@@ -51,6 +51,8 @@ const Main = () => {
       }
     })();
   }, [openTaskModal, searchParams]);
+
+  
   return (
     <div className="main">
       <div className="left">
