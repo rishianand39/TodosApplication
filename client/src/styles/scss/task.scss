@@ -12,13 +12,16 @@
       height: 5rem;
       position: relative;
       .results {
-        box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+        box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+          rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
         position: absolute;
         top: 60px;
         background-color: white;
         width: 50%;
         z-index: 1;
         border-radius: 3px;
+        max-height: 200px;
+        overflow: auto;
         .result {
           cursor: pointer;
           display: flex;
@@ -26,7 +29,7 @@
           gap: 20px;
           padding: 8px;
         }
-        .result:hover{
+        .result:hover {
           background-color: #eee;
         }
       }
@@ -78,22 +81,22 @@
       justify-content: space-between;
       width: 40%;
       margin: 10px 0;
-      .title{
+      .title {
         font-size: 0.8rem;
       }
-      .time{
+      .time {
         padding: 5px 8px;
       }
     }
-    .priority{
+    .priority {
       display: flex;
       justify-content: space-between;
       width: 45%;
       margin: 10px 0;
-      .title{
+      .title {
         font-size: 0.8rem;
       }
-      select{
+      select {
         padding: 3px 5px;
         width: 6rem;
       }

@@ -22,10 +22,11 @@ const Main = () => {
     setSearchParams({ page: value });
     setPage(value);
   };
-  
+
   useEffect(() => {
     location.search == "" && setPage(1);
   }, [location.search]);
+  
   useEffect(() => {
     (async function fetchAllTasks() {
       try {
@@ -52,7 +53,6 @@ const Main = () => {
     })();
   }, [openTaskModal, searchParams]);
 
-  
   return (
     <div className="main">
       <div className="left">

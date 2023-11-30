@@ -44,3 +44,22 @@ export const handleSignUp = async (userInfo) => {
     return userData;
   } catch (error) {}
 };
+
+export const findMember = async (searchText) => {
+  try {
+    const response = await fetch(`${API_GATEWAY_BASE_URL}/user/search?name=${searchText}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      return errorData
+    }
+    const userData = await response.json();
+    return userData;
+  } catch (error) {}
+};

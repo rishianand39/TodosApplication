@@ -11,6 +11,7 @@ var store = new MongoDBStore({
   uri: process.env.MONGO_URI,
   collection: "Sessions",
 });
+
 store.on("error", function (error) {
   console.log(error);
 });

@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const router = require("express").Router();
 const jwt = require("jsonwebtoken");
 const authenticateToken = require("../middlewares/tokenAuthenticator");
+const authenticateSession = require("../middlewares/sessionAuthenticator");
 
 require("dotenv").config();
 
@@ -162,7 +163,7 @@ router.delete("/delete/:userId", async (req, res) => {
 });
 
 // --------------LOGOUT--------------//
-router.post("/logout", authenticateToken, (req, res) => {
+router.post("/logout", authenticateSession, (req, res) => {
   if(req.session.authorized){
     req?.session?.destroy()
   }
@@ -176,7 +177,7 @@ router.post("/logout", authenticateToken, (req, res) => {
 // --------------FIND USERS--------------//
 const call = {};
 
-router.get("/search", authenticateToken, async (req, res) => {
+router.get("/search", authenticateSession , async (req, res) => {
   try {
     clearTimeout(call.timeout);
 
@@ -205,14 +206,21 @@ router.get("/search", authenticateToken, async (req, res) => {
           });
       }
 
-      return res.status(200).json(users);
+      return res.status(200).json({
+        ok : true,
+        status : 200,
+        message : "user found",
+        data  : users
+      });
     }, 300);
   } catch (error) {
-    return res.status(500).json(error.message);
+    return res.status(500).json({
+      ok : false,
+      status : 500,
+      message : error
+    });
   }
 });
-
-
 
 
 module.exports = router;
