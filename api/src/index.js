@@ -18,11 +18,6 @@ store.on("error", function (error) {
 const userController = require("./controller/user.controller");
 const taskController = require("./controller/task.controller");
 
-const allowedOrigins = [
-  "http://localhost:3000",
-  "https://task-manager-ra.vercel.app",
-];
-
 //MIDDLEWARES
 app.use(
   cors({

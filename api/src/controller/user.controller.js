@@ -164,7 +164,7 @@ router.delete("/delete/:userId", async (req, res) => {
 // --------------LOGOUT--------------//
 router.post("/logout", authenticateToken, (req, res) => {
   if(req.session.authorized){
-    req.session.destroy()
+    req?.session?.destroy()
   }
   return res.status(200).json({
     ok : true,

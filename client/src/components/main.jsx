@@ -14,23 +14,26 @@ const Main = () => {
   const [openTaskModal, setOpenTaskModal] = useState(false);
   const [tasks, setTasks] = useState([]);
   const dispatch = useDispatch()
-  useEffect(async()=>{
-    try {
-     let tasks = await fetchTasks()
-     if(tasks?.ok){
-       setTasks(tasks)
-     }else{
-      dispatch(setMessage({
-        notificationType : 'error',
-        message : tasks?.message
-      }))
-     }
-    } catch (error) {
-      dispatch(setMessage({
-        notificationType : 'error',
-        message : error?.message
-      }))
-    }
+  useEffect(()=>{
+    (async function fetchAllTasks(){
+      try {
+        let tasks = await fetchTasks()
+        if(tasks?.ok){
+          setTasks(tasks?.data)
+        }else{
+         dispatch(setMessage({
+           notificationType : 'error',
+           message : tasks?.message
+         }))
+        }
+       } catch (error) {
+         dispatch(setMessage({
+           notificationType : 'error',
+           message : error?.message
+         }))
+       }
+    })()
+
   },[])
   return (
     <div className="main">

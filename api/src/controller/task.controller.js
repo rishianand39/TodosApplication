@@ -7,7 +7,6 @@ const router = require("express").Router();
 
 // ------------CREATED TASK-------------//
 router.get("/", authenticateSession, async (req, res) => {
-  console.log(req?.user, "ag")
   if(!req?.session?.user){
     return res.status(404).json({
       ok : false,
@@ -16,7 +15,7 @@ router.get("/", authenticateSession, async (req, res) => {
     })
   }
   try {
-    let tasks = await Task.find({createdBy : req?.session?._id})
+    let tasks = await Task.find({createdBy : req?.session?.user?._id})
     res.status(200).json({
       ok : true,
       status : 200,
