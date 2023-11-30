@@ -11,11 +11,17 @@
     padding: 10px;
     border-radius: 5px;
     color: #07c9a6;
+    flex: 0.5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .description {
     display: flex;
     flex-direction: column;
     gap: 5px;
+    flex: 3;
+    
     p,
     h3 {
       margin: 0;
@@ -28,8 +34,12 @@
     }
   }
   .members {
+    flex: 2;
+    display: flex;
+
   }
   .progress {
+    flex: 1;
     progress {
       background-color: red;
       height: 6px;

@@ -10,7 +10,7 @@ body {
   margin-left: auto;
   margin-right: auto;
   background-color: #fff;
-  height: 100vh;
+  min-height: 100vh;
   padding: 0 5%;
 }
 *{

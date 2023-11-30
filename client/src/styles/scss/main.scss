@@ -1,7 +1,7 @@
 .main {
-    display: flex;
-    height: 83vh;
-    width: 100%;
+  display: flex;
+  min-height: 83vh;
+  width: 100%;
   .left {
     .cardContainer {
       display: flex;
@@ -11,7 +11,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin: 30px 0;
+      margin: 18px 0;
       .title {
         font-weight: 600;
       }
@@ -24,7 +24,7 @@
         color: #fff;
         border-radius: 18px;
         padding: 6px 12px;
-        font-size: 0.8rem;
+        font-size: 0.7rem;
         font-weight: 600;
         cursor: pointer;
       }
@@ -33,15 +33,15 @@
         transition: 300ms;
       }
     }
-    .taskCards{
+    .taskCards {
       padding: 2% 0;
       gap: 10px;
       display: flex;
       flex-direction: column;
-
+      height: 50%;
+      // overflow: hidden;
     }
   }
   .right {
   }
 }
-

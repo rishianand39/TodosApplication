@@ -5,9 +5,36 @@ const mongoose = require("mongoose")
 
 const router = require("express").Router();
 
+// ----------- FETCH TASK-------------//
+router.get("/", authenticateSession, async (req, res) => {
+  if(!req?.session?.user){
+    return res.status(404).json({
+      ok : false,
+      status : 200,
+      message : 'You are not authorized'
+    })
+  }
+  try {
+    let page = req?.query?.page ||  1
+    let pageSize=3
+    let tasks = await Task.find({createdBy : req?.session?.user?._id}).skip((page - 1) * pageSize).limit(pageSize);
+    res.status(200).json({
+      ok : true,
+      status : 200,
+      message : 'Task fetched successfully',
+      data : tasks
+    });
+  } catch (error) {
+    res.status(500).json({
+      ok : false,
+      status : 500,
+      message : error
+    });
+  }
+});
+
 // ------------CREATED TASK-------------//
 router.post("/create", authenticateSession, async (req, res) => {
-  console.log(req.session)
   try {
     let task = new Task({
       title: req.body.title,
@@ -16,18 +43,22 @@ router.post("/create", authenticateSession, async (req, res) => {
       dueDate: req.body.dueDate,
       completed: req.body.completed,
       priority: req.body.priority,
-      people: [],
-      tags: req.body.tags,
+      people: [req?.session?.user?._id],
+      tags: [...req.body.tags],
       comments: [],
     });
-    let createdTask = await task.save();
+    await task.save();
     res.status(200).json({
       ok : true,
       status : 200,
       message : "Task created successfully"
     });
   } catch (error) {
-    res.status(500).json(error.message);
+    res.status(500).json({
+      ok : false,
+      status : 500,
+      message : error
+    });
   }
 });
 
@@ -68,7 +99,11 @@ router.patch("/update/:taskId", authenticateToken, async (req, res) => {
       });
     }
   } catch (error) {
-    res.status(500).json(error);
+    res.status(500).json({
+      ok : false,
+      status : 500,
+      message : error
+    });
   }
 });
 
@@ -98,7 +133,11 @@ router.delete("/delete/:taskId", authenticateToken, async (req, res) => {
       });
    
     } catch (error) {
-      res.status(500).json(error);
+      res.status(500).json({
+        ok : false,
+        status : 500,
+        message : error
+      });
     }
 });
 
