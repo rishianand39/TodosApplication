@@ -5,36 +5,52 @@ import AddIcon from "@mui/icons-material/Add";
 import Tabs from "./tabs";
 import TaskCard from "./taskCard";
 import AddTaskModal from "./addTaskModal";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation, useSearchParams } from "react-router-dom";
 import { fetchTasks } from "../api/services/taskServices";
 import { useDispatch } from "react-redux";
 import { setMessage } from "../redux/notificationSlice";
+import { Pagination, Stack, Typography } from "@mui/material";
 
 const Main = () => {
   const [openTaskModal, setOpenTaskModal] = useState(false);
   const [tasks, setTasks] = useState([]);
-  const dispatch = useDispatch()
-  useEffect(()=>{
-    (async function fetchAllTasks(){
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const [page, setPage] = useState(1);
+  let [searchParams, setSearchParams] = useSearchParams();
+  const handleChange = (event, value) => {
+    setSearchParams({ page: value });
+    setPage(value);
+  };
+  
+  useEffect(() => {
+    location.search == "" && setPage(1);
+  }, [location.search]);
+  useEffect(() => {
+    (async function fetchAllTasks() {
       try {
-        let tasks = await fetchTasks()
-        if(tasks?.ok){
-          setTasks(tasks?.data)
-        }else{
-         dispatch(setMessage({
-           notificationType : 'error',
-           message : tasks?.message
-         }))
+        let query = location?.search == "" ? "?page=1" : location?.search;
+        let tasks = await fetchTasks(query);
+        if (tasks?.ok) {
+          setTasks(tasks?.data);
+        } else {
+          dispatch(
+            setMessage({
+              notificationType: "error",
+              message: tasks?.message,
+            })
+          );
         }
-       } catch (error) {
-         dispatch(setMessage({
-           notificationType : 'error',
-           message : error?.message
-         }))
-       }
-    })()
-
-  },[])
+      } catch (error) {
+        dispatch(
+          setMessage({
+            notificationType: "error",
+            message: error?.message,
+          })
+        );
+      }
+    })();
+  }, [openTaskModal, searchParams]);
   return (
     <div className="main">
       <div className="left">
@@ -56,13 +72,17 @@ const Main = () => {
         </div>
         <Tabs />
         <div className="taskCards">
-          {tasks?.map((task, index) => {
+          {tasks?.splice(0, 3)?.map((task, index) => {
             return (
               <NavLink key={index} to={`task/${task?._id}`} className="link">
-                <TaskCard task={task}/>
+                <TaskCard {...task} />
               </NavLink>
             );
           })}
+          <Stack spacing={2}>
+            <Typography>Page: {page}</Typography>
+            <Pagination count={10} page={page} onChange={handleChange} />
+          </Stack>
         </div>
       </div>
       <div className="right"></div>

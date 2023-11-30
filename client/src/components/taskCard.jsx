@@ -1,29 +1,40 @@
-import React from 'react'
-import "../styles/scss/taskCard.scss"
-import HubIcon from '@mui/icons-material/Hub';
-import Avatars from '../building-block/avatars';
-const TaskCard = () => {
+import React, { useState } from "react";
+import "../styles/scss/taskCard.scss";
+import HubIcon from "@mui/icons-material/Hub";
+import Avatars from "../building-block/avatars";
+import More from "../building-block/more";
+import { ClickAwayListener } from '@mui/base/ClickAwayListener';
+
+const TaskCard = ({ title, description, people, progress }) => {
+  const [openOption, setOpenOption] = useState(false)
+  
+  const handleClickAway = () => {
+    setOpenOption(false);
+  };
   return (
-    <div className='taskCard'>
-      <div className='iconShade'>
+    <ClickAwayListener onClick={(e)=>  e.stopPropagation()} onClickAway={handleClickAway}>
+    <div className="taskCard">
+      <div className="iconShade" >
         <HubIcon />
       </div>
-      <div className='description'>
-        <h3>Project Meelo</h3>
-        <p>create real estate landing page</p>
+      <div className="description">
+        <h3>{title}</h3>
+        <p>{description}</p>
       </div>
-      <div className='members'>
-        <Avatars />
+      <div className="members">
+        <Avatars people={people} />
       </div>
-      <div className='progress'>
+      <div className="progress">
         <div>
-            <span>Progress</span>
-            <span>70%</span>
+          <span>Progress</span>
+          <span>{progress}%</span>
         </div>
-      <progress value="100" max="100"></progress>
+        <progress value={progress} max="100"></progress>
       </div>
+      <More setOpenOption={setOpenOption} openOption={openOption}/>
     </div>
-  )
-}
+    </ClickAwayListener>
+  );
+};
 
-export default TaskCard
+export default TaskCard;
