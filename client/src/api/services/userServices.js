@@ -1,7 +1,7 @@
 import { API_GATEWAY_BASE_URL } from "../config/axiosConfig";
 export const handleSignIn = async (userInfo) => {
   try {
-    const response = await fetch(`http://localhost:8080/user/signin`, {
+    const response = await fetch(`${API_GATEWAY_BASE_URL}/user/signin`, {
       method: "POST",
       credentials : 'include',
       headers: {
@@ -61,5 +61,24 @@ export const findMember = async (searchText) => {
     }
     const userData = await response.json();
     return userData;
+  } catch (error) {}
+};
+
+export const fetchUserData = async (userId) => {
+  try {
+    const response = await fetch(`${API_GATEWAY_BASE_URL}/user/${userId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      return errorData
+    }
+    const userData = await response.json();
+    return userData?.data;
   } catch (error) {}
 };

@@ -2,9 +2,12 @@
   display: flex;
   .left {
     flex: 7;
-    h2 {
-    }
-    h4 {
+    .addedMembers{
+      .members{
+        display: flex;
+        align-items: center;
+        gap : 10px;
+      }
     }
     .addMember {
       display: flex;

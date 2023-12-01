@@ -59,3 +59,25 @@ export const fetchTaskById = async (taskId) => {
     return tasks;
   } catch (error) {}
 };
+
+export const addMember = async (taskId, user) => {
+  try {
+    const response = await fetch(`${API_GATEWAY_BASE_URL}/task/invite/${taskId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: 'include',
+      body : JSON.stringify({
+        memberToAdd : user
+      })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      return errorData
+    }
+    const userData = await response.json();
+    return userData;
+  } catch (error) {}
+};

@@ -5,7 +5,7 @@ const Avatar = ({ size , name="Gest User"}) => {
   let Icon = name?.split(" ")
   return (
     <AvatarIcon size={size} >
-      {Icon[0][0]}{Icon?.length==2 && Icon[1][0]}
+      {Icon[0][0]?.toUpperCase()}{Icon?.length==2 && Icon[1][0]?.toUpperCase()}
     </AvatarIcon>
   );
 };

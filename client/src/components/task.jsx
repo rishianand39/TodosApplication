@@ -7,13 +7,14 @@ import CancelBtn from "../building-block/cancelBtn";
 import TextArea from "../building-block/textArea";
 import Search from "../building-block/search";
 import Avatars from "../building-block/avatars";
-import DropDownOption from "../building-block/dropdownOption";
-import axios from "axios";
-import {useParams } from "react-router-dom";
+import DropDownOption from "../building-block/iconAndName";
+import { useParams } from "react-router-dom";
 import { setMessage } from "../redux/notificationSlice";
 import { useDispatch } from "react-redux";
-import { fetchTaskById } from "../api/services/taskServices";
-import { findMember } from "../api/services/userServices";
+import { addMember, fetchTaskById } from "../api/services/taskServices";
+import { fetchUserData, findMember } from "../api/services/userServices";
+import ListItem from "../building-block/listItem";
+import IconAndName from "../building-block/iconAndName";
 
 const Task = () => {
   const { id } = useParams();
@@ -22,38 +23,44 @@ const Task = () => {
   const [changeReporter, setChangeReporter] = useState(false);
   const [changeAssignee, setChangeAssignee] = useState(false);
   const [foundUsers, setFoundUsers] = useState(false);
+  const [membersDetail, setMembersDetail] = useState([])
   const commentRef = useRef();
   const dispatch = useDispatch();
   const saveComment = async () => {
-    console.log(commentRef);
-    try {
-      console.log("commenting");
-      const token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY1MGZlOGM5NzNjZmZiZjcxMmYzYzU4NiIsIm5hbWUiOiJSaXNoaSBBbmFuZCIsImVtYWlsIjoicmlzaGkucm44MThAZ21haWwuY29tIiwicGFzc3dvcmQiOiIxMjM0NTYiLCJjcmVhdGVkQXQiOiIyMDIzLTA5LTI0VDA3OjQ0OjA5LjQ3OVoiLCJ1cGRhdGVkQXQiOiIyMDIzLTA5LTI0VDA4OjUwOjQ3Ljk0N1oifSwiaWF0IjoxNjk2NDE1NTU2LCJleHAiOjE2OTY2NzQ3NTZ9.azvkknwfPMoGxESNSYTBGu4LU8CZJ0fCjbfSC-mWNjE";
-
-      await axios.post(
-        "https://apigw-task-manager.vercel.app/task/651079ae720b2470baafa7d7/comments",
-        {
-          comment: commentRef.current.value,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-    } catch (error) {
-      console.error(error, "error");
-    }
-    setAddCommentActive(false);
+   
   };
 
   const handleFindMember = async (searchText) => {
     let users = await findMember(searchText);
     setFoundUsers(users.data);
   };
+  const fetchDataForAllUsersConcurrently = async () => {
+    try {
+      const promises = task?.people?.map((userId) => fetchUserData(userId));
+      const userDataArray = await Promise.all(promises);
+      setMembersDetail(userDataArray)
+    } catch (error) {
+    }
+  };
+
   const handleAddMember = async (user) => {
-   
+    try {
+      let response = await addMember(id, user);
+      dispatch(
+        setMessage({
+          notificationType: response?.ok ? "success" : "error",
+          message: response?.message,
+        })
+      );
+        setMembersDetail(pre=>[...pre, user])
+    } catch (error) {
+      dispatch(
+        setMessage({
+          notificationType: "error",
+          message: error?.message,
+        })
+      );
+    }
   };
 
   useEffect(() => {
@@ -79,13 +86,28 @@ const Task = () => {
         );
       }
     })();
+    
   }, []);
+
+  useEffect(()=>{
+    fetchDataForAllUsersConcurrently()
+  },[task])
+
+
 
   return (
     <div className="taskContainer">
       <div className="left">
         <h2 contentEditable={true}>{task?.title}</h2>
         <p contentEditable={true}>{task?.description}</p>
+        <div className="addedMembers">
+          <h3>Members</h3>
+          <div className="members">
+          {membersDetail?.map((member, index) => {
+            return <Avatar key={index} name={member?.name} size="30px" />;
+          })}
+          </div>
+        </div>
         <div className="addMember">
           <Search
             placeholder="Search and add member.."
@@ -93,9 +115,13 @@ const Task = () => {
           />
           {foundUsers && (
             <div className="results">
-              {foundUsers?.map((user) => {
+              {foundUsers?.map((user, index) => {
                 return (
-                  <div className="result" onClick={handleAddMember}>
+                  <div
+                    key={index}
+                    className="result"
+                    onClick={() => handleAddMember(user)}
+                  >
                     <Avatar name={user?.name} size="30px" />
                     <span>{user?.name}</span>
                   </div>
@@ -117,10 +143,9 @@ const Task = () => {
             </div>
             {changeReporter && (
               <div className="members">
-                <DropDownOption />
-                <DropDownOption />
-                <DropDownOption />
-                <DropDownOption />
+                {membersDetail?.map((member, index)=>{
+                  return <IconAndName key={index} name={member?.name}/>
+                })}
               </div>
             )}
           </div>
@@ -137,10 +162,9 @@ const Task = () => {
             </div>
             {changeAssignee && (
               <div className="members">
-                <DropDownOption />
-                <DropDownOption />
-                <DropDownOption />
-                <DropDownOption />
+                 {membersDetail?.map((member, index)=>{
+                  return <IconAndName key={index} name={member?.name}/>
+                })}
               </div>
             )}
           </div>
