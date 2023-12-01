@@ -1,10 +1,7 @@
 const User = require("../models/user.model");
 const mongoose = require("mongoose");
 const router = require("express").Router();
-const jwt = require("jsonwebtoken");
-const authenticateToken = require("../middlewares/tokenAuthenticator");
 const authenticateSession = require("../middlewares/sessionAuthenticator");
-
 require("dotenv").config();
 
 // ----------CREATE USER--------------//

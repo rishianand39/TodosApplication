@@ -9,10 +9,10 @@ import Search from "../building-block/search";
 import Avatars from "../building-block/avatars";
 import DropDownOption from "../building-block/dropdownOption";
 import axios from "axios";
-import {useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { setMessage } from "../redux/notificationSlice";
 import { useDispatch } from "react-redux";
-import { fetchTaskById } from "../api/services/taskServices";
+import { addMember, fetchTaskById } from "../api/services/taskServices";
 import { findMember } from "../api/services/userServices";
 
 const Task = () => {
@@ -52,8 +52,25 @@ const Task = () => {
     let users = await findMember(searchText);
     setFoundUsers(users.data);
   };
-  const handleAddMember = async (user) => {
-   
+
+  const handleAddMember = async(user) => {
+    try {
+      console.log(user, id)
+      let response = await addMember(id, user);
+      dispatch(
+        setMessage({
+          notificationType: response?.ok ? "success" : "error",
+          message: response?.message,
+        })
+      );
+    } catch (error) {
+      dispatch(
+        setMessage({
+          notificationType: "error",
+          message: error?.message,
+        })
+      );
+    }
   };
 
   useEffect(() => {
@@ -93,9 +110,9 @@ const Task = () => {
           />
           {foundUsers && (
             <div className="results">
-              {foundUsers?.map((user) => {
+              {foundUsers?.map((user, index) => {
                 return (
-                  <div className="result" onClick={handleAddMember}>
+                  <div key={index} className="result" onClick={()=>handleAddMember(user)}>
                     <Avatar name={user?.name} size="30px" />
                     <span>{user?.name}</span>
                   </div>

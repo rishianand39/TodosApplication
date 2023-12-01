@@ -1,7 +1,7 @@
 import { API_GATEWAY_BASE_URL } from "../config/axiosConfig";
 export const handleSignIn = async (userInfo) => {
   try {
-    const response = await fetch(`http://localhost:8080/user/signin`, {
+    const response = await fetch(`${API_GATEWAY_BASE_URL}/user/signin`, {
       method: "POST",
       credentials : 'include',
       headers: {
@@ -63,3 +63,4 @@ export const findMember = async (searchText) => {
     return userData;
   } catch (error) {}
 };
+

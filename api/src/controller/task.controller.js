@@ -182,28 +182,38 @@ router.delete("/delete/:taskId", authenticateSession, async (req, res) => {
 // --------------ADD PEOPLE------------//
 router.patch("/invite/:taskId", authenticateSession, async(req,res)=>{
   try {
-    if(!mongoose.Schema.Types.ObjectId.isValid(req.params.taskId)){
-      return res.status(400).json('userId is not present in our database')
-    }
+    // if(!mongoose.Schema.Types.ObjectId.isValid(req.params.taskId)){
+    //   return res.status(400).json({
+    //     ok : false,
+    //     status :400,
+    //     message : 'taskId is not present in our database'
+    //   })
+    // }
 
     const task= await Task.findById(req.params.taskId)
+
     
     if(!task){
       return res.status(404).json('Task not found')
     }
 
-    const {peopleToAdd} = req.body
+    const {memberToAdd} = req.body
 
-    if(!Array.isArray(peopleToAdd)){
-      return res.status(400).json('Invalid peopleToAdd format')
-    }
-    task.people.push(...peopleToAdd)
+    task.people.push(memberToAdd?._id)
 
     await task.save()
-    res.status(200).json(`${peopleToAdd} added successfully`)
+    res.status(200).json({
+      ok :true,
+      status : 200,
+      message : `${memberToAdd?.name} added successfully`
+    })
     
   } catch (error) {
-    return res.status(500).json(error.message)
+    return res.status(500).json({
+      ok : false,
+      status : 500,
+      message : error
+    })
   }
 })
 
