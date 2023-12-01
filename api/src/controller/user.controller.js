@@ -65,6 +65,7 @@ router.post("/signin", async (req, res) => {
   }
 });
 
+
 // ------------ RESET PASSWORD------------//
 router.patch("/resetpassword", async (req, res) => {
   try {
@@ -215,6 +216,37 @@ router.get("/search", authenticateSession , async (req, res) => {
       ok : false,
       status : 500,
       message : error
+    });
+  }
+});
+
+// ----------FIND USER BY USERID--------------//
+router.get("/:userId", authenticateSession, async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.params?.userId });
+
+    if (!user) {
+      return res.status(404).json({
+        status: 404,
+        ok: false,
+        message: "No user found",
+      });
+    }
+
+    const { password, updatedAt, createdAt, ...userWithoutSensitiveInfo } = user;
+
+    return res.status(200).json({
+      data: userWithoutSensitiveInfo?._doc,
+      status: 200,
+      ok: true,
+      message: "User found",
+    });
+  } catch (error) {
+
+    return res.status(500).json({
+      ok: false,
+      status: 500,
+      message: "Internal Server Error",
     });
   }
 });
