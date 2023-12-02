@@ -142,6 +142,46 @@ router.patch("/update/:taskId", authenticateSession, async (req, res) => {
   }
 });
 
+// ------------ REMOVE MEMBER-----------//
+router.patch("/remove-member/:taskId", authenticateSession, async (req, res) => {
+  try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.taskId)) {
+      return res.status(400).json({
+        ok: false,
+        status: 400,
+        message: "Invalid task Id"
+      });
+    }
+
+    const updatedTask = await Task.updateOne(
+      { _id: req.params.taskId },
+      { $pull: { people: req.body.memberToRemove?._id } }
+    );
+
+    console.log(updatedTask)
+    if (updatedTask.modifiedCount === 1) {
+      return res.status(200).json({
+        ok: true,
+        status: 200,
+        message: `${req.body.memberToRemove?.name} removed from the task successfully`
+      });
+    } else {
+      return res.status(400).json({
+        ok: false,
+        status: 400,
+        message: "User removal failed or user not found in the task"
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      status: 500,
+      message: error.message
+    });
+  }
+});
+
+
 
 
 // ------------DELETE TASK-------------//

@@ -7,15 +7,13 @@ import CancelBtn from "../building-block/cancelBtn";
 import TextArea from "../building-block/textArea";
 import Search from "../building-block/search";
 import Avatars from "../building-block/avatars";
-import DropDownOption from "../building-block/iconAndName";
 import { useParams } from "react-router-dom";
 import { setMessage } from "../redux/notificationSlice";
 import { useDispatch } from "react-redux";
-import { addMember, fetchTaskById } from "../api/services/taskServices";
+import { addMember, fetchTaskById, removeMember } from "../api/services/taskServices";
 import { fetchUserData, findMember } from "../api/services/userServices";
-import ListItem from "../building-block/listItem";
 import IconAndName from "../building-block/iconAndName";
-
+import RemoveIcon from "../assets/outlineremove.gif";
 const Task = () => {
   const { id } = useParams();
   const [task, setTask] = useState(null);
@@ -23,12 +21,10 @@ const Task = () => {
   const [changeReporter, setChangeReporter] = useState(false);
   const [changeAssignee, setChangeAssignee] = useState(false);
   const [foundUsers, setFoundUsers] = useState(false);
-  const [membersDetail, setMembersDetail] = useState([])
+  const [membersDetail, setMembersDetail] = useState([]);
   const commentRef = useRef();
   const dispatch = useDispatch();
-  const saveComment = async () => {
-   
-  };
+  const saveComment = async () => {};
 
   const handleFindMember = async (searchText) => {
     let users = await findMember(searchText);
@@ -38,9 +34,8 @@ const Task = () => {
     try {
       const promises = task?.people?.map((userId) => fetchUserData(userId));
       const userDataArray = await Promise.all(promises);
-      setMembersDetail(userDataArray)
-    } catch (error) {
-    }
+      setMembersDetail(userDataArray);
+    } catch (error) {}
   };
 
   const handleAddMember = async (user) => {
@@ -52,7 +47,7 @@ const Task = () => {
           message: response?.message,
         })
       );
-        setMembersDetail(pre=>[...pre, user])
+      setMembersDetail((pre) => [...pre, user]);
     } catch (error) {
       dispatch(
         setMessage({
@@ -62,6 +57,42 @@ const Task = () => {
       );
     }
   };
+  const handleReporterChange =()=>{
+
+  }
+  const handleAssigneeChange =()=>{
+    
+  }
+  const handleMemberRemove = async(member)=>{
+    try {
+     let response = await removeMember(id, member)
+    !response?.ok && dispatch(
+      setMessage({
+        notificationType: "error",
+        message: response?.message,
+      })
+    );
+    response?.ok && dispatch(
+      setMessage({
+        notificationType: "success",
+        message: response?.message,
+      })
+    )
+    if(response?.ok){
+      let updatedMember = membersDetail?.filter(e=>e?._id !== member?._id)
+      setMembersDetail(updatedMember)
+    }
+
+
+    } catch (error) {
+      dispatch(
+        setMessage({
+          notificationType: "error",
+          message: error?.message,
+        })
+      );
+    }
+  }
 
   useEffect(() => {
     (async function () {
@@ -86,14 +117,11 @@ const Task = () => {
         );
       }
     })();
-    
   }, []);
 
-  useEffect(()=>{
-    fetchDataForAllUsersConcurrently()
-  },[task])
-
-
+  useEffect(() => {
+    task?.people?.length >= 1 && fetchDataForAllUsersConcurrently();
+  }, [task]);
 
   return (
     <div className="taskContainer">
@@ -103,9 +131,14 @@ const Task = () => {
         <div className="addedMembers">
           <h3>Members</h3>
           <div className="members">
-          {membersDetail?.map((member, index) => {
-            return <Avatar key={index} name={member?.name} size="30px" />;
-          })}
+            {membersDetail?.map((member, index) => {
+              return (
+                <div>
+                  <Avatar key={index} name={member?.name} size="30px" />
+                  <img onClick={()=>handleMemberRemove(member)} src={RemoveIcon} alt="remove" />
+                </div>
+              )
+            })}
           </div>
         </div>
         <div className="addMember">
@@ -117,14 +150,7 @@ const Task = () => {
             <div className="results">
               {foundUsers?.map((user, index) => {
                 return (
-                  <div
-                    key={index}
-                    className="result"
-                    onClick={() => handleAddMember(user)}
-                  >
-                    <Avatar name={user?.name} size="30px" />
-                    <span>{user?.name}</span>
-                  </div>
+                  <IconAndName user={user} membersDetail={membersDetail} handleClick={handleAddMember}  key={index} name={user?.name} />
                 );
               })}
             </div>
@@ -143,8 +169,8 @@ const Task = () => {
             </div>
             {changeReporter && (
               <div className="members">
-                {membersDetail?.map((member, index)=>{
-                  return <IconAndName key={index} name={member?.name}/>
+                {membersDetail?.map((member, index) => {
+                  return <IconAndName  user={member} handleClick={handleReporterChange} key={index} name={member?.name} />;
                 })}
               </div>
             )}
@@ -162,8 +188,8 @@ const Task = () => {
             </div>
             {changeAssignee && (
               <div className="members">
-                 {membersDetail?.map((member, index)=>{
-                  return <IconAndName key={index} name={member?.name}/>
+                {membersDetail?.map((member, index) => {
+                  return <IconAndName user={member} handleClick={handleAssigneeChange} key={index} name={member?.name} />;
                 })}
               </div>
             )}

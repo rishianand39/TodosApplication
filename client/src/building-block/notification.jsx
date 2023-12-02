@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Alert from '@mui/material/Alert';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { clearMessage } from '../redux/notificationSlice';
-import { AlertTitle } from '@mui/material';
 
 const Notification = () => {
   const state = useSelector((state) => state.notification);
@@ -12,16 +12,24 @@ const Notification = () => {
     dispatch(clearMessage());
   };
 
-  return state?.message ? (
-    <Alert
-      severity={state?.notificationType} // (info, success, error, warning)
-      onClose={handleClose}
-      sx={{ position: 'fixed', right: 40, bottom : 35, zIndex: 9999 }}
-    >
-      <AlertTitle>{state?.notificationType}</AlertTitle>
-      {state?.message}
-    </Alert>
-  ): null;
+  useEffect(() => {
+    if (state?.message) {
+      toast[state.notificationType](state.message, {
+        position: 'bottom-right',
+        autoClose: 3000, 
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
+  }, [state?.message, state.notificationType]);
+
+  return (
+    <div>
+      <ToastContainer />
+    </div>
+  );
 };
 
 export default Notification;

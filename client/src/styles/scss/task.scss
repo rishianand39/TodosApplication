@@ -7,6 +7,23 @@
         display: flex;
         align-items: center;
         gap : 10px;
+        div{
+          position: relative;
+          img{
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+            position: absolute;
+            right: -7px;
+            top: -5px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: none;
+          }
+          &:hover > img{
+            display: block;
+          }
+        }
       }
     }
     .addMember {
@@ -64,6 +81,8 @@
       }
       .members {
         width: 10rem;
+        max-height: 156px;
+        overflow: auto;
         position: absolute;
         top: 40px;
         left: -8px;
