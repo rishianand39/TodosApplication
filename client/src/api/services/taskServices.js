@@ -81,3 +81,25 @@ export const addMember = async (taskId, user) => {
     return userData;
   } catch (error) {}
 };
+
+export const removeMember = async (taskId, user) => {
+  try {
+    const response = await fetch(`${API_GATEWAY_BASE_URL}/task/remove-member/${taskId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: 'include',
+      body : JSON.stringify({
+        memberToRemove : user
+      })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      return errorData
+    }
+    const userData = await response.json();
+    return userData;
+  } catch (error) {}
+};
