@@ -10,7 +10,7 @@ import Avatars from "../building-block/avatars";
 import { useParams } from "react-router-dom";
 import { setMessage } from "../redux/notificationSlice";
 import { useDispatch } from "react-redux";
-import { addMember, fetchTaskById, removeMember } from "../api/services/taskServices";
+import { addMember, fetchTaskById, removeMember, updateTask } from "../api/services/taskServices";
 import { fetchUserData, findMember } from "../api/services/userServices";
 import IconAndName from "../building-block/iconAndName";
 import RemoveIcon from "../assets/outlineremove.gif";
@@ -22,6 +22,8 @@ const Task = () => {
   const [changeAssignee, setChangeAssignee] = useState(false);
   const [foundUsers, setFoundUsers] = useState(false);
   const [membersDetail, setMembersDetail] = useState([]);
+  const [assignee, setAssignee] = useState(null)
+  const [reporter, setReporter] = useState(null)
   const commentRef = useRef();
   const dispatch = useDispatch();
   const saveComment = async () => {};
@@ -57,11 +59,28 @@ const Task = () => {
       );
     }
   };
-  const handleReporterChange =()=>{
+
+  const handleReporterChange =(user)=>{
 
   }
-  const handleAssigneeChange =()=>{
-    
+  const handleAssigneeChange =async(user)=>{
+    try {
+      let response = await updateTask(id)
+      dispatch(
+        setMessage({
+          notificationType: response?.ok ? "success" : "error",
+          message: response?.message,
+        })
+      );
+      response?.ok && setAssignee(user)
+    } catch (error) {
+      dispatch(
+        setMessage({
+          notificationType: "error",
+          message: error?.message,
+        })
+      );
+    }
   }
   const handleMemberRemove = async(member)=>{
     try {

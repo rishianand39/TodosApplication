@@ -103,3 +103,23 @@ export const removeMember = async (taskId, user) => {
     return userData;
   } catch (error) {}
 };
+
+export const updateTask = async (taskId, body) => {
+  try {
+    const response = await fetch(`${API_GATEWAY_BASE_URL}/task/update/${taskId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: 'include',
+      body : JSON.stringify(body)
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      return errorData
+    }
+    const userData = await response.json();
+    return userData;
+  } catch (error) {}
+};

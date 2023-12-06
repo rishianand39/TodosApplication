@@ -1,4 +1,3 @@
-const authenticateToken = require("../middlewares/tokenAuthenticator");
 const authenticateSession= require("../middlewares/sessionAuthenticator")
 const {Task, Comment} = require("../models/task.model");
 const mongoose = require("mongoose")
@@ -110,7 +109,7 @@ router.patch("/update/:taskId", authenticateSession, async (req, res) => {
     let task = await Task.findById(req.params.taskId);
     if (!task) {
       return res.status(404).json({
-        ok : true,
+        ok : false,
         status : 404,
         message : "Task doesn't exist in our database"
       });
@@ -128,7 +127,7 @@ router.patch("/update/:taskId", authenticateSession, async (req, res) => {
       });
     } else {
       return res.status(400).json({
-        ok : true,
+        ok : false,
         status : 400,
         message : "Task updation failed"
       });
