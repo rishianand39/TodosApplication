@@ -123,3 +123,26 @@ export const updateTask = async (taskId, body) => {
     return userData;
   } catch (error) {}
 };
+
+
+export const addComment = async (taskId, commentText) => {
+  try {
+    const response = await fetch(`${API_GATEWAY_BASE_URL}/task/${taskId}/comment`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: 'include',
+      body : JSON.stringify({
+        comment : commentText
+      })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      return errorData
+    }
+    const userData = await response.json();
+    return userData;
+  } catch (error) {}
+};
