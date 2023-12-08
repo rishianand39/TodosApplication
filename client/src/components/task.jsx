@@ -10,7 +10,7 @@ import Avatars from "../building-block/avatars";
 import { useParams } from "react-router-dom";
 import { setMessage } from "../redux/notificationSlice";
 import { useDispatch } from "react-redux";
-import { addMember, fetchTaskById, removeMember, updateTask } from "../api/services/taskServices";
+import { addComment, addMember, fetchTaskById, removeMember, updateTask } from "../api/services/taskServices";
 import { fetchUserData, findMember } from "../api/services/userServices";
 import IconAndName from "../building-block/iconAndName";
 import RemoveIcon from "../assets/outlineremove.gif";
@@ -22,11 +22,11 @@ const Task = () => {
   const [changeAssignee, setChangeAssignee] = useState(false);
   const [foundUsers, setFoundUsers] = useState(false);
   const [membersDetail, setMembersDetail] = useState([]);
+  const [comments, setComments] = useState([])
   const [assignee, setAssignee] = useState(null)
   const [reporter, setReporter] = useState(null)
   const commentRef = useRef();
   const dispatch = useDispatch();
-  const saveComment = async () => {};
 
   const handleFindMember = async (searchText) => {
     let users = await findMember(searchText);
@@ -113,10 +113,61 @@ const Task = () => {
     }
   }
 
+  const handleAddComponent = async(commentText)=>{
+    try {
+      let response = await addComment(id, commentRef?.current?.value)
+     !response?.ok && dispatch(
+       setMessage({
+         notificationType: "error",
+         message: response?.message,
+       })
+     );
+     response?.ok && dispatch(
+       setMessage({
+         notificationType: "success",
+         message: response?.message,
+       })
+     )
+ 
+     } catch (error) {
+       dispatch(
+         setMessage({
+           notificationType: "error",
+           message: error?.message,
+         })
+       );
+     }
+     setAddCommentActive(false)
+  }
+
   useEffect(() => {
     (async function () {
       try {
         let task = await fetchTaskById(id);
+        if (task?.ok) {
+          setTask(task?.data);
+        } else {
+          dispatch(
+            setMessage({
+              notificationType: "error",
+              message: task?.message,
+            })
+          );
+        }
+      } catch (error) {
+        dispatch(
+          setMessage({
+            notificationType: "error",
+            message: error?.message,
+          })
+        );
+      }
+    })();
+  }, []);
+  useEffect(() => {
+    (async function () {
+      try {
+        let task
         if (task?.ok) {
           setTask(task?.data);
         } else {
@@ -241,7 +292,7 @@ const Task = () => {
           <Avatar />
           <div>
             {addCommentActive ? (
-              <TextArea placeholder="Add a comment" commentRef={commentRef} />
+              <TextArea placeholder="Add a comment" commentRef={commentRef}/>
             ) : (
               <input
                 type="text"
@@ -252,16 +303,16 @@ const Task = () => {
 
             {addCommentActive && (
               <div className="btnHolder">
-                <SaveBtn saveComment={saveComment} />
+                <SaveBtn handleSumbit={handleAddComponent}/>
                 <CancelBtn cancel={setAddCommentActive} />
               </div>
             )}
           </div>
         </div>
         <div className="comments">
-          <Comment comment="Header controller first layer functionality implemented " />
-          <Comment comment="Header controller first layer functionality implemented " />
-          <Comment comment="Header controller first layer functionality implemented " />
+          {comments?.map((comment, index)=>{
+            return (<Comment comment="Header controller first layer functionality implemented " />)
+          })}
         </div>
       </div>
     </div>

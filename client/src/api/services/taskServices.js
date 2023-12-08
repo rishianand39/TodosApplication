@@ -146,3 +146,22 @@ export const addComment = async (taskId, commentText) => {
     return userData;
   } catch (error) {}
 };
+
+export const fetchAllComponents = async (taskId) => {
+  try {
+    const response = await fetch(`${API_GATEWAY_BASE_URL}/task/${taskId}/comment`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      return errorData
+    }
+    const userData = await response.json();
+    return userData;
+  } catch (error) {}
+};
