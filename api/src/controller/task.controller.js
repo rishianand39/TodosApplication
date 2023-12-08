@@ -256,7 +256,6 @@ router.patch("/invite/:taskId", authenticateSession, async(req,res)=>{
 
 // -------------ADD COMMENT IN TASK---------//
 router.post("/:taskId/comment", authenticateSession, async(req,res)=>{
-
   try {
     
     if(!mongoose.Types.ObjectId.isValid(req.params.taskId)){
@@ -278,7 +277,7 @@ router.post("/:taskId/comment", authenticateSession, async(req,res)=>{
 
     }
  
-    if(!mongoose.Types.ObjectId.isValid(req.user.user._id)){
+    if(!mongoose.Types.ObjectId.isValid(req.session.user._id)){
       return res.status(400).json({
         ok :true,
         status : 400,
@@ -287,7 +286,7 @@ router.post("/:taskId/comment", authenticateSession, async(req,res)=>{
     }
 
     const newComment = new Comment({
-      userId : req.user._id,
+      userId : req.session.user._id,
       comment : req.body.comment
     })
 
