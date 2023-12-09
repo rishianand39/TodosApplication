@@ -3,10 +3,10 @@ import "../styles/scss/navbar.scss";
 import { NavLink } from "react-router-dom";
 import Search from "../building-block/search";
 import { useSelector } from "react-redux";
-
+import Avatar from "../building-block/avatar";
 const Navbar = () => {
   // eslint-disable-next-line
-  const user = useSelector((state) => state.user);
+  const currentUser = useSelector((state) => state.user?.currentUser);
 
   return (
     <div className="navbar">
@@ -15,11 +15,18 @@ const Navbar = () => {
           <span>Task Manager</span>
         </NavLink>
       </div>
-      <Search placeholder="Search task..." />
+      {currentUser && <Search placeholder="Search task..." />}
       <div className="auth">
-        <NavLink to="/auth" className="link">
-          <button>Login</button>
-        </NavLink>
+        {currentUser ? (
+          <div className="profileContainer">
+            <Avatar size="35px" name ={currentUser?.user?.name}/>
+            <span>Profile</span>
+            </div>
+        ) : (
+          <NavLink to="/auth" className="link">
+            <button>Login</button>
+          </NavLink>
+        )}
       </div>
     </div>
   );

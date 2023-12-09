@@ -19,6 +19,12 @@
     }
   }
   .auth {
+    .profileContainer{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
     button {
       cursor: pointer;
       padding: 8px 25px;
