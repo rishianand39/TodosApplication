@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import "../styles/scss/navbar.scss";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Search from "../building-block/search";
 import { useSelector } from "react-redux";
 import Avatar from "../building-block/avatar";
 const Navbar = () => {
   // eslint-disable-next-line
+  const navigate = useNavigate()
   const currentUser = useSelector((state) => state.user?.currentUser);
 
   return (
@@ -18,7 +19,7 @@ const Navbar = () => {
       {currentUser && <Search placeholder="Search task..." />}
       <div className="auth">
         {currentUser ? (
-          <div className="profileContainer">
+          <div onClick={()=>navigate("/profile")} className="profileContainer">
             <Avatar size="35px" name ={currentUser?.user?.name}/>
             <span>Profile</span>
             </div>
