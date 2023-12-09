@@ -1,7 +1,7 @@
 import React from "react";
 import { AvatarIcon } from "../styles/styled-components/container";
 
-const Avatar = ({ size , name="Gest User"}) => {
+const Avatar = ({ size , name="Guest User"}) => {
   let Icon = name?.split(" ")
   return (
     <AvatarIcon size={size} >

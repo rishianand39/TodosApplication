@@ -9,13 +9,14 @@ import Search from "../building-block/search";
 import Avatars from "../building-block/avatars";
 import { useParams } from "react-router-dom";
 import { setMessage } from "../redux/notificationSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addComment, addMember, fetchTaskById, removeMember, updateTask } from "../api/services/taskServices";
 import { fetchUserData, findMember } from "../api/services/userServices";
 import IconAndName from "../building-block/iconAndName";
 import RemoveIcon from "../assets/outlineremove.gif";
 const Task = () => {
   const { id } = useParams();
+  const currentUser = useSelector(store=>store?.user?.currentUser)
   const [task, setTask] = useState(null);
   const [addCommentActive, setAddCommentActive] = useState(false);
   const [changeReporter, setChangeReporter] = useState(false);
@@ -289,7 +290,7 @@ const Task = () => {
       <div className="right">
         <h3>Activity</h3>
         <div className="addComment">
-          <Avatar />
+          <Avatar  size="40px" name={currentUser?.user?.name}/>
           <div>
             {addCommentActive ? (
               <TextArea placeholder="Add a comment" commentRef={commentRef}/>
