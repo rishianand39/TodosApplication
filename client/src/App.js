@@ -10,6 +10,7 @@ import Task from "./components/task"
 import Notification from "./building-block/notification";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import Profile from "./pages/profile";
 
 
 function App() {
@@ -54,6 +55,10 @@ function App() {
         {
           path: "/",
           element: <Main />,
+        },
+        {
+          path: "/profile",
+          element: <Profile />,
         },
         {
           path: "/auth",
