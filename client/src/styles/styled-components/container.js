@@ -21,3 +21,39 @@ export const AvatarIcon = styled.div`
   color: white;
   border-radius: 50%;
 `;
+
+export const ProfileAvatar = styled.div`
+  width: 120px;
+  height: 120px;
+  position: absolute;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 12vh;
+  border-radius: 50%;
+  background-color: #42526e;
+  background-image: url('https://avatars.githubusercontent.com/u/97423069?v=4');
+  background-size: cover;
+  & .icon{
+    width: 25px;
+    height: 25px;
+    padding: 4px;
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    background-color: #7f7cdf;
+    border-radius: 50%;
+    color: white;
+  }
+`;
+
+export const Button = styled.button`
+  background-color: #817cdf !important; 
+  color: white;
+  padding: 5px 8px;
+  border-radius: 3px;
+  border: none;
+  cursor: pointer;
+  width: ${(props)=>props?.width};
+  aspect-ratio: 5/1;
+`
