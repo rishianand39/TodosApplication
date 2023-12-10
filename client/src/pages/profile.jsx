@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Input from '../building-block/Input';
 import "../styles/scss/profile.scss";
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import ProfileImage from '../building-block/profileImage';
+import SaveBtn from '../building-block/saveBtn';
 const Profile = () => {
+  const [coverImage, setCoverImage] = useState(null)
+
   return (
     <div className='profileContainer'>
       <div className='cover'>
@@ -12,8 +16,20 @@ const Profile = () => {
           <span>Change Cover</span>
           <input type="file" name="" id="" />
         </div>
+        <ProfileImage />
       </div>
+      <div className='updateFields'>
       <Input label="Name" inputType="text"/>
+      <Input label="Email" inputType="email"/>
+      <Input label="Phone" inputType="number"/>
+      <Input label="City" inputType="text"/>
+      <Input label="Country" inputType="text"/>
+      </div>
+      <div className='update'>
+
+      <SaveBtn width="150px" text="Update" />
+      </div>
+      
     </div>
   )
 }

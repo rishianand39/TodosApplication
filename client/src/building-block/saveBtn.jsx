@@ -1,10 +1,10 @@
 import React from 'react'
-import "../styles/scss/saveBtn.scss"
+import { Button } from '../styles/styled-components/container'
 
-const SaveBtn = ({handleSumbit}) => {
+const SaveBtn = ({handleSumbit, width, text}) => {
   return (
     <>
-       <button className="saveBtn" onClick={()=>handleSumbit()}>Save</button>
+       <Button width={width} onClick={()=>handleSumbit()}>{text? text : "Save"}</Button>
     </>
   )
 }
