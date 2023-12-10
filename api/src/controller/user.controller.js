@@ -92,7 +92,7 @@ router.patch("/resetpassword", async (req, res) => {
 });
 
 // ------------ UPDATE PROFILE------------//
-router.patch("/update/:userid", async (req, res) => {
+router.patch("/update/:userid", authenticateSession, async (req, res) => {
   try {
     if (!mongoose.Types.ObjectId.isValid(req.params.userid)) {
       return res.status(400).json({
@@ -126,7 +126,11 @@ router.patch("/update/:userid", async (req, res) => {
       });
     }
   } catch (error) {
-    res.status(400).json(error);
+    res.status(500).json({
+      ok : false,
+      status : 500,
+      message : error
+    });
   }
 });
 
