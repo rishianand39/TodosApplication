@@ -34,9 +34,7 @@ export const ProfileAvatar = styled.div`
   background-color: #42526e;
   background-image: url('https://avatars.githubusercontent.com/u/97423069?v=4');
   background-size: cover;
-  & .icon{
-    width: 25px;
-    height: 25px;
+  & .cameraIconContainer{
     padding: 4px;
     position: absolute;
     right: 5px;
@@ -44,6 +42,15 @@ export const ProfileAvatar = styled.div`
     background-color: #7f7cdf;
     border-radius: 50%;
     color: white;
+    width: 25px;
+    height: 25px;
+  }
+  & .icon{
+    width:100%;
+    height:100%;
+  }
+  input{
+    display :none;
   }
 `;
 

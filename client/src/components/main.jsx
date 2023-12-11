@@ -76,9 +76,9 @@ const Main = () => {
         <div className="taskCards">
           {tasks?.splice(0, 3)?.map((task, index) => {
             return (
-              <NavLink key={index} to={`task/${task?._id}`} className="link">
+              // <NavLink key={index} to={`task/${task?._id}`} className="link">
                 <TaskCard {...task} />
-              </NavLink>
+              // </NavLink> 
             );
           })}
           <Stack spacing={2}>

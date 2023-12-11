@@ -6,7 +6,12 @@ import CameraAltIcon from '@mui/icons-material/CameraAlt';
 const ProfileImage = () => {
   return (
     <ProfileAvatar>
-        <CameraAltIcon className='icon'/>
+      <div className='cameraIconContainer'>
+      <label htmlFor="file">
+        <CameraAltIcon className='icon' />
+        </label>
+        <input type="file" id='file' />
+      </div>
     </ProfileAvatar>
   )
 }
