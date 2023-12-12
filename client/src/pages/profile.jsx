@@ -5,7 +5,27 @@ import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import ProfileImage from "../building-block/profileImage";
 import SaveBtn from "../building-block/saveBtn";
 const Profile = () => {
-  const [coverImage, setCoverImage] = useState(null);
+  const [updatedUserDetails, setUpdatedUserDetails] = useState({
+    name : '',
+    email : '',
+    phone : '',
+    city : '',
+    country : '',
+    avatar : '',
+    coverImage : ''
+  });
+  const handleInputField = (event)=>{
+    setUpdatedUserDetails(pre=>{
+      return {
+        ...pre,
+        [event.target.name] : event.target.value 
+      }
+    })
+  }
+  const handleImageUpload = (event)=>{
+
+  }
+
 
   return (
     <div className="profileContainer">
@@ -19,16 +39,16 @@ const Profile = () => {
             <CameraAltIcon />
             <span>Change Cover</span>
           </label>
-          <input type="file" id="coverUpload" />
+          <input type="file" name="coverImage" id="coverUpload" onChange={handleImageUpload}/>
         </div>
-        <ProfileImage />
+        <ProfileImage handleImageUpload = {handleImageUpload}/>
       </div>
       <div className="updateFields">
-        <Input label="Name" inputType="text" />
-        <Input label="Email" inputType="email" />
-        <Input label="Phone" inputType="number" />
-        <Input label="City" inputType="text" />
-        <Input label="Country" inputType="text" />
+        <Input label="Name" inputType="text" handleInput={handleInputField} />
+        <Input label="Email" inputType="email" handleInput={handleInputField}/>
+        <Input label="Phone" inputType="number" handleInput={handleInputField}/>
+        <Input label="City" inputType="text" handleInput={handleInputField}/>
+        <Input label="Country" inputType="text" handleInput={handleInputField}/>
       </div>
       <div className="update">
         <SaveBtn width="150px" text="Update" />
