@@ -27,6 +27,7 @@ const Main = () => {
     location.search == "" && setPage(1);
   }, [location.search]);
   
+  
   useEffect(() => {
     (async function fetchAllTasks() {
       try {
@@ -52,6 +53,7 @@ const Main = () => {
       }
     })();
   }, [openTaskModal, searchParams]);
+
 
   return (
     <div className="main">

@@ -32,7 +32,7 @@ export const ProfileAvatar = styled.div`
   top: 12vh;
   border-radius: 50%;
   background-color: #42526e;
-  background-image: url('https://avatars.githubusercontent.com/u/97423069?v=4');
+  background-image:${props => `url(${props?.image})`};
   background-size: cover;
   & .cameraIconContainer{
     padding: 4px;
