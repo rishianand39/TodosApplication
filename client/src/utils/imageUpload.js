@@ -1,21 +1,20 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+import { getStorage, ref } from "firebase/storage";
 const firebaseConfig = {
-  apiKey: "AIzaSyC6P9a1269Ffr_317Cv6zvCZbOXFBaHDhI",
-  authDomain: "imageupload-35cc9.firebaseapp.com",
-  projectId: "imageupload-35cc9",
-  storageBucket: "imageupload-35cc9.appspot.com",
-  messagingSenderId: "840886184794",
-  appId: "1:840886184794:web:3f3b13dcbad5a3b683e163",
-  measurementId: "G-PY4J2F183R"
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_AUTH_DOMAIN,
+  projectId: process.env.REACT_PROJECT_ID,
+  storageBucket: process.env.REACT_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_ID,
+  measurementId: process.env.REACT_MEASUREMENT_ID
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+
+
+// Get a reference to the storage service, which is used to create references in your storage bucket
+const storage = getStorage();
+
+// Create a storage reference from our storage service
+export const storageRef = ref(storage, "taskManagerImages");

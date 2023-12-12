@@ -4,28 +4,28 @@ import "../styles/scss/profile.scss";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import ProfileImage from "../building-block/profileImage";
 import SaveBtn from "../building-block/saveBtn";
+import { storageRef } from "../utils/imageUpload";
 const Profile = () => {
   const [updatedUserDetails, setUpdatedUserDetails] = useState({
-    name : '',
-    email : '',
-    phone : '',
-    city : '',
-    country : '',
-    avatar : '',
-    coverImage : ''
+    name: "",
+    email: "",
+    phone: "",
+    city: "",
+    country: "",
+    avatar: "",
+    coverImage: "",
   });
-  const handleInputField = (event)=>{
-    setUpdatedUserDetails(pre=>{
+  const handleInputField = (event) => {
+    setUpdatedUserDetails((pre) => {
       return {
         ...pre,
-        [event.target.name] : event.target.value 
-      }
-    })
-  }
-  const handleImageUpload = (event)=>{
-
-  }
-
+        [event.target.name]: event.target.value,
+      };
+    });
+  };
+  const handleImageUpload = (event) => {
+    console.log(storageRef);
+  };
 
   return (
     <div className="profileContainer">
@@ -39,16 +39,29 @@ const Profile = () => {
             <CameraAltIcon />
             <span>Change Cover</span>
           </label>
-          <input type="file" name="coverImage" id="coverUpload" onChange={handleImageUpload}/>
+          <input
+            type="file"
+            name="coverImage"
+            id="coverUpload"
+            onChange={handleImageUpload}
+          />
         </div>
-        <ProfileImage handleImageUpload = {handleImageUpload}/>
+        <ProfileImage handleImageUpload={handleImageUpload} />
       </div>
       <div className="updateFields">
         <Input label="Name" inputType="text" handleInput={handleInputField} />
-        <Input label="Email" inputType="email" handleInput={handleInputField}/>
-        <Input label="Phone" inputType="number" handleInput={handleInputField}/>
-        <Input label="City" inputType="text" handleInput={handleInputField}/>
-        <Input label="Country" inputType="text" handleInput={handleInputField}/>
+        <Input label="Email" inputType="email" handleInput={handleInputField} />
+        <Input
+          label="Phone"
+          inputType="number"
+          handleInput={handleInputField}
+        />
+        <Input label="City" inputType="text" handleInput={handleInputField} />
+        <Input
+          label="Country"
+          inputType="text"
+          handleInput={handleInputField}
+        />
       </div>
       <div className="update">
         <SaveBtn width="150px" text="Update" />
