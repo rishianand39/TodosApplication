@@ -3,9 +3,9 @@ import {ProfileAvatar} from "../styles/styled-components/container"
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 
 
-const ProfileImage = ({handleImageUpload}) => {
+const ProfileImage = ({handleImageUpload, image}) => {
   return (
-    <ProfileAvatar>
+    <ProfileAvatar image={image}>
       <div className='cameraIconContainer'>
       <label htmlFor="file">
         <CameraAltIcon className='icon' />

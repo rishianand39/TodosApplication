@@ -1,11 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "../building-block/Input";
 import "../styles/scss/profile.scss";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import ProfileImage from "../building-block/profileImage";
 import SaveBtn from "../building-block/saveBtn";
-import { storageRef } from "../utils/imageUpload";
+import {
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
+import { storage } from "../utils/imageUpload";
+import { fetchUserData } from "../api/services/userServices";
+import { useDispatch } from "react-redux";
+import { setMessage } from "../redux/notificationSlice";
+import { useParams } from "react-router-dom";
+
 const Profile = () => {
+  const { id } = useParams();
+  const dispatch = useDispatch()
   const [updatedUserDetails, setUpdatedUserDetails] = useState({
     name: "",
     email: "",
@@ -24,16 +36,110 @@ const Profile = () => {
     });
   };
   const handleImageUpload = (event) => {
-    console.log(storageRef);
+    const metadata = {
+      contentType: "image/jpeg",
+    };
+    const storageRef = ref(
+      storage,
+      "taskManagerImages/" + event.target.files[0].name
+    );
+    const uploadTask = uploadBytesResumable(
+      storageRef,
+      event.target.files[0],
+      metadata
+    );
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+        }
+      },
+      (error) => {
+        // A full list of error codes is available at
+        // https://firebase.google.com/docs/storage/web/handle-errors
+        switch (error.code) {
+          case "storage/unauthorized":
+            console.log("storage/unauthorized");
+            // User doesn't have permission to access the object
+            break;
+          case "storage/canceled":
+            console.log("storage/canceled");
+
+            // User canceled the upload
+            break;
+
+          // ...
+
+          case "storage/unknown":
+            console.log("storage/unknown");
+
+            // Unknown error occurred, inspect error.serverResponse
+            break;
+        }
+      },
+      () => {
+        // Upload completed successfully, now we can get the download URL
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setUpdatedUserDetails((pre) => {
+            return {
+              ...pre,
+              [event.target.name]: downloadURL,
+            };
+          });
+        });
+      }
+    );
   };
+
+  useEffect(() => {
+    (async function () {
+      try {
+        let user = await fetchUserData(id);
+        console.log(user, "user")
+        if (user?.ok) {
+          updatedUserDetails({
+            name: user.data?.name,
+            email: user.data?.email,
+            phone: user.data?.phone,
+            city: user.data?.city,
+            country: user.data?.country,
+            avatar: user.data?.avatar,
+            coverImage: user.data?.coverImage,
+          });
+        } else {
+          dispatch(
+            setMessage({
+              notificationType: "error",
+              message: user?.message,
+            })
+          );
+        }
+      } catch (error) {
+        dispatch(
+          setMessage({
+            notificationType: "error",
+            message: error?.message,
+          })
+        );
+      }
+    })();
+  }, []);
 
   return (
     <div className="profileContainer">
       <div className="cover">
-        <img
-          src="https://images.unsplash.com/photo-1701849484867-9058dc3964fc?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          alt=""
-        />
+        <img src={updatedUserDetails.coverImage} alt="" />
         <div className="upload">
           <label htmlFor="coverUpload">
             <CameraAltIcon />
@@ -46,7 +152,10 @@ const Profile = () => {
             onChange={handleImageUpload}
           />
         </div>
-        <ProfileImage handleImageUpload={handleImageUpload} />
+        <ProfileImage
+          image={updatedUserDetails?.avatar}
+          handleImageUpload={handleImageUpload}
+        />
       </div>
       <div className="updateFields">
         <Input label="Name" inputType="text" handleInput={handleInputField} />
