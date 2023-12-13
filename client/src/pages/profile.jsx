@@ -13,7 +13,10 @@ import { setMessage } from "../redux/notificationSlice";
 const Profile = () => {
   const currentUserDetails = useSelector((store) => store?.user?.info);
   const dispatch = useDispatch();
-  const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploadProgress, setUploadProgress] = useState({
+    coverImage : 0,
+    avatar : 0
+  });
   const [updatedUserDetails, setUpdatedUserDetails] = useState({
     name: "",
     email: "",
@@ -50,7 +53,9 @@ const Profile = () => {
       (snapshot) => {
         const progress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setUploadProgress(progress);
+        setUploadProgress(pre=>{
+          return {[event.target.name] : progress}
+        });
         console.log("Upload is " + progress + "% done");
         switch (snapshot.state) {
           case "paused":
@@ -128,7 +133,6 @@ const Profile = () => {
       coverImage: currentUserDetails?.coverImage,
     });
   }, [currentUserDetails]);
-  console.log(uploadProgress, "uploadprogress");
 
   return (
     <div className="profileContainer">
@@ -139,7 +143,7 @@ const Profile = () => {
         <div className="upload">
           <div
             style={{
-              width: `${uploadProgress}%`,
+              width: `${uploadProgress?.coverImage}%`,
               height: "100%",
               backgroundColor: "#4caf50",
               transition: "350ms width",

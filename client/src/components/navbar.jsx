@@ -19,7 +19,7 @@ const Navbar = () => {
       <div className="auth">
         {currentUser ? (
           <div onClick={()=>navigate("/profile")} className="profileContainer">
-            <Avatar size="35px" name ={currentUser?.name}/>
+            <Avatar size="35px" name ={currentUser?.name} image={currentUser?.avatar}/>
             <span>Profile</span>
             </div>
         ) : (
