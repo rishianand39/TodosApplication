@@ -18,7 +18,7 @@ export const handleSignIn = async (userInfo) => {
       const errorData = await response.json();
       return errorData
     }
-    const {token, ...res} = await response.json();
+    const res = await response.json();
     return res;
   } catch (error) {}
 };
@@ -83,10 +83,30 @@ export const fetchUserData = async (userId) => {
   } catch (error) {}
 };
 
-export const updateUserDetails = async () => {
+export const updateUserDetails = async (updateUserInfo) => {
   try {
     const response = await fetch(`${API_GATEWAY_BASE_URL}/user/update`, {
       method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: 'include',
+      body : JSON.stringify(updateUserInfo)
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      return errorData
+    }
+    const userData = await response.json();
+    return userData;
+  } catch (error) {}
+};
+
+export const getCurrentUserInfo = async () => {
+  try {
+    const response = await fetch(`${API_GATEWAY_BASE_URL}/user/profile`, {
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
       },

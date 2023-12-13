@@ -33,6 +33,18 @@ router.post("/signup", async (req, res) => {
   }
 });
 
+router.get('/profile', authenticateSession, (req, res) => {
+  const { password, updatedAt, createdAt, ...userWithoutSensitiveInfo } = req.session.user;
+
+  res.json({ 
+    data: userWithoutSensitiveInfo,
+    status : 200,
+    ok : true,
+    message : 'Authorized User'
+   });
+});
+
+
 // ----------SIGNIN USER--------------//
 router.post("/signin", async (req, res) => {
   try {
@@ -54,8 +66,10 @@ router.post("/signin", async (req, res) => {
 
     req.session.user=user;
     req.session.authorized = true;
+    const { password, updatedAt, createdAt, ...userWithoutSensitiveInfo } = user?._doc;
+
     return res.status(200).json({
-      user,
+      data : userWithoutSensitiveInfo,
       status:200,
       ok : true,
       message: "Logged In successfully",
@@ -102,10 +116,11 @@ router.patch("/update", authenticateSession, async (req, res) => {
         message : "User not found"
       });
     }
-
-    const result = await User.updateOne({ _id: req?.session?.user?._id }, req.body);
-
-    if (result.modifiedCount === 1) {
+    
+    
+    const result = await User.findOneAndUpdate({ _id: req?.session?.user?._id }, req.body, { new: true });
+    if (result) {
+      req.session.user = result;
       return res.status(200).json({
         ok : true,
         status: 200,

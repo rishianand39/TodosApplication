@@ -5,9 +5,8 @@ import Search from "../building-block/search";
 import { useSelector } from "react-redux";
 import Avatar from "../building-block/avatar";
 const Navbar = () => {
-  // eslint-disable-next-line
   const navigate = useNavigate()
-  const currentUser = useSelector((state) => state.user?.currentUser);
+  const currentUser = useSelector((state) => state.user?.info);
 
   return (
     <div className="navbar">
@@ -20,7 +19,7 @@ const Navbar = () => {
       <div className="auth">
         {currentUser ? (
           <div onClick={()=>navigate("/profile")} className="profileContainer">
-            <Avatar size="35px" name ={currentUser?.user?.name}/>
+            <Avatar size="35px" name ={currentUser?.name}/>
             <span>Profile</span>
             </div>
         ) : (

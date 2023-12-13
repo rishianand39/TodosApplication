@@ -66,7 +66,7 @@ const Auth = () => {
     try {
       let userData = await handleSignIn(signInInfo);
       if (userData?.ok) {
-        dispatch(setUser(userData));
+        dispatch(setUser(userData?.data));
         dispatch(setRedirect("/"));
         dispatch(
           setMessage({
