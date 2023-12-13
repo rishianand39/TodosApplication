@@ -33,6 +33,18 @@ router.post("/signup", async (req, res) => {
   }
 });
 
+router.get('/profile', authenticateSession, (req, res) => {
+  const { password, updatedAt, createdAt, ...userWithoutSensitiveInfo } = req.session.user;
+
+  res.json({ 
+    data: userWithoutSensitiveInfo,
+    status : 200,
+    ok : true,
+    message : 'Authorized User'
+   });
+});
+
+
 // ----------SIGNIN USER--------------//
 router.post("/signin", async (req, res) => {
   try {
@@ -54,8 +66,10 @@ router.post("/signin", async (req, res) => {
 
     req.session.user=user;
     req.session.authorized = true;
+    const { password, updatedAt, createdAt, ...userWithoutSensitiveInfo } = user?._doc;
+
     return res.status(200).json({
-      user,
+      data : userWithoutSensitiveInfo,
       status:200,
       ok : true,
       message: "Logged In successfully",

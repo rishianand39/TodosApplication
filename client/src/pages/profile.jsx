@@ -13,7 +13,7 @@ import { useParams } from "react-router-dom";
 
 const Profile = () => {
   const currentUserDetails = useSelector(
-    (store) => store?.user?.currentUser?.user
+    (store) => store?.user?.info
   );
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -103,40 +103,18 @@ const Profile = () => {
   const handleFormSubmit = (event) => {
     
   }
-
-  useEffect(() => {
-    (async function () {
-      try {
-        let user = await fetchUserData(currentUserDetails?._id);
-        if (user?.ok) {
-          setUpdatedUserDetails({
-            name: user.data?.name,
-            email: user.data?.email,
-            phone: user.data?.phone,
-            city: user.data?.city,
-            country: user.data?.country,
-            avatar: user.data?.avatar,
-            coverImage: user.data?.coverImage,
-          });
-        } else {
-          dispatch(
-            setMessage({
-              notificationType: "error",
-              message: user?.message,
-            })
-          );
-        }
-      } catch (error) {
-        dispatch(
-          setMessage({
-            notificationType: "error",
-            message: error?.message,
-          })
-        );
-      }
-    })();
-  }, []);
-
+  useEffect(()=>{
+    setUpdatedUserDetails({
+      name: currentUserDetails?.name,
+      email: currentUserDetails?.email,
+      phone: currentUserDetails?.phone,
+      city: currentUserDetails?.city,
+      country: currentUserDetails?.country,
+      avatar: currentUserDetails?.avatar,
+      coverImage: currentUserDetails?.coverImage,
+    })
+  },[currentUserDetails])
+  console.log(currentUserDetails)
   return (
     <div className="profileContainer">
       <div className="cover">
