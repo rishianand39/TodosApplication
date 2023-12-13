@@ -79,6 +79,25 @@ export const fetchUserData = async (userId) => {
       return errorData
     }
     const userData = await response.json();
-    return userData?.data;
+    return userData;
+  } catch (error) {}
+};
+
+export const updateUserDetails = async () => {
+  try {
+    const response = await fetch(`${API_GATEWAY_BASE_URL}/user/update`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      return errorData
+    }
+    const userData = await response.json();
+    return userData;
   } catch (error) {}
 };
