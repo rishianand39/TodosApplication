@@ -12,7 +12,6 @@ const IconAndName = ({ name, handleClick, user, membersDetail }) => {
       return member._id == user._id && setShowTick(true);
     });
   }, []);
-  console.log(user?._id, "mf")
 
 
   return (
@@ -30,7 +29,7 @@ const IconAndName = ({ name, handleClick, user, membersDetail }) => {
       setShowTick(true)
     }
     } >
-      <Avatar name={name} size="28px" />
+      <Avatar name={name} size="28px" image={user?.avatar} />
       <span>{name}</span>
       {showTick && <img className="tick" src={Tick} alt="tick" />}
     </div>
