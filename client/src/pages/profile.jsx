@@ -4,20 +4,19 @@ import "../styles/scss/profile.scss";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import ProfileImage from "../building-block/profileImage";
 import SaveBtn from "../building-block/saveBtn";
-import {
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-} from "firebase/storage";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../utils/imageUpload";
 import { fetchUserData } from "../api/services/userServices";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setMessage } from "../redux/notificationSlice";
 import { useParams } from "react-router-dom";
 
 const Profile = () => {
+  const currentUserDetails = useSelector(
+    (store) => store?.user?.currentUser?.user
+  );
   const { id } = useParams();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [updatedUserDetails, setUpdatedUserDetails] = useState({
     name: "",
     email: "",
@@ -101,14 +100,16 @@ const Profile = () => {
       }
     );
   };
+  const handleFormSubmit = (event) => {
+    
+  }
 
   useEffect(() => {
     (async function () {
       try {
-        let user = await fetchUserData(id);
-        console.log(user, "user")
+        let user = await fetchUserData(currentUserDetails?._id);
         if (user?.ok) {
-          updatedUserDetails({
+          setUpdatedUserDetails({
             name: user.data?.name,
             email: user.data?.email,
             phone: user.data?.phone,
@@ -139,7 +140,9 @@ const Profile = () => {
   return (
     <div className="profileContainer">
       <div className="cover">
-        <img src={updatedUserDetails.coverImage} alt="" />
+        {updatedUserDetails?.coverImage && (
+          <img src={updatedUserDetails.coverImage} alt="" />
+        )}
         <div className="upload">
           <label htmlFor="coverUpload">
             <CameraAltIcon />
@@ -158,17 +161,34 @@ const Profile = () => {
         />
       </div>
       <div className="updateFields">
-        <Input label="Name" inputType="text" handleInput={handleInputField} />
-        <Input label="Email" inputType="email" handleInput={handleInputField} />
+        <Input
+          label="Name"
+          inputType="text"
+          value={updatedUserDetails?.name}
+          handleInput={handleInputField}
+        />
+        <Input
+          label="Email"
+          inputType="email"
+          value={updatedUserDetails?.email}
+          handleInput={handleInputField}
+        />
         <Input
           label="Phone"
           inputType="number"
+          value={updatedUserDetails?.phone}
           handleInput={handleInputField}
         />
-        <Input label="City" inputType="text" handleInput={handleInputField} />
+        <Input
+          label="City"
+          inputType="text"
+          value={updatedUserDetails?.city}
+          handleInput={handleInputField}
+        />
         <Input
           label="Country"
           inputType="text"
+          value={updatedUserDetails?.country}
           handleInput={handleInputField}
         />
       </div>

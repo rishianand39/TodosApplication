@@ -92,16 +92,9 @@ router.patch("/resetpassword", async (req, res) => {
 });
 
 // ------------ UPDATE PROFILE------------//
-router.patch("/update/:userid", authenticateSession, async (req, res) => {
+router.patch("/update", authenticateSession, async (req, res) => {
   try {
-    if (!mongoose.Types.ObjectId.isValid(req.params.userid)) {
-      return res.status(400).json({
-        ok : false, 
-        status : 404,
-        message : "Invalid User Id"
-      });
-    }
-    const existingUser = await User.findById(req.params.userid);
+    const existingUser = await User.findById(req?.session?.user?._id);
     if (!existingUser) {
       return res.status(404).json({
         ok : false, 
@@ -110,7 +103,7 @@ router.patch("/update/:userid", authenticateSession, async (req, res) => {
       });
     }
 
-    const result = await User.updateOne({ _id: req.params.userid }, req.body);
+    const result = await User.updateOne({ _id: req?.session?.user?._id }, req.body);
 
     if (result.modifiedCount === 1) {
       return res.status(200).json({
