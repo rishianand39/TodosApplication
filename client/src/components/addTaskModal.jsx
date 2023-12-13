@@ -59,6 +59,7 @@ const AddTaskModal = ({ isOpen, closeModal }) => {
         notificationType : 'success',
         message : taskResponse?.message
       }))
+
      }else{
       dispatch(setMessage({
         notificationType : 'error',
@@ -72,7 +73,6 @@ const AddTaskModal = ({ isOpen, closeModal }) => {
         message : error?.message
       }))
     }
-    closeModal(false)
     setTaskInfo({
       title : "",
       description : "",
@@ -81,8 +81,9 @@ const AddTaskModal = ({ isOpen, closeModal }) => {
       tags : tags,
       taskType : ""
     })
+    closeModal(false)
   }
-
+console.log(taskInfo, "taskingo")
   return (
     <div className={`modalWrapper ${isOpen ? "open" : "close"}`}>
       <div className="modalBody">

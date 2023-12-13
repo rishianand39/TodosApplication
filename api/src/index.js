@@ -9,7 +9,7 @@ require("dotenv").config();
 var MongoDBStore = require("connect-mongodb-session")(session);
 var store = new MongoDBStore({
   uri: process.env.MONGO_URI,
-  collection: "Sessions",
+  collection: "sessions",
 });
 
 store.on("error", function (error) {

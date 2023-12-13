@@ -18,7 +18,7 @@ const Main = () => {
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   let [searchParams, setSearchParams] = useSearchParams();
-  const handleChange = (event, value) => {
+  const handleChange = (value) => {
     setSearchParams({ page: value });
     setPage(value);
   };
@@ -27,7 +27,7 @@ const Main = () => {
     location.search == "" && setPage(1);
   }, [location.search]);
   
-  
+  console.log(tasks, "taskd")
   useEffect(() => {
     (async function fetchAllTasks() {
       try {
@@ -53,6 +53,7 @@ const Main = () => {
       }
     })();
   }, [openTaskModal, searchParams]);
+  console.log(tasks, "fiwe")
 
 
   return (
@@ -76,17 +77,18 @@ const Main = () => {
         </div>
         <Tabs />
         <div className="taskCards">
-          {tasks?.splice(0, 3)?.map((task, index) => {
+          {tasks?.map((task, index) => {
             return (
               // <NavLink key={index} to={`task/${task?._id}`} className="link">
-                <TaskCard {...task} />
+                <TaskCard key={index} {...task} />
               // </NavLink> 
             );
           })}
-          <Stack spacing={2}>
+          {tasks?.length == 0 ? <div className="noTask">No Task Found!</div> : null}
+          {tasks?.length > 3 && <Stack spacing={2}>
             <Typography>Page: {page}</Typography>
             <Pagination count={10} page={page} onChange={handleChange} />
-          </Stack>
+          </Stack>}
         </div>
       </div>
       <div className="right"></div>

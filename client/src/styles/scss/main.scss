@@ -39,9 +39,10 @@
       display: flex;
       flex-direction: column;
       height: 50%;
-      // overflow: hidden;
+      .noTask{
+        margin: auto;
+      }
     }
   }
-  .right {
-  }
+
 }

@@ -83,7 +83,7 @@ export const fetchUserData = async (userId) => {
   } catch (error) {}
 };
 
-export const updateUserDetails = async () => {
+export const updateUserDetails = async (updateUserInfo) => {
   try {
     const response = await fetch(`${API_GATEWAY_BASE_URL}/user/update`, {
       method: "PATCH",
@@ -91,6 +91,7 @@ export const updateUserDetails = async () => {
         "Content-Type": "application/json",
       },
       credentials: 'include',
+      body : JSON.stringify(updateUserInfo)
     });
 
     if (!response.ok) {

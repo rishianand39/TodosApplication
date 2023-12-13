@@ -116,10 +116,11 @@ router.patch("/update", authenticateSession, async (req, res) => {
         message : "User not found"
       });
     }
-
-    const result = await User.updateOne({ _id: req?.session?.user?._id }, req.body);
-
-    if (result.modifiedCount === 1) {
+    
+    
+    const result = await User.findOneAndUpdate({ _id: req?.session?.user?._id }, req.body, { new: true });
+    if (result) {
+      req.session.user = result;
       return res.status(200).json({
         ok : true,
         status: 200,

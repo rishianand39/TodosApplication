@@ -6,17 +6,14 @@ import ProfileImage from "../building-block/profileImage";
 import SaveBtn from "../building-block/saveBtn";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../utils/imageUpload";
-import { fetchUserData } from "../api/services/userServices";
+import { updateUserDetails } from "../api/services/userServices";
 import { useDispatch, useSelector } from "react-redux";
 import { setMessage } from "../redux/notificationSlice";
-import { useParams } from "react-router-dom";
 
 const Profile = () => {
-  const currentUserDetails = useSelector(
-    (store) => store?.user?.info
-  );
-  const { id } = useParams();
+  const currentUserDetails = useSelector((store) => store?.user?.info);
   const dispatch = useDispatch();
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [updatedUserDetails, setUpdatedUserDetails] = useState({
     name: "",
     email: "",
@@ -40,7 +37,7 @@ const Profile = () => {
     };
     const storageRef = ref(
       storage,
-      "taskManagerImages/" + event.target.files[0].name
+      "taskManagerImages/" + event.target.files[0]?.name
     );
     const uploadTask = uploadBytesResumable(
       storageRef,
@@ -51,9 +48,9 @@ const Profile = () => {
     uploadTask.on(
       "state_changed",
       (snapshot) => {
-        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
         const progress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setUploadProgress(progress);
         console.log("Upload is " + progress + "% done");
         switch (snapshot.state) {
           case "paused":
@@ -70,25 +67,17 @@ const Profile = () => {
         switch (error.code) {
           case "storage/unauthorized":
             console.log("storage/unauthorized");
-            // User doesn't have permission to access the object
             break;
           case "storage/canceled":
             console.log("storage/canceled");
 
-            // User canceled the upload
             break;
-
-          // ...
-
           case "storage/unknown":
             console.log("storage/unknown");
-
-            // Unknown error occurred, inspect error.serverResponse
             break;
         }
       },
       () => {
-        // Upload completed successfully, now we can get the download URL
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setUpdatedUserDetails((pre) => {
             return {
@@ -100,10 +89,35 @@ const Profile = () => {
       }
     );
   };
-  const handleFormSubmit = (event) => {
-    
-  }
-  useEffect(()=>{
+  const handleFormSubmit = async () => {
+    try {
+      let res = await updateUserDetails(updatedUserDetails);
+      if (res.ok) {
+        dispatch(
+          setMessage({
+            notificationType: "success",
+            message: res?.message,
+          })
+        );
+      } else {
+        dispatch(
+          setMessage({
+            notificationType: "error",
+            message: res?.message,
+          })
+        );
+      }
+    } catch (error) {
+      dispatch(
+        setMessage({
+          notificationType: "error",
+          message: error?.message,
+        })
+      );
+    }
+  };
+
+  useEffect(() => {
     setUpdatedUserDetails({
       name: currentUserDetails?.name,
       email: currentUserDetails?.email,
@@ -112,9 +126,10 @@ const Profile = () => {
       country: currentUserDetails?.country,
       avatar: currentUserDetails?.avatar,
       coverImage: currentUserDetails?.coverImage,
-    })
-  },[currentUserDetails])
-  console.log(currentUserDetails)
+    });
+  }, [currentUserDetails]);
+  console.log(uploadProgress, "uploadprogress");
+
   return (
     <div className="profileContainer">
       <div className="cover">
@@ -122,6 +137,14 @@ const Profile = () => {
           <img src={updatedUserDetails.coverImage} alt="" />
         )}
         <div className="upload">
+          <div
+            style={{
+              width: `${uploadProgress}%`,
+              height: "100%",
+              backgroundColor: "#4caf50",
+              transition: "350ms width",
+            }}
+          ></div>
           <label htmlFor="coverUpload">
             <CameraAltIcon />
             <span>Change Cover</span>
@@ -131,6 +154,7 @@ const Profile = () => {
             name="coverImage"
             id="coverUpload"
             onChange={handleImageUpload}
+            onClick={() => setUploadProgress(0)}
           />
         </div>
         <ProfileImage
@@ -171,7 +195,7 @@ const Profile = () => {
         />
       </div>
       <div className="update">
-        <SaveBtn width="150px" text="Update" />
+        <SaveBtn handleSumbit={handleFormSubmit} width="150px" text="Update" />
       </div>
     </div>
   );
