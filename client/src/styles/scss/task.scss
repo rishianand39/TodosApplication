@@ -7,9 +7,9 @@
         display: flex;
         align-items: center;
         gap : 10px;
-        div{
+       & > div{
           position: relative;
-          img{
+          & >img{
             cursor: pointer;
             width: 18px;
             height: 18px;
@@ -112,15 +112,20 @@
     }
     .priority {
       display: flex;
-      justify-content: space-between;
-      width: 45%;
+      width: 66%;
       margin: 10px 0;
       .title {
         font-size: 0.8rem;
+        width: 50%;
       }
-      select {
-        padding: 3px 5px;
-        width: 6rem;
+      &>div{
+        display: flex;
+        gap: 23px;
+        .iconAndText{
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
       }
     }
   }

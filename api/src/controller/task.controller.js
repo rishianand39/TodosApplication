@@ -78,6 +78,8 @@ router.post("/create", authenticateSession, async (req, res) => {
       completed: req.body.completed,
       priority: req.body.priority,
       people: [req?.session?.user?._id],
+      assignedTo : req?.body?.assignedTo,
+      reporter : req?.body?.reporter,
       tags: [...req.body.tags],
       comments: [],
     });

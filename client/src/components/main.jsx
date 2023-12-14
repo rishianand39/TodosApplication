@@ -79,9 +79,9 @@ const Main = () => {
         <div className="taskCards">
           {tasks?.map((task, index) => {
             return (
-              // <NavLink key={index} to={`task/${task?._id}`} className="link">
+              <NavLink key={index} to={`task/${task?._id}`} className="link">
                 <TaskCard key={index} {...task} />
-              // </NavLink> 
+              </NavLink> 
             );
           })}
           {tasks?.length == 0 ? <div className="noTask">No Task Found!</div> : null}
