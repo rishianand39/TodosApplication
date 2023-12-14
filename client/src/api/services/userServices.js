@@ -79,7 +79,7 @@ export const fetchUserData = async (userId) => {
       return errorData
     }
     const userData = await response.json();
-    return userData;
+    return userData?.data;
   } catch (error) {}
 };
 

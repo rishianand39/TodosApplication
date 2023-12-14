@@ -22,7 +22,7 @@ const taskSchema = mongoose.Schema(
     priority: {
       type: String,
       enum: ["low", "medium", "high"],
-      default: "low",
+      default: "high",
       required: true,
     },
     people: [
@@ -30,6 +30,7 @@ const taskSchema = mongoose.Schema(
         type: mongoose.Schema.Types.ObjectId,
       },
     ],
+    reporter : {type: mongoose.Schema.Types.ObjectId, required: false},
     assignedTo: { type: mongoose.Schema.Types.ObjectId, required: false },
     tags: [
       {
