@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addComment,
   addMember,
+  fetchAllComments,
   fetchTaskById,
   removeMember,
   updateTask,
@@ -209,8 +210,33 @@ const Task = () => {
 
   useEffect(() => {
     task?.people?.length >= 1 && fetchDataForAllUsersConcurrently();
+
   }, [task]);
-  console.log(task, "task")
+
+  useEffect(()=>{
+    (async function(){
+      try {
+        let comments = await fetchAllComments(id)
+        setComments(comments)
+        if(!comments?.ok){
+          dispatch(
+            setMessage({
+              notificationType: "error",
+              message: comments?.message,
+            })
+          );
+        }
+      } catch (error) {
+        dispatch(
+          setMessage({
+            notificationType: "error",
+            message: error?.message,
+          })
+        );
+      }
+    })()
+  },[handleAddComment])
+  console.log(comments, "comments")
 
   return (
     <div className="taskContainer">
@@ -383,7 +409,7 @@ const Task = () => {
           </div>
         </div>
         <div className="comments">
-          {task?.comments?.map((comment, index) => {
+          {comments?.map((comment, index) => {
             return (
               <Comment comment="Header controller first layer functionality implemented " />
             );
