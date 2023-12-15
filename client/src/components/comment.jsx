@@ -5,7 +5,7 @@ import SaveBtn from "../building-block/saveBtn";
 import CancelBtn from "../building-block/cancelBtn";
 import TextArea from "../building-block/textArea";
 
-const Comment = ({ comment }) => {
+const Comment = ({ commentsInfo }) => {
   const [edit, setEdit] = useState(false);
 
   return (
@@ -20,9 +20,9 @@ const Comment = ({ comment }) => {
         </div>
         <div className="middle">
           {edit ? (
-           <TextArea text={comment} placeholder=""/>
+           <TextArea text={commentsInfo} placeholder=""/>
           ) : (
-            <div className="comment">{comment}</div>
+            <div className="comment">{commentsInfo?.comment}</div>
           )}
         </div>
         <div className="bottom">

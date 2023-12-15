@@ -150,7 +150,7 @@ export const addComment = async (taskId, commentText) => {
 export const fetchAllComments = async (taskId) => {
   try {
     const response = await fetch(`${API_GATEWAY_BASE_URL}/task/${taskId}/comments`, {
-      method: "POST",
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
       },

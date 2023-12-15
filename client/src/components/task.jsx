@@ -235,7 +235,7 @@ const Task = () => {
         );
       }
     })()
-  },[handleAddComment])
+  },[])
   console.log(comments, "comments")
 
   return (
@@ -411,7 +411,7 @@ const Task = () => {
         <div className="comments">
           {comments?.map((comment, index) => {
             return (
-              <Comment comment="Header controller first layer functionality implemented " />
+              <Comment key={index} commentsInfo={comment} />
             );
           })}
         </div>
