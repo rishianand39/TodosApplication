@@ -7,6 +7,14 @@ import TextArea from "../building-block/textArea";
 
 const Comment = ({ commentsInfo }) => {
   const [edit, setEdit] = useState(false);
+  
+  const dateAndTime = new Date(commentsInfo?.createdAt);
+  const formattedDate = dateAndTime.toLocaleString(); 
+  const handleCommentEdit = (comment) => {
+    setEdit(false)
+  }
+
+
 
   return (
     <div className="previousComment">
@@ -15,12 +23,12 @@ const Comment = ({ commentsInfo }) => {
         <div className="top">
           <div className="name">Pushpraj Patel</div>
           <div className="dateAndTime">
-            <span>August 18, 2023 at 12:47 PM</span>
+            <span>{formattedDate}</span>
           </div>
         </div>
         <div className="middle">
           {edit ? (
-           <TextArea text={commentsInfo} placeholder=""/>
+            <TextArea text={commentsInfo} value={commentsInfo?.comment} />
           ) : (
             <div className="comment">{commentsInfo?.comment}</div>
           )}
@@ -28,7 +36,7 @@ const Comment = ({ commentsInfo }) => {
         <div className="bottom">
           {edit ? (
             <>
-              <SaveBtn />
+              <SaveBtn handleSumbit={handleCommentEdit} />
               <CancelBtn cancel={setEdit} />
             </>
           ) : (
