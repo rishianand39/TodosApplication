@@ -20,7 +20,6 @@ export const createTask = async (body) => {
   } catch (error) {}
 };
 
-
 export const fetchTasks = async (search) => {
   try {
     const response = await fetch(`${API_GATEWAY_BASE_URL}/task${search}`, {
@@ -39,7 +38,6 @@ export const fetchTasks = async (search) => {
     return tasks;
   } catch (error) {}
 };
-
 
 export const fetchTaskById = async (taskId) => {
   try {
@@ -124,7 +122,6 @@ export const updateTask = async (taskId, body) => {
   } catch (error) {}
 };
 
-
 export const addComment = async (taskId, commentText) => {
   try {
     const response = await fetch(`${API_GATEWAY_BASE_URL}/task/${taskId}/comment`, {
@@ -148,6 +145,25 @@ export const addComment = async (taskId, commentText) => {
 };
 
 export const fetchAllComments = async (taskId) => {
+  try {
+    const response = await fetch(`${API_GATEWAY_BASE_URL}/task/${taskId}/comments`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      return errorData
+    }
+    const userData = await response.json();
+    return userData?.data;
+  } catch (error) {}
+};
+
+export const deleteComment = async (commentId) => {
   try {
     const response = await fetch(`${API_GATEWAY_BASE_URL}/task/${taskId}/comments`, {
       method: "GET",

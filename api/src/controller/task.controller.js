@@ -307,6 +307,7 @@ router.post("/:taskId/comment", authenticateSession, async (req, res) => {
   }
 });
 
+// FETCH ALL COMMENTS OF A TASK
 router.get("/:taskId/comments", authenticateSession, async (req, res) => {
   try {
     if (!mongoose.Types.ObjectId.isValid(req.params.taskId)) {
@@ -338,5 +339,6 @@ router.get("/:taskId/comments", authenticateSession, async (req, res) => {
     });
   }
 });
+
 
 module.exports = router;

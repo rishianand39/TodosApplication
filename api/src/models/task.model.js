@@ -51,6 +51,6 @@ const taskSchema = mongoose.Schema(
     versionKey: false,
   }
 );
-const Comment = mongoose.model("Comment", commentSchema);
+const Comment = mongoose.model("comment", commentSchema);
 const Task = mongoose.model("task", taskSchema);
 module.exports = { Task, Comment };

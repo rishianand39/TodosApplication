@@ -44,7 +44,6 @@ router.get('/profile', authenticateSession, (req, res) => {
    });
 });
 
-
 // ----------SIGNIN USER--------------//
 router.post("/signin", async (req, res) => {
   try {
@@ -78,7 +77,6 @@ router.post("/signin", async (req, res) => {
     res.status(400).json(error);
   }
 });
-
 
 // ------------ RESET PASSWORD------------//
 router.patch("/resetpassword", async (req, res) => {

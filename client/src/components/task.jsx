@@ -236,7 +236,6 @@ const Task = () => {
       }
     })()
   },[])
-  console.log(comments, "comments")
 
   return (
     <div className="taskContainer">

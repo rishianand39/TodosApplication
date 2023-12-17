@@ -18,6 +18,7 @@ store.on("error", function (error) {
 
 const userController = require("./controller/user.controller");
 const taskController = require("./controller/task.controller");
+const commentController = require("./controller/comment.controller");
 
 //MIDDLEWARES
 app.use(
@@ -48,6 +49,7 @@ app.get("/", (req, res) => {
 
 app.use("/user", userController);
 app.use("/task", taskController);
+app.use("/comment", commentController);
 
 app.listen(process.env.PORT, () => {
   console.log(`Listening on port 8080`);
