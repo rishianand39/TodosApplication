@@ -124,7 +124,7 @@ export const updateTask = async (taskId, body) => {
 
 export const addComment = async (taskId, commentText) => {
   try {
-    const response = await fetch(`${API_GATEWAY_BASE_URL}/task/${taskId}/comment`, {
+    const response = await fetch(`${API_GATEWAY_BASE_URL}/comment/add/${taskId}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -146,7 +146,7 @@ export const addComment = async (taskId, commentText) => {
 
 export const fetchAllComments = async (taskId) => {
   try {
-    const response = await fetch(`${API_GATEWAY_BASE_URL}/task/${taskId}/comments`, {
+    const response = await fetch(`${API_GATEWAY_BASE_URL}/comment/${taskId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -165,8 +165,8 @@ export const fetchAllComments = async (taskId) => {
 
 export const deleteComment = async (commentId) => {
   try {
-    const response = await fetch(`${API_GATEWAY_BASE_URL}/task/${taskId}/comments`, {
-      method: "GET",
+    const response = await fetch(`${API_GATEWAY_BASE_URL}/comment/delete/${commentId}`, {
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
@@ -178,6 +178,26 @@ export const deleteComment = async (commentId) => {
       return errorData
     }
     const userData = await response.json();
-    return userData?.data;
+    return userData;
+  } catch (error) {}
+};
+
+export const editComment = async (commentId, body) => {
+  try {
+    const response = await fetch(`${API_GATEWAY_BASE_URL}/comment/update/${commentId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: 'include',
+      body : JSON.stringify(body)
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      return errorData
+    }
+    const userData = await response.json();
+    return userData;
   } catch (error) {}
 };
