@@ -183,30 +183,7 @@ const Task = () => {
     })();
   }, []);
   
-  useEffect(() => {
-    (async function () {
-      try {
-        let task;
-        if (task?.ok) {
-          setTask(task?.data);
-        } else {
-          dispatch(
-            setMessage({
-              notificationType: "error",
-              message: task?.message,
-            })
-          );
-        }
-      } catch (error) {
-        dispatch(
-          setMessage({
-            notificationType: "error",
-            message: error?.message,
-          })
-        );
-      }
-    })();
-  }, []);
+
 
   useEffect(() => {
     task?.people?.length >= 1 && fetchDataForAllUsersConcurrently();
@@ -236,6 +213,7 @@ const Task = () => {
       }
     })()
   },[])
+  console.log(membersDetail, "memberDEta")
 
   return (
     <div className="taskContainer">

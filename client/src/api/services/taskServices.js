@@ -20,6 +20,25 @@ export const createTask = async (body) => {
   } catch (error) {}
 };
 
+export const deleteTask = async (taskId) => {
+  try {
+    const response = await fetch(`${API_GATEWAY_BASE_URL}/task/delete/${taskId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      return errorData;
+    }
+    const res = await response.json();
+    return res;
+  } catch (error) {}
+};
+
 export const fetchTasks = async (search) => {
   try {
     const response = await fetch(`${API_GATEWAY_BASE_URL}/task${search}`, {
