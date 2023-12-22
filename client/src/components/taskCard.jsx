@@ -5,7 +5,7 @@ import Avatars from "../building-block/avatars";
 import More from "../building-block/more";
 import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 
-const TaskCard = ({ title, description, people, progress }) => {
+const TaskCard = ({_id, title, description, people, progress }) => {
   const [openOption, setOpenOption] = useState(false)
   
   const handleClickAway = () => {
@@ -31,7 +31,7 @@ const TaskCard = ({ title, description, people, progress }) => {
         </div>
         <progress value={progress} max="100"></progress>
       </div>
-      <More setOpenOption={setOpenOption} openOption={openOption}/>
+      <More taskId={_id} setOpenOption={setOpenOption} openOption={openOption}/>
     </div>
     </ClickAwayListener>
   );

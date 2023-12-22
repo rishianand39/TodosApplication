@@ -53,7 +53,6 @@ const Main = () => {
       }
     })();
   }, [openTaskModal, searchParams]);
-  console.log(tasks, "fiwe")
 
 
   return (
@@ -79,9 +78,7 @@ const Main = () => {
         <div className="taskCards">
           {tasks?.map((task, index) => {
             return (
-              <NavLink key={index} to={`task/${task?._id}`} className="link">
                 <TaskCard key={index} {...task} />
-              </NavLink> 
             );
           })}
           {tasks?.length == 0 ? <div className="noTask">No Task Found!</div> : null}

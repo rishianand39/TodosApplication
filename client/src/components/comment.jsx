@@ -62,8 +62,8 @@ const Comment = ({ commentsInfo }) => {
     (async function () {
       try {
         let user = await fetchUserData(commentsInfo?.userId);
-        if (user?.ok) {
-          setUserInfo(user?.data);
+        if (user) {
+          setUserInfo(user);
         } else {
           dispatch(
             setMessage({
@@ -82,7 +82,6 @@ const Comment = ({ commentsInfo }) => {
       }
     })();
   }, []);
-  console.log(userInfo, "userInfo");
   return (
     <div className="previousComment">
       <Avatar image={userInfo?.avatar} name={userInfo?.name} />
