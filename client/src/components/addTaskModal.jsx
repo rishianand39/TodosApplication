@@ -51,7 +51,8 @@ const AddTaskModal = ({ isOpen, closeModal }) => {
       tags: tags,
     }));
   }, [tags]);
-  const handleSubmit = async()=>{
+  const handleSubmit = async(e)=>{
+    e.preventDefault()
     try {
      let taskResponse = await createTask(taskInfo);
      if(taskResponse?.ok){
@@ -107,6 +108,7 @@ console.log(taskInfo, "taskingo")
         <input onChange={handleInputs} type="date" id="dueDate" />
         <label htmlFor="priority">Priority</label>
         <select id="priority" onChange={handleInputs} name="priority">
+          <option value="">Select</option>
           <option value="high">High</option>
           <option value="medium">Medium</option>
           <option value="low">Low</option>

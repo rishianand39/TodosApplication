@@ -1,6 +1,17 @@
 import React, { useState } from "react";
 import "../styles/scss/taskCard.scss";
 import HubIcon from "@mui/icons-material/Hub";
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
+import AcUnitIcon from '@mui/icons-material/AcUnit';
+import ApiIcon from '@mui/icons-material/Api';
+import AnchorIcon from '@mui/icons-material/Anchor';
+import DeblurIcon from '@mui/icons-material/Deblur';
+import GrassIcon from '@mui/icons-material/Grass';
+import FilterVintageIcon from '@mui/icons-material/FilterVintage';
+import HiveIcon from '@mui/icons-material/Hive';
+import MediationIcon from '@mui/icons-material/Mediation';
+import StreamIcon from '@mui/icons-material/Stream';
+
 import Avatars from "../building-block/avatars";
 import More from "../building-block/more";
 import { ClickAwayListener } from '@mui/base/ClickAwayListener';
