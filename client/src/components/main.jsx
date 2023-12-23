@@ -33,7 +33,7 @@ const Main = () => {
       try {
         let query = location?.search == "" ? "?page=1" : location?.search;
         let tasks = await fetchTasks(query);
-        if (tasks?.ok) {
+        if (tasks?.ok) { 
           setTasks(tasks?.data);
         } else {
           dispatch(
