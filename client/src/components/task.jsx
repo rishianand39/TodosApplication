@@ -44,6 +44,7 @@ const Task = () => {
   let priority = "High"
   const commentRef = useRef();
   const dispatch = useDispatch();
+  const [createdBy, setCreatedBy] = useState(null)
 
   const handleFindMember = async (searchText) => {
     let users = await findMember(searchText);
@@ -158,11 +159,15 @@ const Task = () => {
     setAddCommentActive(false);
   };
 
+
+
   useEffect(() => {
     (async function () {
       try {
         let task = await fetchTaskById(id);
         if (task?.ok) {
+          let user = await fetchUserData(task?.data?.createdBy)
+          setCreatedBy(user)
           setTask(task?.data);
         } else {
           dispatch(
@@ -182,12 +187,9 @@ const Task = () => {
       }
     })();
   }, []);
-  
-
 
   useEffect(() => {
     task?.people?.length >= 1 && fetchDataForAllUsersConcurrently();
-
   }, [task]);
 
   useEffect(()=>{
@@ -213,13 +215,18 @@ const Task = () => {
       }
     })()
   },[])
-  console.log(membersDetail, "memberDEta")
 
   return (
     <div className="taskContainer">
       <div className="left">
         <h2 contentEditable={true}>{task?.title}</h2>
         <p contentEditable={true}>{task?.description}</p>
+        <div className="addedMembers">
+          <h3>Created By</h3>
+          <div className="border">
+          <Avatar name={createdBy?.name} image={createdBy?.avatar} />
+          </div>
+        </div>
         <div className="addedMembers">
           <h3>Members</h3>
           <div className="members">

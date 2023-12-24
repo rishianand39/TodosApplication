@@ -3,6 +3,14 @@
   .left {
     flex: 7;
     .addedMembers{
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      & .border{
+        border-radius: 50%;
+        border: 2px solid #fff;
+    outline: 3px solid midnightblue;
+      }
       .members{
         display: flex;
         align-items: center;
