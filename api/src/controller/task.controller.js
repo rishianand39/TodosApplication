@@ -16,7 +16,7 @@ router.get("/", authenticateSession, async (req, res) => {
   try {
     let page = req?.query?.page || 1;
     let pageSize = 3;
-    let tasks = await Task.find({ createdBy: req?.session?.user?._id })
+    let tasks = await Task.find({ "people" : req?.session?.user?._id })
       .skip((page - 1) * pageSize)
       .limit(pageSize);
     res.status(200).json({
