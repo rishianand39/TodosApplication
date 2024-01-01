@@ -54,7 +54,7 @@ const Main = () => {
     })();
   }, [openTaskModal, searchParams]);
 
-
+console.log(tasks, "tasks")
   return (
     <div className="main">
       <div className="left">
