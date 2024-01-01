@@ -4,7 +4,7 @@ import InsertChartIcon from '@mui/icons-material/InsertChart';
 import { Card } from '../styles/styled-components/container';
 
 
-const card = ({bg, title}) => {
+const card = ({bg, title, value}) => {
   return (
     <Card bg={bg} className='card'>
       <div className='top'>
@@ -14,7 +14,7 @@ const card = ({bg, title}) => {
         <div className='title'> <div>{title?.split(" ")[0]}</div>{title.split(" ").splice(1)?.join(" ")}</div>
       </div>
       <div className='bottom'>
-        10
+        {value}
       </div>
     </Card>
   )

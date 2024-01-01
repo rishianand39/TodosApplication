@@ -3,6 +3,7 @@
   min-height: 83vh;
   width: 100%;
   .left {
+    flex: 8;
     .cardContainer {
       display: flex;
       gap: 20px;
@@ -43,6 +44,9 @@
         margin: auto;
       }
     }
+  }
+  .right{
+    flex: 2;
   }
 
 }

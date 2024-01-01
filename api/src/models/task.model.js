@@ -17,7 +17,7 @@ const taskSchema = mongoose.Schema(
     createdBy: { type: mongoose.Schema.Types.ObjectId, required: true },
     description: { type: String, required: false },
     dueDate: { type: Date, required: false },
-    work_status: { type: String, default: "progress", required: false },
+    work_status: { type: String, default: "In Progress", required: false },
     progress : {type : Number, default : 0, required : false},
     priority: {
       type: String,

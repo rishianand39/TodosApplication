@@ -28,10 +28,12 @@ import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp
 import BalanceIcon from '@mui/icons-material/Balance';
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import Select from "../building-block/select";
+
 const Task = () => {
   const { id } = useParams();
   const currentUser = useSelector((store) => store?.user?.info);
   const [task, setTask] = useState(null);
+  const [taskupdated, setTaskUpdated] = useState(false);
   const [addCommentActive, setAddCommentActive] = useState(false);
   const [changeReporter, setChangeReporter] = useState(false);
   const [changeAssignee, setChangeAssignee] = useState(false);
@@ -50,6 +52,7 @@ const Task = () => {
     let users = await findMember(searchText);
     setFoundUsers(users.data);
   };
+
   const fetchDataForAllUsersConcurrently = async () => {
     try {
       const promises = task?.people?.map((userId) => fetchUserData(userId));
@@ -79,9 +82,10 @@ const Task = () => {
   };
 
   const handleReporterChange = (user) => {};
-  const handleAssigneeChange = async (user) => {
+
+  const handleAssigneeChange = async (user, body) => {
     try {
-      let response = await updateTask(id);
+      let response = await updateTask(id, body);
       dispatch(
         setMessage({
           notificationType: response?.ok ? "success" : "error",
@@ -159,7 +163,28 @@ const Task = () => {
     setAddCommentActive(false);
   };
 
-
+const handleWorkStatus =async(value)=>{
+  let body ={
+   work_status: value
+  }
+  try {
+    let response = await updateTask(id, body);
+    setTaskUpdated((prev) => !prev)
+    dispatch(
+      setMessage({
+        notificationType: response?.ok ? "success" : "error",
+        message: response?.message,
+      })
+    );
+  } catch (error) {
+    dispatch(
+      setMessage({
+        notificationType: "error",
+        message: error?.message,
+      })
+    );
+  }
+}
 
   useEffect(() => {
     (async function () {
@@ -186,7 +211,7 @@ const Task = () => {
         );
       }
     })();
-  }, []);
+  }, [taskupdated]);
 
   useEffect(() => {
     task?.people?.length >= 1 && fetchDataForAllUsersConcurrently();
@@ -346,24 +371,24 @@ const Task = () => {
           </div>
         </div>
         <div className="priority">
-          <span className="title">Work</span>
+          <span className="title">Work Status</span>
           <div>
-            <Select options={["On Hold", "Completed", "In Progress"]} />
-            {work == "In Progress" && (
+            <Select options={["On Hold", "Completed", "In Progress"]} handleChange={handleWorkStatus} currentValue={task?.work_status}/>
+            {task?.work_status == "In Progress" && (
               <div className="iconAndText">
-                <MovingIcon /> {work}
+                <MovingIcon /> {task?.work_status}
               </div>
             )}
-            {work == "On Hold" && (
+            {task?.work_status == "On Hold" && (
               <div className="iconAndText">
                 <PanToolIcon />
-                {work}
+                {task?.work_status}
               </div>
             )}
-            {work == "Completed" && (
+            {task?.work_status == "Completed" && (
               <div className="iconAndText">
                 <DoneIcon />
-                {work}
+                {task?.work_status}
               </div>
             )}
           </div>
