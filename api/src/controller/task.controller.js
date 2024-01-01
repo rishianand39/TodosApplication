@@ -75,7 +75,7 @@ router.post("/create", authenticateSession, async (req, res) => {
       createdBy: req.session.user._id,
       description: req.body.description,
       dueDate: req.body.dueDate,
-      completed: req.body.completed,
+      work_status: req.body.work_status,
       priority: req.body.priority,
       people: [req?.session?.user?._id],
       assignedTo: req?.body?.assignedTo,
