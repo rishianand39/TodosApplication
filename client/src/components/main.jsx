@@ -17,6 +17,7 @@ const Main = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
+  const [activeTab, setActiveTab] = useState("All Tasks"); 
   const [taskCategory, setTaskCategory] = useState({
     "inProgress" : 0,
     "onHold" : 0,
@@ -24,7 +25,7 @@ const Main = () => {
     "completed" : 0,
   })
   let [searchParams, setSearchParams] = useSearchParams();
-  const handleChange = (value) => {
+  const handleChange = (event, value) => {
     setSearchParams({ page: value });
     setPage(value);
   };
@@ -71,6 +72,23 @@ const Main = () => {
       })();
     }, [openTaskModal, searchParams]);
     
+    const filteredTasks = tasks.filter((task) => {
+      switch (activeTab) {
+        case "In Progress":
+          return task.work_status === "In Progress";
+        case "New Assigned":
+          return task.work_status === "New Assigned";
+        case "Completed":
+          return task.work_status === "Completed";
+        case "On Hold":
+          return task.work_status === "On Hold";
+        default:
+          return true; 
+      }
+    });
+    const handleTabChange = (tab) => {
+      setActiveTab(tab);
+    };
 
   return (
     <div className="main">
@@ -92,18 +110,18 @@ const Main = () => {
             Add Task
           </button>
         </div>
-        <Tabs />
+        <Tabs onTabChange={handleTabChange}/>
         <div className="taskCards">
-          {tasks?.map((task, index) => {
+          {filteredTasks?.map((task, index) => {
             return (
                 <TaskCard key={index} {...task} />
             );
           })}
           {tasks?.length == 0 ? <div className="noTask">No Task Found!</div> : null}
-          {tasks?.length > 3 && <Stack spacing={2}>
+          <Stack spacing={2}>
             <Typography>Page: {page}</Typography>
             <Pagination count={10} page={page} onChange={handleChange} />
-          </Stack>}
+          </Stack>
         </div>
       </div>
       <div className="right"></div>
