@@ -25,7 +25,7 @@ const Main = () => {
     "completed" : 0,
   })
   let [searchParams, setSearchParams] = useSearchParams();
-  const handleChange = (value) => {
+  const handleChange = (event, value) => {
     setSearchParams({ page: value });
     setPage(value);
   };
@@ -118,10 +118,10 @@ const Main = () => {
             );
           })}
           {tasks?.length == 0 ? <div className="noTask">No Task Found!</div> : null}
-          {tasks?.length > 3 && <Stack spacing={2}>
+          <Stack spacing={2}>
             <Typography>Page: {page}</Typography>
             <Pagination count={10} page={page} onChange={handleChange} />
-          </Stack>}
+          </Stack>
         </div>
       </div>
       <div className="right"></div>
