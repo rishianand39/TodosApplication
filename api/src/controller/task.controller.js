@@ -34,6 +34,41 @@ router.get("/", authenticateSession, async (req, res) => {
   }
 });
 
+// ------------GET TASK WORK STATUS CATEGORY-------------//
+router.get("/work-status-category", authenticateSession, async (req, res) => {
+
+  try {
+    let tasks = await Task.find({ "people" : req?.session?.user?._id })
+
+    const countByStatus = {
+      'In Progress': 0,
+      'On Hold': 0,
+      'Completed': 0,
+    };
+
+    tasks.forEach(task => {
+      const status = task.work_status;
+
+      if (countByStatus.hasOwnProperty(status)) {
+        countByStatus[status]++;
+      }
+    });
+
+    return res.status(200).json({
+      ok: true,
+      status: 200,
+      message: "Task Work Status categories successfully",
+      data: countByStatus,
+    });
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      status: 500,
+      message: error.message || "Internal Server Error",
+    });
+  }
+});
+
 // ------------FETCH TASK BY ID-------------//
 router.get("/:taskId", authenticateSession, async (req, res) => {
   try {
@@ -254,6 +289,8 @@ router.patch("/invite/:taskId", authenticateSession, async (req, res) => {
     });
   }
 });
+
+
 
 
 module.exports = router;
