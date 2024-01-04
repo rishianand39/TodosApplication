@@ -24,6 +24,7 @@ const commentController = require("./controller/comment.controller");
 app.use(
   cors({
     credentials: true,
+    origin: ['https://task-manager-rishi-anand.vercel.app'],
   })
 );
 app.use(
@@ -33,8 +34,8 @@ app.use(
     saveUninitialized: true,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24,
-      sameSite : "None",
-      secure: true,
+      sameSite: 'None',
+      secure: process.env.NODE_ENV === 'production',
     },
     store: store,
   })
