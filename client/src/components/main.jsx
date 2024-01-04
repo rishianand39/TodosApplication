@@ -98,12 +98,12 @@ const Main = () => {
       <div className="left">
         <div className="cardContainer">
           <Card
-            value={workStatusCounts["In Progress"]}
+            value={setWorkStatusCounts?.hasOwnProperty("In Progress") ? workStatusCounts["In Progress"] : 0}
             title="Task In Progress"
             bg={"#f48942"}
           />
           <Card
-            value={workStatusCounts?.newAssigned}
+            value={workStatusCounts?.newAssigned || 0}
             title="New Assigned"
             bg={"#817cdf"}
           />
@@ -113,7 +113,7 @@ const Main = () => {
             bg={"#38b7d3"}
           />
           <Card
-            value={workStatusCounts["On Hold"]}
+            value={workStatusCounts?.hasOwnProperty("On Hold") ? workStatusCounts["On Hold"] : 0}
             title="Task On Hold"
             bg={"#e54b6e"}
           />
