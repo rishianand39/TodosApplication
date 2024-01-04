@@ -33,6 +33,7 @@ router.post("/signup", async (req, res) => {
   }
 });
 
+// GET PROFILE
 router.get('/profile', authenticateSession, (req, res) => {
   const { password, updatedAt, createdAt, ...userWithoutSensitiveInfo } = req.session.user;
 

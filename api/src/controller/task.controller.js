@@ -33,6 +33,52 @@ router.get("/", authenticateSession, async (req, res) => {
     });
   }
 });
+// --------------FIND TASKS--------------//
+const call = {};
+router.get("/search", authenticateSession , async (req, res) => {
+  try {
+    clearTimeout(call.timeout);
+
+    call.timeout = setTimeout(async () => {
+      const keyword = req.query?.tag; 
+
+      if (!keyword) {
+        return res.status(400).json({
+          status : 400,
+          ok : false,
+          message : "Keyword is required"
+        });
+      }
+
+      const regexPattern = new RegExp(keyword, "i");
+
+      const tasks = await Task.find({ tags: { $regex: regexPattern } });
+
+      if (!tasks || tasks.length === 0) {
+        return res
+          .status(404)
+          .json({
+            ok : false,
+            status : 404,
+            message : "No tasks found with matching tag"
+          });
+      }
+
+      return res.status(200).json({
+        ok : true,
+        status : 200,
+        message : "Task found",
+        data  : tasks
+      });
+    }, 300);
+  } catch (error) {
+    return res.status(500).json({
+      ok : false,
+      status : 500,
+      message : error
+    });
+  }
+});
 
 // ------------GET TASK WORK STATUS CATEGORY-------------//
 router.get("/work-status-category", authenticateSession, async (req, res) => {
@@ -289,6 +335,8 @@ router.patch("/invite/:taskId", authenticateSession, async (req, res) => {
     });
   }
 });
+
+
 
 
 
