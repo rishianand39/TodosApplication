@@ -24,7 +24,6 @@ const commentController = require("./controller/comment.controller");
 app.use(
   cors({
     credentials: true,
-    origin: process.env.ORIGIN,
   })
 );
 app.use(
