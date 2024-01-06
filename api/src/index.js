@@ -24,7 +24,7 @@ const commentController = require("./controller/comment.controller");
 app.use(
   cors({
     credentials: true,
-    origin: ['https://task-manager-rishi-anand.vercel.app'],
+    origin: ['https://task-manager-rishi-anand.vercel.app', "http://localhost:3000"],
   })
 );
 app.use(
