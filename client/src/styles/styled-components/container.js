@@ -69,4 +69,8 @@ export const Button = styled.button`
   cursor: pointer;
   width: ${(props)=>props?.width};
   aspect-ratio: 5/1;
+  transition: all 200ms;
+  &:active{
+    transform: scale(1.2);
+  }
 `
