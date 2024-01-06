@@ -34,12 +34,12 @@ app.use(
     saveUninitialized: true,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24,
-     
+      secure: true
     },
     store: store,
   })
 );
-
+app.set('trust proxy', 1)
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
