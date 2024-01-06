@@ -8,7 +8,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../utils/imageUpload";
 import { updateUserDetails } from "../api/services/userServices";
 import { useDispatch, useSelector } from "react-redux";
-import { setMessage } from "../redux/notificationSlice";
+import { clearMessage, setMessage } from "../redux/notificationSlice";
 
 const Profile = () => {
   const currentUserDetails = useSelector((store) => store?.user?.info);

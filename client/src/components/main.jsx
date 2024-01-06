@@ -73,24 +73,24 @@ const Main = () => {
       }
     })();
   }, [openTaskModal, searchParams]);
-
+  
   const filteredTasks = tasks.filter((task) => {
     switch (activeTab) {
       case "In Progress":
         return task.work_status === "In Progress";
       case "New Assigned":
         return task.work_status === "New Assigned";
-      case "Completed":
+        case "Completed":
         return task.work_status === "Completed";
-      case "On Hold":
-        return task.work_status === "On Hold";
+        case "On Hold":
+          return task.work_status === "On Hold";
       default:
         return true;
-    }
-  });
-
-  const handleTabChange = (tab) => {
-    setActiveTab(tab);
+      }
+    });
+    
+    const handleTabChange = (tab) => {
+      setActiveTab(tab);
   };
 
   return (
@@ -98,7 +98,7 @@ const Main = () => {
       <div className="left">
         <div className="cardContainer">
           <Card
-            value={setWorkStatusCounts?.hasOwnProperty("In Progress") ? workStatusCounts["In Progress"] : 0}
+            value={workStatusCounts?.hasOwnProperty("In Progress") ? workStatusCounts["In Progress"] : 0}
             title="Task In Progress"
             bg={"#f48942"}
           />

@@ -21,6 +21,9 @@ const Notification = () => {
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
+        onClose: () => {
+          dispatch(clearMessage()); 
+        },
       });
     }
   }, [state?.message, state.notificationType]);
