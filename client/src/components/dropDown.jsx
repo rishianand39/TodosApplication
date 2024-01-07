@@ -53,6 +53,7 @@ const DropDown = ({ taskId }) => {
       </NavLink>
 
       <ListItem icon={ContentCopyOutlinedIcon} text={"Duplicate Task"} />
+    
       <div onClick={() => handleDeleteTask()}>
         <ListItem icon={DeleteOutlineOutlinedIcon} text={"Delete"} />
       </div>
